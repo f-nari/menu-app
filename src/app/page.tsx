@@ -14,6 +14,8 @@ export default  function  Home()  {
   }
   return (
     <div>
+      ここがメイン
+
       ログインテスト
       <form action={signOut}>
         <button type="submit">ログアウト</button>
