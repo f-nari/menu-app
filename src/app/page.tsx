@@ -13,13 +13,8 @@ export default  function  Home()  {
     const { error } = await supabase.auth.signOut()
   }
   return (
-    <div>
-      ここがメイン
-
-      ログインテスト
-      <form action={signOut}>
-        <button type="submit">ログアウト</button>
-      </form>
+    <div className="">
+      main
     </div>
   );
 }
