@@ -14,6 +14,7 @@ const links_list = [{
 
 }]
 const Sidebar = () => {
+    
     return (
         <div className='w-60'>
             <div className='bg-white m-2 rounded-2xl min-h-screen '>
