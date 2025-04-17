@@ -44,7 +44,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex w-screen`}>
         <Sidebar></Sidebar>
-        <div className="grow bg-white m-2 rounded-2xl min-h-screen ">
+        <div className="grow bg-white m-2 rounded-2xl h-screen flex flex-col ">
           <Header user_data = {user_data}></Header>
           {children}
         </div>

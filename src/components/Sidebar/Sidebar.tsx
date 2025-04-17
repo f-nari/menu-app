@@ -17,7 +17,7 @@ const Sidebar = () => {
     
     return (
         <div className='w-60'>
-            <div className='bg-white m-2 rounded-2xl min-h-screen '>
+            <div className='bg-white m-2 rounded-2xl h-screen '>
                 <div className='pt-10 pl-5 text-2xl text-[#7c7c7c] font-bold'>献立アプアプ</div>
                 <div className='flex flex-col mt-8 pl-5'>
                     {links_list.map((items) => (
