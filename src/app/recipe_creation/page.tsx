@@ -3,8 +3,9 @@
 import React, { useState } from 'react'
 import picture from '../../img/55006CFD-8C14-43E0-8D23-85391213A88A.jpg'
 import Image from 'next/image'
+import { recipe_save } from '../actions'
 
-type Ingredients = {
+export type Ingredients = {
   title: string;
   quantity: number;
   unit: string
@@ -15,9 +16,12 @@ const Recipe_Creation = () => {
   const [memo, setMemo] = useState('')
   const [recipename, setRecipeName] = useState('')
 
-  const changeEvent = (e: React.ChangeEvent<HTMLInputElement>, junre: string, index: number) => {
+  const changeEvent = (e: React.ChangeEvent<HTMLInputElement>, genre: 'title' | 'quantity' | 'unit', index: number) => {
     const data = [...ingredientsstate]
-    data[index]['title'] = e.target.value
+    if (genre === 'quantity') {
+      data[index]['quantity'] = Number(e.target.value)
+    } else { data[index][genre] = e.target.value }  
+     setIngredientstate(data)
   }
 
   const clickHandler = () => {
@@ -57,7 +61,7 @@ const Recipe_Creation = () => {
           <h1 className='h-6'>memo</h1>
           <input type="text" className='w-full  grow rounded-sm bg-[#f8f6f1] mb-2' onChange={(e) => setMemo(e.target.value)} placeholder='コツやポイント' />
         </div>
-        <button className='border' type='submit' >レシピ保存</button>
+        <button className='border' type='submit' onClick={() => recipe_save({ ingredientsstate, memo, recipename })} >レシピ保存</button>
 
       </div>
     </div>
