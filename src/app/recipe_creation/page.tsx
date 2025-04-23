@@ -1,8 +1,6 @@
 'use client'
 
 import React, { useState } from 'react'
-import picture from '../../img/55006CFD-8C14-43E0-8D23-85391213A88A.jpg'
-import Image from 'next/image'
 import { recipe_save } from '../actions'
 
 export type Ingredients = {
@@ -15,19 +13,22 @@ const Recipe_Creation = () => {
   const [ingredientsstate, setIngredientstate] = useState<Ingredients[]>([{ title: '', quantity: 0, unit: '' }])
   const [memo, setMemo] = useState('')
   const [recipename, setRecipeName] = useState('')
+  const [recipeImageFile,setRecipeImageFile] = useState<File|undefined>()
 
   const changeEvent = (e: React.ChangeEvent<HTMLInputElement>, genre: 'title' | 'quantity' | 'unit', index: number) => {
     const data = [...ingredientsstate]
     if (genre === 'quantity') {
       data[index]['quantity'] = Number(e.target.value)
-    } else { data[index][genre] = e.target.value }  
-     setIngredientstate(data)
+    } else { data[index][genre] = e.target.value }
+    setIngredientstate(data)
   }
 
   const clickHandler = () => {
     const update = [...ingredientsstate, { title: '', quantity: 0, unit: '' }]
     setIngredientstate(update)
   }
+
+
 
   return (
     <div className='flex justify-center  h-screen text-[#4a4a4a]'>
@@ -36,7 +37,8 @@ const Recipe_Creation = () => {
         {/* 上ゾーン */}
         <div className='flex mt-6' >
           <div>
-            <Image src={picture} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image>
+            {/* <Image src={} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image> */}
+            <input type="file" className='h-80 bg-[#f8f6f1]' onChange={(e)=>setRecipeImageFile(e.target.files?.[0])}/>
           </div>
           {/*説明ゾーン */}
           <div className='flex flex-col ml-3 '>
@@ -61,7 +63,7 @@ const Recipe_Creation = () => {
           <h1 className='h-6'>memo</h1>
           <input type="text" className='w-full  grow rounded-sm bg-[#f8f6f1] mb-2' onChange={(e) => setMemo(e.target.value)} placeholder='コツやポイント' />
         </div>
-        <button className='border' type='submit' onClick={() => recipe_save({ ingredientsstate, memo, recipename })} >レシピ保存</button>
+        <button className='border' type='submit' onClick={() => recipe_save({ ingredientsstate, memo, recipename,recipeImageFile })} >レシピ保存</button>
 
       </div>
     </div>
