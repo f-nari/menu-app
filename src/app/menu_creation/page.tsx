@@ -1,10 +1,33 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import React from 'react'
-import picture from '../../img/55006CFD-8C14-43E0-8D23-85391213A88A.jpg'
+'use client'
 
+import React, { useEffect, useState } from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
+
+export type RecipeType = {
+  id: number
+  created_at: string,
+  name: string,
+  memo: string,
+  signedUrl: string
+  
+}
 
 const Menu_Creation = () => {
+  const [recipeLists, setRecipeLists] = useState<RecipeType[]>([])
+  //useEffectでrecipelistを取得
+
+  useEffect(() => {
+    const fetchRecipes = async () => {
+      const res = await fetch('/api/recipes')
+      const data = await res.json()
+      setRecipeLists(data)
+    }
+    fetchRecipes()
+  }, [])
+
+
+
   return (
     <div className="w-full flex justify-center h-full">
       <div className="w-11/12 flex flex-col  text-center mt-6 ">
@@ -133,58 +156,27 @@ const Menu_Creation = () => {
         {/* レシピゾーン */}
         <div className="w-full grid grid-cols-5 gap-4">
           {/* カード */}
-          <div className=" w-50 h-60 shadow-md rounded-2xl mr-5">
-            <div className="w-full  h-40 rounded-t-lg">
-              <Image src={picture} width={500} height={500} alt="" className="rounded-t-lg"></Image>
-            </div>
-            <div>題名題名題名</div>
-            <Link href=''>詳細へ</Link>
-          </div>
-          <div className=" w-50 h-60 shadow-md rounded-2xl mr-5">
-            <div className="w-full  h-40 rounded-t-lg">
-              <Image src={picture} width={500} height={500} alt="" className="rounded-t-lg"></Image>
-            </div>
-            <div>題名題名題名</div>
-            <Link href=''>詳細へ</Link>
-          </div>
+          {recipeLists.map((recipeData) => (
+            <div className=" w-50 h-60 shadow-md rounded-2xl mr-5" key={recipeData.id}>
+              <div className="w-full  h-40 rounded-t-lg">
+                {recipeData.signedUrl ?
+                  <Image src={recipeData.signedUrl} width={500} height={500} alt="" className="rounded-t-lg"></Image>
+                  :
+                  <div className="w-full h-40 flex items-center justify-center bg-gray-200 rounded-t-lg">
+                    <span className="text-gray-600">画像がありません</span>
+                  </div>
+                }
 
-          <div className=" w-50 h-60 shadow-md rounded-2xl mr-5">
-            <div className="w-full  h-40 rounded-t-lg">
-              <Image src={picture} width={500} height={500} alt="" className="rounded-t-lg"></Image>
+              </div>
+              <div>{recipeData.name}</div>
+              <Link href=''>詳細へ</Link>
             </div>
-            <div>題名題名題名</div>
-            <Link href=''>詳細へ</Link>
-          </div>
-
-          <div className=" w-50 h-60 shadow-md rounded-2xl mr-5">
-            <div className="w-full  h-40 rounded-t-lg">
-              <Image src={picture} width={500} height={500} alt="" className="rounded-t-lg"></Image>
-            </div>
-            <div>題名題名題名</div>
-            <Link href=''>詳細へ</Link>
-          </div>
-
-          <div className=" w-50 h-60 shadow-md rounded-2xl mr-5">
-            <div className="w-full  h-40 rounded-t-lg">
-              <Image src={picture} width={500} height={500} alt="" className="rounded-t-lg"></Image>
-            </div>
-            <div>題名題名題名</div>
-            <Link href=''>詳細へ</Link>
-          </div>
-          <div className=" w-50 h-60 shadow-md rounded-2xl mr-5">
-            <div className="w-full  h-40 rounded-t-lg">
-              <Image src={picture} width={500} height={500} alt="" className="rounded-t-lg"></Image>
-            </div>
-            <div>題名題名題名</div>
-            <Link href=''>詳細へ</Link>
-          </div>
-
-
-
+          ))}
         </div>
       </div>
     </div>
   )
 }
+
 
 export default Menu_Creation

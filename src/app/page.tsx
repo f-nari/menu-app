@@ -15,6 +15,9 @@ export default function Home() {
   }
   return (
     <div className="w-full flex justify-center h-full">
+      <form action={()=>signOut()}>
+      <button type="submit" >ログアウト</button>
+      </form>
       <div className="w-11/12 flex flex-col ">
         <div className="text-center h-16 mt-6">
           <h1 className="text-3xl ">買い出しリスト</h1>
