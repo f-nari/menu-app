@@ -13,7 +13,7 @@ const Recipe_Creation = () => {
   const [ingredientsstate, setIngredientstate] = useState<Ingredients[]>([{ title: '', quantity: 0, unit: '' }])
   const [memo, setMemo] = useState('')
   const [recipename, setRecipeName] = useState('')
-  const [recipeImageFile,setRecipeImageFile] = useState<File|undefined>()
+  const [recipeImageFile,setRecipeImageFile] = useState<File|undefined>(undefined)
 
   const changeEvent = (e: React.ChangeEvent<HTMLInputElement>, genre: 'title' | 'quantity' | 'unit', index: number) => {
     const data = [...ingredientsstate]

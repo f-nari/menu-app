@@ -2,7 +2,7 @@ import React from 'react'
 
 type Props = {
     user_data: {
-        email: string
+        email: string|null
     }
 }
 
