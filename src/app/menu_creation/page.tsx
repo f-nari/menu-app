@@ -5,7 +5,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export type RecipeType = {
-  id: number
+  id: string
   created_at: string,
   name: string,
   memo: string,
@@ -19,7 +19,7 @@ const Menu_Creation = () => {
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      const res = await fetch('/api/recipes')
+      const res = await fetch('/api/allrecipes')
       const data = await res.json()
       setRecipeLists(data)
     }
@@ -169,7 +169,7 @@ const Menu_Creation = () => {
 
               </div>
               <div>{recipeData.name}</div>
-              <Link href=''>詳細へ</Link>
+              <Link href={`/recipe/${recipeData.id}` }>詳細へ</Link>
             </div>
           ))}
         </div>

@@ -1,8 +1,15 @@
-import Image from 'next/image'
-import React from 'react'
-import picture from '../../../img/55006CFD-8C14-43E0-8D23-85391213A88A.jpg'
+'use client'
 
-const Recipe = () => {
+import { RecipeType } from '@/app/menu_creation/page'
+import Image from 'next/image'
+import { usePathname } from 'next/navigation'
+import React from 'react'
+
+
+const Recipe = (recipeData:RecipeType) => {
+  const getId = usePathname().replace('/recipe/','')
+  
+  
   return (
     <div className='flex justify-center  h-screen text-[#4a4a4a]'>
       {/* 詳細ゾーン */}
@@ -10,11 +17,11 @@ const Recipe = () => {
         {/* 上ゾーン */}
         <div className='flex mt-6' >
           <div>
-            <Image src={picture} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image>
+            <Image src={recipeData.signedUrl} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image>
           </div>
           {/*説明ゾーン */}
           <div className='flex flex-col ml-3 '>
-            <h1 className='text-3xl'> ハンバーグ</h1>
+            <h1 className='text-3xl'>{recipeData.name}</h1>
             <p>作成者 廣川郁也</p>
             <p>材料</p>
             <div className='table-auto'>
@@ -42,7 +49,7 @@ const Recipe = () => {
         </div>
         {/*下ゾーン memozorn*/}
         <div className='flex flex-col grow mt-5 '>
-          <h1 className='h-6'>memo</h1>
+          <h1 className='h-6'>{recipeData.memo}</h1>
           <div className='w-full border grow rounded-2xl mb-2 '></div>
         </div>
       </div>
