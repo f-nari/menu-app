@@ -1,7 +1,7 @@
 import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
-//レシピデータを取得する
+//すべてのレシピデータを取得する
 export async function GET()  {
     const supabase = await createClient()
     const { data:recipeDatas, error } = await supabase
@@ -15,7 +15,6 @@ export async function GET()  {
         recipeDatas.map(async(recipe_data)=>(
             supabase.storage.from('recipeimages').createSignedUrl(recipe_data.image_url.replace('https://mihayudoygfiuzekgjfo.supabase.co/storage/v1/object/public/recipeimages/','')
             , 60)
-            
         ))
     )
 
@@ -24,15 +23,12 @@ export async function GET()  {
     ))
 
     const recipeDatasWithiSignedUrl = recipeDatasWithiSignedUrlResults.map((recipeData)=>({
-        id:recipeData.id,
+        id:String(recipeData.id),
         created_at : recipeData.created_at,
         name:recipeData.name,
         memo:recipeData.memo,
         signedUrl: recipeData.signedUrl
     }))
-
-    
-
 
     return NextResponse.json(recipeDatasWithiSignedUrl)
 }
