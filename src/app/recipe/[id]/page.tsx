@@ -3,13 +3,25 @@
 import { RecipeType } from '@/app/menu_creation/page'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 
-const Recipe = (recipeData:RecipeType) => {
-  const getId = usePathname().replace('/recipe/','')
+const Recipe = () => { 
+  const [recipeDetail,setRecipeDetail] = useState<RecipeType>()
+  const getRecipeById = usePathname().replace('/recipe/','')
   
-  
+
+  useEffect(()=>{
+    const fetchRecipeDetail = async () => {
+      const res = await fetch(`/api/getidrecipes?id=${getRecipeById}`) 
+      const data = await res.json()      
+      setRecipeDetail(data)
+    } 
+    fetchRecipeDetail()
+  },[])
+
+  console.log(recipeDetail,"です");
+
   return (
     <div className='flex justify-center  h-screen text-[#4a4a4a]'>
       {/* 詳細ゾーン */}
@@ -17,11 +29,11 @@ const Recipe = (recipeData:RecipeType) => {
         {/* 上ゾーン */}
         <div className='flex mt-6' >
           <div>
-            <Image src={recipeData.signedUrl} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image>
+            {recipeDetail ? <Image src={recipeDetail.signedUrl} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image>:null }
           </div>
           {/*説明ゾーン */}
           <div className='flex flex-col ml-3 '>
-            <h1 className='text-3xl'>{recipeData.name}</h1>
+            <h1 className='text-3xl'>{recipeDetail?.name}</h1>
             <p>作成者 廣川郁也</p>
             <p>材料</p>
             <div className='table-auto'>
@@ -49,8 +61,10 @@ const Recipe = (recipeData:RecipeType) => {
         </div>
         {/*下ゾーン memozorn*/}
         <div className='flex flex-col grow mt-5 '>
-          <h1 className='h-6'>{recipeData.memo}</h1>
-          <div className='w-full border grow rounded-2xl mb-2 '></div>
+          <h1 className='h-6'>メモ</h1>
+          <div className='w-full border grow rounded-2xl mb-2 '>
+            {recipeDetail?.memo}
+          </div>
         </div>
       </div>
     </div>
