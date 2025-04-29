@@ -10,7 +10,6 @@ export type RecipeType = {
   name: string,
   memo: string,
   signedUrl: string
-  
 }
 
 const Menu_Creation = () => {
@@ -19,7 +18,7 @@ const Menu_Creation = () => {
 
   useEffect(() => {
     const fetchRecipes = async () => {
-      const res = await fetch('/api/allrecipes')
+      const res = await fetch('/api/allgetrecipes')
       const data = await res.json()
       setRecipeLists(data)
     }
