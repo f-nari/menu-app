@@ -10,6 +10,9 @@ export type RecipeType = {
   name: string,
   memo: string,
   signedUrl: string
+  ingredientsDataList: [{
+    ingredientName: string, quantity: number, unit: string
+  }]
 }
 
 const Menu_Creation = () => {
@@ -168,7 +171,7 @@ const Menu_Creation = () => {
 
               </div>
               <div>{recipeData.name}</div>
-              <Link href={`/recipe/${recipeData.id}` }>詳細へ</Link>
+              <Link href={`/recipe/${recipeData.id}`}>詳細へ</Link>
             </div>
           ))}
         </div>
