@@ -44,16 +44,19 @@ const Menu_Creation = () => {
     fetchRecipes()
   }, [])
 
-  const changeHandler = (e: React.ChangeEvent<HTMLSelectElement>, mealTime: string, date: Date) => {
-    console.log(new Date);
-    
-
-    console.log('メニュー変えたあと',menuLists);
+  const changeHandler = (e: React.ChangeEvent<HTMLSelectElement|HTMLInputElement>, mealTime: string, propsindex: number) => {
+    console.log(menuLists);
     
     const changeMenuList = menuLists.map((menuList, index) => {
-      if (menuList.date.getTime() === date.getTime()) {
+      if (index===propsindex) {
         const newMeal = { ...menuList.meal }
+        let newDate = menuList.date
+        
         switch (mealTime) {
+          case 'date':
+            newDate =new Date(e.target.value)
+            break
+
           case 'breakfast':
             newMeal.breakfast = e.target.value;
             break;
@@ -66,12 +69,12 @@ const Menu_Creation = () => {
         }
         return {
           ...menuList,
-          meal: newMeal
+          date:newDate,
+          meal:newMeal
+          
         }
       }
-      else {
-        console.log('日付があっていません');
-      }
+      
       return menuList
     })
 
@@ -89,9 +92,6 @@ const Menu_Creation = () => {
     }]
     
     setMenuLists(update)
-    console.log('クリック押されたあと',menuLists);
-    
-
   }
 
 
@@ -106,10 +106,10 @@ const Menu_Creation = () => {
         <div className="h-60 flex  text-center ">
           {menuLists.map((menuList, index) => (
             <div className="w-50" key={index}>
-              <input type="date" value={menuList.date.toISOString().split('T')[0]}  />
+              <input type="date" value={menuList.date.toISOString().split('T')[0]} onChange={(e)=>changeHandler(e,'date',index)} />
               <div className="flex mt-3">
                 <label htmlFor="">朝</label>
-                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'breakfast', menuList.date)}>
+                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'breakfast', index)}>
                   {recipeLists.map((recipeList) => (
                     <>
                       <option value={recipeList.id}>{recipeList.name}</option>
@@ -119,7 +119,7 @@ const Menu_Creation = () => {
               </div>
               <div className="flex mt-2">
                 <label htmlFor="">昼</label>
-                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'lunch', menuList.date)}>
+                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'lunch', index)}>
                   {recipeLists.map((recipeList) => (
                     <>
                       <option value={recipeList.id}>{recipeList.name}</option>
@@ -129,7 +129,7 @@ const Menu_Creation = () => {
               </div>
               <div className="flex mt-2">
                 <label htmlFor="">夜</label>
-                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'dinner', menuList.date)}>
+                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'dinner', index)}>
                   {recipeLists.map((recipeList) => (
                     <>
                       <option value={recipeList.id}>{recipeList.name}</option>
