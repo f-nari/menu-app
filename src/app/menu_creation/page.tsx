@@ -17,15 +17,23 @@ export type RecipeType = {
 
 export type MenuItemsType = {
   date: Date,
-  mealTime: {
-    mealTime: string,
-    recipeId: string
+  meal: {
+    breakfast: string,
+    lunch: string,
+    dinner: string
   }
 }
 
 const Menu_Creation = () => {
   const [recipeLists, setRecipeLists] = useState<RecipeType[]>([])
-  const [menuLists, setMenuLists] = useState<MenuItemsType[]>([{ date: new Date, mealTime: { mealTime: '', recipeId: '' } }])
+  const [menuLists, setMenuLists] = useState<MenuItemsType[]>([{
+    date: new Date,
+    meal: {
+      breakfast: '',
+      lunch: '',
+      dinner: '',
+    }
+  }])
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -37,29 +45,53 @@ const Menu_Creation = () => {
   }, [])
 
   const changeHandler = (e: React.ChangeEvent<HTMLSelectElement>, mealTime: string, date: Date) => {
-    const getMenuLists = [...menuLists]
-    const changeMenuList = getMenuLists.map((menuList, index) => {
-      if (menuList.date === date) {
+    console.log(new Date);
+    
+
+    console.log('メニュー変えたあと',menuLists);
+    
+    const changeMenuList = menuLists.map((menuList, index) => {
+      if (menuList.date.getTime() === date.getTime()) {
+        const newMeal = { ...menuList.meal }
+        switch (mealTime) {
+          case 'breakfast':
+            newMeal.breakfast = e.target.value;
+            break;
+          case 'lunch':
+            newMeal.lunch = e.target.value;
+            break;
+          case 'dinner':
+            newMeal.dinner = e.target.value;
+            break;
+        }
         return {
           ...menuList,
-          mealTime:{
-            mealTime:mealTime,
-            recipeId:e.target.value
-          }
+          meal: newMeal
         }
+      }
+      else {
+        console.log('日付があっていません');
       }
       return menuList
     })
 
-    console.log('変えた情報が入っています',changeMenuList);
     setMenuLists(changeMenuList)
   }
 
   const clickHandler = () => {
-    const update = [...menuLists, { date: new Date, mealTime: { mealTime: '', recipeId: '' } }]
-    setMenuLists(update)
-    console.log('現在のmenulistです',menuLists);
+    const update = [...menuLists, {
+      date: new Date,
+      meal: {
+        breakfast: '',
+        lunch: '',
+        dinner: '',
+      }
+    }]
     
+    setMenuLists(update)
+    console.log('クリック押されたあと',menuLists);
+    
+
   }
 
 
@@ -74,10 +106,10 @@ const Menu_Creation = () => {
         <div className="h-60 flex  text-center ">
           {menuLists.map((menuList, index) => (
             <div className="w-50" key={index}>
-              <input type="date" />
+              <input type="date" value={menuList.date.toISOString().split('T')[0]}  />
               <div className="flex mt-3">
                 <label htmlFor="">朝</label>
-                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, '朝', menuList.date)}>
+                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'breakfast', menuList.date)}>
                   {recipeLists.map((recipeList) => (
                     <>
                       <option value={recipeList.id}>{recipeList.name}</option>
@@ -87,7 +119,7 @@ const Menu_Creation = () => {
               </div>
               <div className="flex mt-2">
                 <label htmlFor="">昼</label>
-                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, '昼', menuList.date)}>
+                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'lunch', menuList.date)}>
                   {recipeLists.map((recipeList) => (
                     <>
                       <option value={recipeList.id}>{recipeList.name}</option>
@@ -97,7 +129,7 @@ const Menu_Creation = () => {
               </div>
               <div className="flex mt-2">
                 <label htmlFor="">夜</label>
-                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, '夜', menuList.date)}>
+                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'dinner', menuList.date)}>
                   {recipeLists.map((recipeList) => (
                     <>
                       <option value={recipeList.id}>{recipeList.name}</option>
