@@ -44,19 +44,18 @@ const Menu_Creation = () => {
     fetchRecipes()
   }, [])
 
-  const changeHandler = (e: React.ChangeEvent<HTMLSelectElement|HTMLInputElement>, mealTime: string, propsindex: number) => {
+  const changeHandler = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>, mealTime: string, propsindex: number) => {
     console.log(menuLists);
-    
+
     const changeMenuList = menuLists.map((menuList, index) => {
-      if (index===propsindex) {
+      if (index === propsindex) {
         const newMeal = { ...menuList.meal }
         let newDate = menuList.date
-        
+
         switch (mealTime) {
           case 'date':
-            newDate =new Date(e.target.value)
+            newDate = new Date(e.target.value)
             break
-
           case 'breakfast':
             newMeal.breakfast = e.target.value;
             break;
@@ -69,12 +68,11 @@ const Menu_Creation = () => {
         }
         return {
           ...menuList,
-          date:newDate,
-          meal:newMeal
-          
+          date: newDate,
+          meal: newMeal
         }
       }
-      
+
       return menuList
     })
 
@@ -90,10 +88,46 @@ const Menu_Creation = () => {
         dinner: '',
       }
     }]
-    
+
     setMenuLists(update)
   }
 
+  const getIngredientsHandler = async () => {
+
+    // 0:[{...},{....}]
+    // date: Sun May 04 2025 09:37:10 GMT+0900 (日本標準時) {}
+    // meal: {breakfast: '54', lunch: '55', dinner: '56'}
+    const recipeNumbers = menuLists.map((menuList) => {
+      return menuList.meal
+    })
+
+    //  [{…}, {…}]0: {breakfast: '55', lunch: '', dinner: ''}breakfast: "55"dinner: ""lunch: ""[[Prototype]]: Object1: {breakfast: '', lunch: '55', dinner: ''}length: 2[[Prototype]]: Array(0)
+
+
+    const testnumber = recipeNumbers.map((recipeNumber) => {
+      return [recipeNumber.breakfast, recipeNumber.lunch, recipeNumber.dinner]
+    })
+
+    const testnumber2 = testnumber.flat().filter(Boolean)
+
+    const data = await fetch(`/api/getingredients`, {
+      method: 'POST',
+      //headerは、これから送るデータの内容を伝える。Content-Typeは、そういうもの。application/jsonは、アプリケーションのデータ。その中のJSONフォーマットのデータ
+      headers: { 'Content-Type': 'application/json' },
+      //bodyは実際に送るデータの中身のこと。以下は、JacaScriptのJsonの関数のstringifyを使って、オブジェクトをJson形式に変えるもの。{ids:配列}という形で送る。
+      //受け取る側は、  const { ids } = await req.json() 結果→ ids は ['55', '43', '12']で受け取れる
+      body: JSON.stringify({ ids: testnumber2 })
+    })
+
+    //await data.json()でデータを取得できる
+
+
+
+
+
+
+
+  }
 
   return (
     <div className="w-full flex justify-center h-full">
@@ -106,7 +140,7 @@ const Menu_Creation = () => {
         <div className="h-60 flex  text-center ">
           {menuLists.map((menuList, index) => (
             <div className="w-50" key={index}>
-              <input type="date" value={menuList.date.toISOString().split('T')[0]} onChange={(e)=>changeHandler(e,'date',index)} />
+              <input type="date" value={menuList.date.toISOString().split('T')[0]} onChange={(e) => changeHandler(e, 'date', index)} />
               <div className="flex mt-3">
                 <label htmlFor="">朝</label>
                 <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'breakfast', index)}>
@@ -141,7 +175,14 @@ const Menu_Creation = () => {
           ))}
           <button onClick={() => clickHandler()}>追加</button>
         </div>
+
+        {/* 材料集計ボタン */}
+        <div >
+          <button className='w-20 h-10 rounded-sm bg-amber-100 font-bold text-amber-400 hover:text-black mb-5' onClick={() => getIngredientsHandler()} >材料確定</button>
+        </div>
+
         {/* レシピゾーン */}
+        <h2 className='text-2xl mb-4'>レシピ一覧</h2>
         <div className="w-full grid grid-cols-5 gap-4">
           {/* カード */}
           {recipeLists.map((recipeData) => (
