@@ -2,11 +2,8 @@ import Link from 'next/link'
 import React from 'react'
 
 const links_list = [{
-    title: 'ホーム',
-    url: '/'
-}, {
     title: '献立作成',
-    url: '/menu_creation'
+    url: '/'
 }, {
 
     title: 'レシピ作成',
