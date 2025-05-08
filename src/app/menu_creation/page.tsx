@@ -24,6 +24,12 @@ export type MenuItemsType = {
   }
 }
 
+type IngredientsType = {
+  ingredientName: string,
+  ingredientQuantity: number,
+  IngredientUnit: string
+}
+
 const Menu_Creation = () => {
   const [recipeLists, setRecipeLists] = useState<RecipeType[]>([])
   const [menuLists, setMenuLists] = useState<MenuItemsType[]>([{
@@ -94,15 +100,9 @@ const Menu_Creation = () => {
 
   const getIngredientsHandler = async () => {
 
-    // 0:[{...},{....}]
-    // date: Sun May 04 2025 09:37:10 GMT+0900 (日本標準時) {}
-    // meal: {breakfast: '54', lunch: '55', dinner: '56'}
     const recipeNumbers = menuLists.map((menuList) => {
       return menuList.meal
     })
-
-    //  [{…}, {…}]0: {breakfast: '55', lunch: '', dinner: ''}breakfast: "55"dinner: ""lunch: ""[[Prototype]]: Object1: {breakfast: '', lunch: '55', dinner: ''}length: 2[[Prototype]]: Array(0)
-
 
     const testnumber = recipeNumbers.map((recipeNumber) => {
       return [recipeNumber.breakfast, recipeNumber.lunch, recipeNumber.dinner]
@@ -110,7 +110,7 @@ const Menu_Creation = () => {
 
     const testnumber2 = testnumber.flat().filter(Boolean)
 
-    const data = await fetch(`/api/getingredients`, {
+    const res = await fetch(`/api/getingredients`, {
       method: 'POST',
       //headerは、これから送るデータの内容を伝える。Content-Typeは、そういうもの。application/jsonは、アプリケーションのデータ。その中のJSONフォーマットのデータ
       headers: { 'Content-Type': 'application/json' },
@@ -119,13 +119,45 @@ const Menu_Creation = () => {
       body: JSON.stringify({ ids: testnumber2 })
     })
 
-    //await data.json()でデータを取得できる
+    const resIngredientsList = await res.json()
+
+    const ingredientsList = resIngredientsList.map((res) => {
+      return res.data
+    })
+
+    const ingredients = ingredientsList.map((ingredient) => {
+      // [{…}, {…}]
+      // const strArray = ingredient.length
+      //2を取得
+      const returnData: IngredientsType[] = []
+      for (let i = 0; i < ingredient.length; i++) {
+        const addData = { 'ingredientName': ingredient[i].title, 'ingredientQuantity': ingredient[i].quantity, 'IngredientUnit': ingredient[i].unit }
+        returnData.push(addData)
+        console.log('１つ１つ回した結果', returnData);
+      }
+      return returnData
+
+    }).flat()
+
+    const sumIngredints = new Map<string, IngredientsType>
 
 
+    ingredients.forEach(i => {
+      const key = `${i.ingredientName}_${i.IngredientUnit}`
+      if (!sumIngredints.has(key)) {
+        sumIngredints.set(key, {
+          ingredientName: i.ingredientName,
+          ingredientQuantity: i.ingredientQuantity,
+          IngredientUnit: i.IngredientUnit
+        })
+      } else {
+        sumIngredints.get(key)!.ingredientQuantity += i.ingredientQuantity
+      }
 
+      return sumIngredints
+    });
 
-
-
+    console.log('合計金額出るはず', sumIngredints);
 
   }
 
