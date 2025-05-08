@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { Ingredients } from '../recipe_creation/page'
 
 export type RecipeType = {
   id: string
@@ -30,6 +31,8 @@ type IngredientsType = {
   IngredientUnit: string
 }
 
+
+
 const Menu_Creation = () => {
   const [recipeLists, setRecipeLists] = useState<RecipeType[]>([])
   const [menuLists, setMenuLists] = useState<MenuItemsType[]>([{
@@ -40,6 +43,8 @@ const Menu_Creation = () => {
       dinner: '',
     }
   }])
+
+  const [sumIngredientsList, setSumIngredientsList] = useState<IngredientsType[]>([])
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -159,6 +164,16 @@ const Menu_Creation = () => {
 
     console.log('合計金額出るはず', sumIngredints);
 
+    const newList: IngredientsType[] = [...sumIngredientsList]
+
+    for (const [index, value] of sumIngredints) {
+      newList.push(value)
+
+    }
+
+    setSumIngredientsList(newList)
+
+
   }
 
   return (
@@ -211,6 +226,16 @@ const Menu_Creation = () => {
         {/* 材料集計ボタン */}
         <div >
           <button className='w-20 h-10 rounded-sm bg-amber-100 font-bold text-amber-400 hover:text-black mb-5' onClick={() => getIngredientsHandler()} >材料確定</button>
+        </div>
+
+        {/* 材料表示箇所 */}
+        <div className='w-full mt-4 p-4 bg-gray-100 rounded-lg'>
+          {sumIngredientsList.length > 0 ?
+            sumIngredientsList.map((s, index) => (
+              <ul className="list-disc pl-5 text-left" key={index}>
+                <li>{s.ingredientName}:{s.ingredientQuantity}{s.IngredientUnit}</li>
+              </ul>
+            )) : <p>献立が登録されていません</p>}
         </div>
 
         {/* レシピゾーン */}
