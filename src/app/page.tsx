@@ -9,6 +9,10 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Ingredients } from '../recipe_creation/page'
 
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHouse } from '@fortawesome/free-solid-svg-icons'
+
 export type RecipeType = {
   id: string
   created_at: string,
@@ -187,6 +191,7 @@ export default function Home() {
   }
   return (
     <div className="w-full flex justify-center h-full">
+
       {/* <form action={() => signOut()}>
         <button type="submit" >ログアウト</button>
       </form> */}
