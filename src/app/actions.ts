@@ -12,11 +12,26 @@ type RecipeProps = {
 
 // レシピデータを登録するアクション
 export const recipe_save = async({ingredientsstate,memo,recipename,recipeImageFile}:RecipeProps) => {
-    const ingredient_insert = ingredientsstate.map((ingredient)=>({
-        title:ingredient.title,
-        unit:ingredient.unit,
-        quantity:ingredient.quantity
-    }))
+    // const ingredient_insert = ingredientsstate.map((ingredient)=>({
+    //     title:ingredient.title,
+    //     unit:ingredient.unit,
+    //     quantity:ingredient.quantity
+    // }))
+
+    const ingredient_insert:Ingredients[] =[]
+
+    for(const ingredient of ingredientsstate){
+        if('' != ingredient.title) {
+            ingredient_insert.push({
+                title: ingredient.title,
+                unit: ingredient.unit,
+                quantity: ingredient.quantity
+            })
+        }
+    }
+
+    console.log('材料どんなものが登録された？',ingredient_insert);
+    
     
     const supabase = await createClient()
 

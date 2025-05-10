@@ -6,10 +6,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
 export type Ingredients = {
-  id: number
-  title: string;
-  quantity: number;
-  unit: string
+  id?: number
+  title?: string;
+  quantity?: number;
+  unit?: string
 }
 
 const Recipe_Creation = () => {
@@ -61,12 +61,12 @@ const Recipe_Creation = () => {
             {ingredientsstate.map((ingredient,) => (
               <div className='flex' key={ingredient.id}>
                 <label htmlFor="" className='mr-4'>材料名</label>
-                <input type="text" placeholder='ひき肉' className='bg-[#f8f6f1] rounded-sm' onChange={(e) => (changeEvent(e, 'title', ingredient.id))} />
+                <input type="text" placeholder='ひき肉' className='bg-[#f8f6f1] rounded-sm' onChange={(e) => (changeEvent(e, 'title', ingredient.id!))} />
                 <label htmlFor="" className='mr-4 ml-4' >量</label>
-                <input type="text" placeholder='300' className='bg-[#f8f6f1] rounded-sm w-20' onChange={(e) => (changeEvent(e, 'quantity', ingredient.id))} />
+                <input type="text" placeholder='300' className='bg-[#f8f6f1] rounded-sm w-20' onChange={(e) => (changeEvent(e, 'quantity', ingredient.id!))} />
                 <label htmlFor="" className='mr-4 ml-4'>単位</label>
-                <input type="text" placeholder='g' className='bg-[#f8f6f1] rounded-sm w-20' onChange={(e) => (changeEvent(e, 'unit', ingredient.id))} />
-                <FontAwesomeIcon icon={faTrash} onClick={() => deleteClickHandler(ingredient.id)} />
+                <input type="text" placeholder='g' className='bg-[#f8f6f1] rounded-sm w-20' onChange={(e) => (changeEvent(e, 'unit', ingredient.id!))} />
+                <FontAwesomeIcon icon={faTrash} onClick={() => deleteClickHandler(ingredient.id!)} />
               </div>
 
             ))}
