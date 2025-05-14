@@ -1,17 +1,9 @@
 'use client'
 
 import { createClient } from "@/utils/supabase/client";
-// import Image from 'next/image'
-// import Link from "next/link";
-
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Ingredients } from '../recipe_creation/page'
-
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHouse } from '@fortawesome/free-solid-svg-icons'
 
 export type RecipeType = {
   id: string
@@ -258,6 +250,8 @@ export default function Home() {
               </ul>
             )) : <p>献立が登録されていません</p>}
         </div>
+
+        
 
         {/* レシピゾーン */}
         <h2 className='text-2xl mb-4'>レシピ一覧</h2>
