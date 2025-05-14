@@ -2,6 +2,7 @@
 
 import { RecipeType } from '@/app/menu_creation/page'
 import Image from 'next/image'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
@@ -55,8 +56,6 @@ const Recipe = () => {
                 ))}
               </table>
             </div>
-
-
           </div>
         </div>
         {/*下ゾーン memozorn*/}
@@ -65,6 +64,10 @@ const Recipe = () => {
           <div className='w-full border grow rounded-2xl mb-2 '>
             {recipeDetail?.memo}
           </div>
+        </div>
+        <div className='flex justify-center'>
+          <Link href={`/recipe_creation/${getRecipeById}`} className=' w-20 h-10 rounded-sm bg-amber-100 font-bold text-amber-400 hover:text-black mb-5 mr-5'>編集する</Link>
+          <button className=' w-20 h-10 rounded-sm bg-red-500 font-bold text-amber-400 hover:text-black mb-5'>削除する</button>
         </div>
       </div>
     </div>

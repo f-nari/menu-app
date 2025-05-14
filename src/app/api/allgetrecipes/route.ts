@@ -8,6 +8,9 @@ export async function GET()  {
     .from('recipes')
     .select('*')
 
+    console.log(recipeDatas);
+    
+
     if (error) {
         return NextResponse.json({error:error.message},{status:500})
     }
