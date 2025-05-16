@@ -5,6 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { usePathname } from 'next/navigation'
+import { recipe_save } from '@/app/actions'
 // import { RecipeType } from '@/app/page'
 
 export type Ingredients = {
@@ -16,7 +17,7 @@ export type Ingredients = {
 
 export type PostRecipeDateil = {
     recipeName: string,
-    recipeImageFile: File,
+    recipeImageFile: File|null,
     recipeMemo: string,
     ingredent?: Ingredients[]
 }
@@ -28,7 +29,12 @@ const Recipe_Creation = () => {
     // const [recipename, setRecipeName] = useState('')
     // const [recipeImageFile, setRecipeImageFile] = useState<File | undefined>(undefined)
     // const [getRecipeDetail, setGetRecipeDetail] = useState<RecipeType>()
-    const [postRecipeDateil, setPostRecipeDateil] = useState<PostRecipeDateil[]>([])
+    const [postRecipeDateil, setPostRecipeDateil] = useState<PostRecipeDateil[]>([{
+        recipeName: '',
+        recipeImageFile: null,
+        recipeMemo: '',
+        ingredent:[],
+    }])
     const getRecipeById = usePathname().replace('/recipe_creation/', '')
 
 
@@ -49,10 +55,12 @@ const Recipe_Creation = () => {
             console.log('詳細です', data);
 
             const fetchRecipeDetailWithRecipeNameAndImageFileAndRecipeMemo: PostRecipeDateil[] = [{
-                recipeName:data.name,
+                recipeName: data.name,
                 recipeImageFile: data.image_url,
-                recipeMemo:data.memo,
+                recipeMemo: data.memo,
             }]
+
+            console.log(fetchRecipeDetailWithRecipeNameAndImageFileAndRecipeMemo);
 
             setPostRecipeDateil(fetchRecipeDetailWithRecipeNameAndImageFileAndRecipeMemo)
 
@@ -89,38 +97,61 @@ const Recipe_Creation = () => {
         setIngredientstate(idDeleteIngredientsList)
     }
 
-    const changeRecipeNameImageFileMemo = (e: React.ChangeEvent<HTMLInputElement>,type:'name' | 'imageFile'| 'memo') => {
-        let updataValue:any
+    const changeRecipeNameImageFileMemo = (e: React.ChangeEvent<HTMLInputElement>, type: 'name' | 'imageFile' | 'memo') => {
+        let updataValue: any
 
-        if(type === 'imageFile'){
+        if (type === 'imageFile') {
             updataValue = e.target.files?.[0]
-        }else{
+        } else {
             updataValue = e.target.value
         }
 
-        setPostRecipeDateil({
-         ...postRecipeDateil,
-         [type === 'name' ?
-            'recipeName'
-            :type === 'memo'?
-            'recipeMemmo'
-            :'recipeImageFile'
-         ]:updataValue
-        })
+        // setPostRecipeDateil({
+        //     ...postRecipeDateil,
+        //     [type === 'name' ?
+        //         'recipeName'
+        //         : type === 'memo' ?
+        //             'recipeMemo'
+        //             : 'recipeImageFile'
+        //     ]: updataValue
+
+        // })
+
+        setPostRecipeDateil(prev =>{
+            const newArray = [...prev]
+            newArray[0] = {
+                ...newArray[0],
+                [type === 'name' ?
+                            'recipeName'
+                            : type === 'memo' ?
+                                'recipeMemo'
+                                : 'recipeImageFile'
+                        ]: updataValue
+                }
+            return newArray
+        }
+    
+    )
+    }
+
+
+    const recipeUpdate = async () => {
+        const recipeIdAndIngredientAndRecipeDetail = {
+            recipeId: getRecipeById,
+            ingredients: ingredientsstate,
+            recipeDetail: postRecipeDateil
+        }
+        await fetch('/api/recipeUpdateApi', {
+            method: 'POST',
+            headers: { 'content-type': 'application/json' },
+            //必要なのは、getRecipeById、ingredientsstate,postRecipeDateilだな
+            body: JSON.stringify({ data: recipeIdAndIngredientAndRecipeDetail })
+
         }
 
+        )
 
-    // const recipeUpdaten = async (ingredientsstate, memo, recipename, recipeImageFile) => {
-    //     const res = await fetch('/api/recipeUpdateApi/', {
-    //         method: 'POST',
-    //         headers: { 'content-type': 'application/json' },
-    //         body:
-
-    // }
-
-    //     )
-
-    // }
+    }
 
     //   console.log('取得したデータです',recipeDetail);
 
@@ -136,12 +167,12 @@ const Recipe_Creation = () => {
                 <div className='flex mt-6' >
                     <div>
                         {/* <Image src={} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image> */}
-                        <input type="file"  className='h-80 bg-[#f8f6f1]' onChange={(e) => changeRecipeNameImageFileMemo(e,'imageFile')} />
+                        <input type="file"  className='h-80 bg-[#f8f6f1]' onChange={(e) => changeRecipeNameImageFileMemo(e, 'imageFile')} />
                     </div>
                     {/*説明ゾーン */}
                     <div className='flex flex-col ml-3 '>
                         {/* <input type='text' value={recipeDetail?.name} className='text-3xl bg-[#f8f6f1] rounded-sm' onChange={(e) => setRecipeName(e.target.value)} placeholder='ハンバーグ' /> */}
-                        <input type='text' value={postRecipeDateil[0].recipeName} className='text-3xl bg-[#f8f6f1] rounded-sm' onChange={(e) => changeRecipeNameImageFileMemo(e,'name')} placeholder='ハンバーグ' />
+                        <input type='text' defaultValue={postRecipeDateil[0].recipeName} className='text-3xl bg-[#f8f6f1] rounded-sm' onChange={(e) => changeRecipeNameImageFileMemo(e, 'name')} placeholder='ハンバーグ' />
 
                         <input type="text" placeholder='廣川郁也' />
                         <p className='text-2xl font-bold mt-5 mb-3'>材料</p>
@@ -163,9 +194,9 @@ const Recipe_Creation = () => {
                 {/*下ゾーン memozorn*/}
                 <div className='flex flex-col grow mt-5 '>
                     <h1 className='h-6'>memo</h1>
-                    <input type="text" value={postRecipeDateil[0].recipeName} className='w-full  grow rounded-sm bg-[#f8f6f1] mb-2' onChange={(e) => changeRecipeNameImageFileMemo(e,'memo')} placeholder='コツやポイント' />
+                    <input type="text" defaultValue={postRecipeDateil[0].recipeName} className='w-full  grow rounded-sm bg-[#f8f6f1] mb-2' onChange={(e) => changeRecipeNameImageFileMemo(e, 'memo')} placeholder='コツやポイント' />
                 </div>
-                <button className='border' type='submit' onClick={() => recipeUpdate({ ingredientsstate, memo, recipename, recipeImageFile })} >レシピ保存</button>
+                <button className='border' type='submit' onClick={() => recipeUpdate()} >レシピ保存</button>
 
             </div>
         </div>
