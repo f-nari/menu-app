@@ -201,10 +201,10 @@ export default function Home() {
               <div className="flex mt-3">
                 <label htmlFor="">朝</label>
                 <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'breakfast', index)}>
+                <option value="" selected hidden>ーーー</option>
                   {recipeLists.map((recipeList) => (
                     <>
-                      <option value="" selected hidden>ーーー</option>
-                      <option value={recipeList.id}>{recipeList.name}</option>
+                      <option key={recipeList.id} value={recipeList.id}>{recipeList.name}</option>
                     </>
                   ))}
                 </select>
