@@ -106,17 +106,6 @@ const Recipe_Creation = () => {
             updataValue = e.target.value
         }
 
-        // setPostRecipeDateil({
-        //     ...postRecipeDateil,
-        //     [type === 'name' ?
-        //         'recipeName'
-        //         : type === 'memo' ?
-        //             'recipeMemo'
-        //             : 'recipeImageFile'
-        //     ]: updataValue
-
-        // })
-
         setPostRecipeDateil(prev =>{
             const newArray = [...prev]
             newArray[0] = {
@@ -153,11 +142,6 @@ const Recipe_Creation = () => {
 
     }
 
-    //   console.log('取得したデータです',recipeDetail);
-
-
-
-
     return (
         <div className='flex justify-center  h-screen text-[#4a4a4a]'>
             <div>編集画面です</div>
@@ -173,7 +157,6 @@ const Recipe_Creation = () => {
                     <div className='flex flex-col ml-3 '>
                         {/* <input type='text' value={recipeDetail?.name} className='text-3xl bg-[#f8f6f1] rounded-sm' onChange={(e) => setRecipeName(e.target.value)} placeholder='ハンバーグ' /> */}
                         <input type='text' defaultValue={postRecipeDateil[0].recipeName} className='text-3xl bg-[#f8f6f1] rounded-sm' onChange={(e) => changeRecipeNameImageFileMemo(e, 'name')} placeholder='ハンバーグ' />
-
                         <input type="text" placeholder='廣川郁也' />
                         <p className='text-2xl font-bold mt-5 mb-3'>材料</p>
                         {ingredientsstate.map((ingredient,) => (
@@ -194,7 +177,7 @@ const Recipe_Creation = () => {
                 {/*下ゾーン memozorn*/}
                 <div className='flex flex-col grow mt-5 '>
                     <h1 className='h-6'>memo</h1>
-                    <input type="text" defaultValue={postRecipeDateil[0].recipeName} className='w-full  grow rounded-sm bg-[#f8f6f1] mb-2' onChange={(e) => changeRecipeNameImageFileMemo(e, 'memo')} placeholder='コツやポイント' />
+                    <input type="text" defaultValue={postRecipeDateil[0].recipeMemo} className='w-full  grow rounded-sm bg-[#f8f6f1] mb-2' onChange={(e) => changeRecipeNameImageFileMemo(e, 'memo')} placeholder='コツやポイント' />
                 </div>
                 <button className='border' type='submit' onClick={() => recipeUpdate()} >レシピ保存</button>
 
