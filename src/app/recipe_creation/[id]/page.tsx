@@ -135,7 +135,6 @@ const Recipe_Creation = () => {
             headers: { 'content-type': 'application/json' },
             //必要なのは、getRecipeById、ingredientsstate,postRecipeDateilだな
             body: JSON.stringify({ data: recipeIdAndIngredientAndRecipeDetail })
-
         }
 
         )

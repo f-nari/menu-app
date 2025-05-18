@@ -22,6 +22,14 @@ const Recipe = () => {
 
   console.log(recipeDetail, "recipeDatailです");
 
+  const deleteRecipeClick = async  () => {
+    const response = await fetch('/api/deleterecipe', {
+      method: 'DELETE',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ recipeId: getRecipeById })
+    })
+  }
+
   return (
     <div className='flex justify-center  h-screen text-[#4a4a4a]'>
       {/* 詳細ゾーン */}
@@ -67,7 +75,7 @@ const Recipe = () => {
         </div>
         <div className='flex justify-center'>
           <Link href={`/recipe_creation/${getRecipeById}`} className=' w-20 h-10 rounded-sm bg-amber-100 font-bold text-amber-400 hover:text-black mb-5 mr-5'>編集する</Link>
-          <button className=' w-20 h-10 rounded-sm bg-red-500 font-bold text-amber-400 hover:text-black mb-5'>削除する</button>
+          <button onClick={() => deleteRecipeClick()} className=' w-20 h-10 rounded-sm bg-red-500 font-bold text-amber-400 hover:text-black mb-5'>削除する</button>
         </div>
       </div>
     </div>

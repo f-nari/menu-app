@@ -41,8 +41,6 @@ const Recipe_Creation = () => {
     setIngredientstate(idDeleteIngredientsList)
   }
 
-
-
   return (
     <div className='flex justify-center  h-screen text-[#4a4a4a]'>
       {/* 詳細ゾーン */}
@@ -58,7 +56,7 @@ const Recipe_Creation = () => {
             <input type='text' className='text-3xl bg-[#f8f6f1] rounded-sm' onChange={(e) => setRecipeName(e.target.value)} placeholder='ハンバーグ' />
             <input type="text" placeholder='廣川郁也' />
             <p className='text-2xl font-bold mt-5 mb-3'>材料</p>
-            {ingredientsstate.map((ingredient,) => (
+            {ingredientsstate.map((ingredient) => (
               <div className='flex' key={ingredient.id}>
                 <label htmlFor="" className='mr-4'>材料名</label>
                 <input type="text" placeholder='ひき肉' className='bg-[#f8f6f1] rounded-sm' onChange={(e) => (changeEvent(e, 'title', ingredient.id!))} />
