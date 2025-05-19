@@ -3,13 +3,14 @@
 import { RecipeType } from '@/app/menu_creation/page'
 import Image from 'next/image'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
 
 const Recipe = () => {
   const [recipeDetail, setRecipeDetail] = useState<RecipeType>()
   const getRecipeById = usePathname().replace('/recipe/', '')
+  const router = useRouter()
 
   useEffect(() => {
     const fetchRecipeDetail = async () => {
@@ -28,6 +29,11 @@ const Recipe = () => {
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ recipeId: getRecipeById })
     })
+
+    if(response.ok){
+      router.push('/')
+    }
+
   }
 
   return (
