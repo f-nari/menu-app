@@ -54,4 +54,10 @@ export const recipe_save = async({ingredientsstate,memo,recipename,recipeImageFi
         console.log('recipeError:',recipeError,'ingredientError:',ingredientError,'recipeImageFileError:',recipeImageFileError);
     }
 
+    else {
+        return 'ok'
+    }
+
+
+
 }
