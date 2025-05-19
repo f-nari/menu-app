@@ -55,7 +55,6 @@ export default function Home() {
   }, [])
 
   const changeHandler = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>, mealTime: string, propsindex: number) => {
-    console.log(menuLists);
 
     const changeMenuList = menuLists.map((menuList, index) => {
       if (index === propsindex) {
@@ -137,7 +136,6 @@ export default function Home() {
       for (let i = 0; i < ingredient.length; i++) {
         const addData = { 'ingredientName': ingredient[i].title, 'ingredientQuantity': ingredient[i].quantity, 'IngredientUnit': ingredient[i].unit }
         returnData.push(addData)
-        console.log('１つ１つ回した結果', returnData);
       }
       return returnData
 
