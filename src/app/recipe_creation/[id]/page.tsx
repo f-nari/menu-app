@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 // import { recipe_save } from '../../actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { recipe_save } from '@/app/actions'
 // import { RecipeType } from '@/app/page'
 
@@ -36,6 +36,7 @@ const Recipe_Creation = () => {
         ingredent:[],
     }])
     const getRecipeById = usePathname().replace('/recipe_creation/', '')
+    const router = useRouter()
 
 
     useEffect(() => {
@@ -52,7 +53,7 @@ const Recipe_Creation = () => {
                 currentId += 1
             })
 
-            console.log('詳細です', data);
+            // console.log('詳細です', data);
 
             const fetchRecipeDetailWithRecipeNameAndImageFileAndRecipeMemo: PostRecipeDateil[] = [{
                 recipeName: data.name,
@@ -130,14 +131,22 @@ const Recipe_Creation = () => {
             ingredients: ingredientsstate,
             recipeDetail: postRecipeDateil
         }
-        await fetch('/api/recipeUpdateApi', {
+        const response =  await fetch('/api/recipeUpdateApi', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             //必要なのは、getRecipeById、ingredientsstate,postRecipeDateilだな
             body: JSON.stringify({ data: recipeIdAndIngredientAndRecipeDetail })
-        }
+        })
 
-        )
+        const result = await response.json()
+
+        if(result.success) {
+            router.push('/')
+        }else {
+            console.log('エラーが発生');
+            
+        }
+    
 
     }
 
