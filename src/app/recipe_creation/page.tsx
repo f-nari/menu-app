@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import { recipe_save } from '../actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { useRouter } from 'next/navigation'
 
 export type Ingredients = {
   id?: number
@@ -18,6 +19,7 @@ const Recipe_Creation = () => {
   const [idCounter, setIdCounter] = useState(2)
   const [recipename, setRecipeName] = useState('')
   const [recipeImageFile, setRecipeImageFile] = useState<File | undefined>(undefined)
+  const router = useRouter()
 
   const changeEvent = (e: React.ChangeEvent<HTMLInputElement>, genre: 'title' | 'quantity' | 'unit', id: number) => {
     const data = [...ingredientsstate]
@@ -39,6 +41,16 @@ const Recipe_Creation = () => {
     const ingredientsList = [...ingredientsstate]
     const idDeleteIngredientsList = ingredientsList.filter(item => item.id !== id)
     setIngredientstate(idDeleteIngredientsList)
+  }
+
+  const recipeSaveClick = async ()=>{
+    const res = await recipe_save({ ingredientsstate, memo, recipename, recipeImageFile })
+
+    if(res === 'ok'){
+      router.push('/')
+    }
+
+
   }
 
   return (
@@ -76,7 +88,7 @@ const Recipe_Creation = () => {
           <h1 className='h-6'>memo</h1>
           <input type="text" className='w-full  grow rounded-sm bg-[#f8f6f1] mb-2' onChange={(e) => setMemo(e.target.value)} placeholder='コツやポイント' />
         </div>
-        <button className='border' type='submit' onClick={() => recipe_save({ ingredientsstate, memo, recipename, recipeImageFile })} >レシピ保存</button>
+        <button className='border' type='submit' onClick={() => recipeSaveClick()} >レシピ保存</button>
 
       </div>
     </div>
