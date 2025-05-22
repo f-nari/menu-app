@@ -1,18 +1,21 @@
 import React from 'react'
 
-const SumIngredients = ({sumIngredientsList}) => {
+const SumIngredients = ({ sumIngredientsList }) => {
     return (
-        <div>
-            <div className='w-full mt-4 p-4 bg-gray-100 rounded-lg'>
-                {sumIngredientsList.length > 0 ?
-                    sumIngredientsList.map((s, index) => (
-                        <ul className="list-disc pl-5 text-left" key={index}>
-                            <li>{s.ingredientName}:{s.ingredientQuantity}{s.ingredientUnit}</li>
-                        </ul>
-                    )) : <p>献立が登録されていません</p>}
-            </div>
-
+        <div className="w-full mt-4 p-4 bg-gray-100 rounded-lg shadow">
+            {sumIngredientsList.length > 0 ? (
+                <ul className="list-disc pl-6 space-y-1 text-left text-gray-700">
+                    {sumIngredientsList.map((s, index) => (
+                        <li key={index}>
+                            {s.ingredientName}：{s.ingredientQuantity}{s.ingredientUnit}
+                        </li>
+                    ))}
+                </ul>
+            ) : (
+                <p className="text-center text-gray-500">献立が登録されていません</p>
+            )}
         </div>
+
     )
 }
 
