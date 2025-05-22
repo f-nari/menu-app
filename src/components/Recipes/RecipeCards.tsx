@@ -9,7 +9,6 @@ export const RecipeCards = ({recipeLists}) => {
     return (
         <div>
             <div className="w-full grid grid-cols-5 gap-4">
-                {/* カード */}
                 {recipeLists.map((recipeData) => (
                     <div className=" w-50 h-60 shadow-md rounded-2xl mr-5" key={recipeData.id}>
                         <div className="w-full  h-40 rounded-t-lg">
@@ -20,7 +19,6 @@ export const RecipeCards = ({recipeLists}) => {
                                     <span className="text-gray-600">画像がありません</span>
                                 </div>
                             }
-
                         </div>
                         <div>{recipeData.name}</div>
                         <Link href={`/recipe/${recipeData.id}`}>詳細へ</Link>

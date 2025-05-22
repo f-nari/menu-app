@@ -1,6 +1,6 @@
 'use client'
 
-import { RecipeType } from '@/app/menu_creation/page'
+import { RecipeType } from '@/Types/types'
 import Image from 'next/image'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
@@ -23,14 +23,14 @@ const Recipe = () => {
 
   console.log(recipeDetail, "recipeDatailです");
 
-  const deleteRecipeClick = async  () => {
+  const deleteRecipeClick = async () => {
     const response = await fetch('/api/deleterecipe', {
       method: 'DELETE',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ recipeId: getRecipeById })
     })
 
-    if(response.ok){
+    if (response.ok) {
       router.push('/')
     }
 
