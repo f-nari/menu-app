@@ -26,9 +26,10 @@ export type MenuItemsType = {
 }
 
 type IngredientsType = {
+  id?: number
   ingredientName: string,
   ingredientQuantity: number,
-  IngredientUnit: string
+  ingredientUnit: string
 }
 
 export default function Home() {
@@ -42,8 +43,9 @@ export default function Home() {
       dinner: '',
     }
   }])
-
   const [sumIngredientsList, setSumIngredientsList] = useState<IngredientsType[]>([])
+  const [singleIngredient, setSingleIngredient] = useState<IngredientsType[]>([{ id: 0, ingredientName: '', ingredientQuantity: 0, ingredientUnit: '' }])
+  const [count, setCount] = useState(1)
 
   useEffect(() => {
     const fetchRecipes = async () => {
@@ -88,7 +90,7 @@ export default function Home() {
     setMenuLists(changeMenuList)
   }
 
-  const clickHandler = () => {
+  const addNewMenuHandler = () => {
     const update = [...menuLists, {
       date: new Date,
       meal: {
@@ -97,7 +99,6 @@ export default function Home() {
         dinner: '',
       }
     }]
-
     setMenuLists(update)
   }
 
@@ -134,7 +135,7 @@ export default function Home() {
       //2を取得
       const returnData: IngredientsType[] = []
       for (let i = 0; i < ingredient.length; i++) {
-        const addData = { 'ingredientName': ingredient[i].title, 'ingredientQuantity': ingredient[i].quantity, 'IngredientUnit': ingredient[i].unit }
+        const addData = { 'ingredientName': ingredient[i].title, 'ingredientQuantity': ingredient[i].quantity, 'ingredientUnit': ingredient[i].unit }
         returnData.push(addData)
       }
       return returnData
@@ -143,14 +144,13 @@ export default function Home() {
 
     const sumIngredints = new Map<string, IngredientsType>
 
-
     ingredients.forEach(i => {
       const key = `${i.ingredientName}_${i.IngredientUnit}`
       if (!sumIngredints.has(key)) {
         sumIngredints.set(key, {
           ingredientName: i.ingredientName,
           ingredientQuantity: i.ingredientQuantity,
-          IngredientUnit: i.IngredientUnit
+          ingredientUnit: i.IngredientUnit
         })
       } else {
         sumIngredints.get(key)!.ingredientQuantity += i.ingredientQuantity
@@ -159,19 +159,36 @@ export default function Home() {
       return sumIngredints
     });
 
-    console.log('合計金額出るはず', sumIngredints);
+    // console.log('合計金額出るはず', sumIngredints);
 
     const newList: IngredientsType[] = [...sumIngredientsList]
 
     for (const [index, value] of sumIngredints) {
       newList.push(value)
-
     }
-
-    setSumIngredientsList(newList)
-
-
+    //singleIngredientをnewListに追加したい。
+    const list = [...newList,...singleIngredient]
+    
+    setSumIngredientsList(list)
   }
+
+  //以下は、シングルの入力欄が変更されたら、動く関数なので、シングルのデータが、まとめられるように、作る。最終的なゴールは、
+  //setSumIngredientsListにこのシングルをぶつけること。onclickしたときにつながるように作る、
+
+  const addSingleIngredient = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+    singleIngredient.forEach((s) => {
+      if (s.id === id) {
+        const singleIngredientData =[...singleIngredient]
+        singleIngredientData[id].ingredientName = e.target.value
+        setSingleIngredient(singleIngredientData)
+      }
+    })
+  }
+
+
+
+
+
   const signOut = async () => {
     console.log('ログアウト処理をします');
     const supabase = createClient()
@@ -179,6 +196,8 @@ export default function Home() {
     console.log('ｋろえがユーザーです', user);
     const { error } = await supabase.auth.signOut()
   }
+
+
   return (
     <div className="w-full flex justify-center h-full">
 
@@ -191,6 +210,7 @@ export default function Home() {
         <div className=" flex justify-center flex-col ">
           <h1 className="text-3xl ">献立作成</h1>
         </div>
+
         {/* ここから献立作成 */}
         <div className="h-60 flex  text-center ">
           {menuLists.map((menuList, index) => (
@@ -199,7 +219,7 @@ export default function Home() {
               <div className="flex mt-3">
                 <label htmlFor="">朝</label>
                 <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'breakfast', index)}>
-                <option value="/" selected hidden>ーーー</option>
+                  <option value="/" selected hidden>ーーー</option>
                   {recipeLists.map((recipeList) => (
                     <>
                       <option key={recipeList.id} value={recipeList.id}>{recipeList.name}</option>
@@ -231,11 +251,19 @@ export default function Home() {
               </div>
             </div>
           ))}
-          <button onClick={() => clickHandler()}>追加</button>
+          <button onClick={() => addNewMenuHandler()}>追加</button>
         </div>
 
-        {/* 材料集計ボタン */}
-        <div >
+        {/* 材料集計ボタン と　材料シングル追加ボタン");
+        */}
+        <div className="flex justify-around" >
+          {singleIngredient.map((ingredent) => (
+            <div key={count}>
+              <input type="text" placeholder="マヨネーズ１本" className="border h-5" onChange={(e) => addSingleIngredient(e, ingredent.id)} />
+              <button >追加</button>
+            </div>
+          ))}
+
           <button className='w-20 h-10 rounded-sm bg-amber-100 font-bold text-amber-400 hover:text-black mb-5' onClick={() => getIngredientsHandler()} >材料確定</button>
         </div>
 
@@ -244,12 +272,12 @@ export default function Home() {
           {sumIngredientsList.length > 0 ?
             sumIngredientsList.map((s, index) => (
               <ul className="list-disc pl-5 text-left" key={index}>
-                <li>{s.ingredientName}:{s.ingredientQuantity}{s.IngredientUnit}</li>
+                <li>{s.ingredientName}:{s.ingredientQuantity}{s.ingredientUnit}</li>
               </ul>
             )) : <p>献立が登録されていません</p>}
         </div>
 
-        
+
 
         {/* レシピゾーン */}
         <h2 className='text-2xl mb-4'>レシピ一覧</h2>
