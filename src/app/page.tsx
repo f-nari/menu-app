@@ -165,22 +165,8 @@ export default function Home() {
 
   }
 
-  const signOut = async () => {
-    console.log('ログアウト処理をします');
-    const supabase = createClient()
-    const { data: { user } } = await supabase.auth.getUser()
-    console.log('ｋろえがユーザーです', user);
-    const { error } = await supabase.auth.signOut()
-  }
-
-
   return (
     <div className="w-full flex justify-center h-full">
-
-      {/* <form action={() => signOut()}>
-        <button type="submit" >ログアウト</button>
-      </form> */}
-
       <div className="w-11/12 flex flex-col  text-center mt-6 ">
         {/* タイトルゾーン */}
         <div className=" flex justify-center flex-col ">
@@ -231,8 +217,7 @@ export default function Home() {
           <button onClick={() => addNewMenuHandler()}>追加</button>
         </div>
 
-        {/* 材料集計ボタン と　材料シングル追加ボタン");
-        */}
+        {/* 材料集計ボタン と　材料シングル追加ボタン");*/}
         <div className="flex justify-around" >
           {singleIngredient.map((ingredent) => (
             <div key={ingredent.id}>
