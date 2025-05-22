@@ -1,17 +1,36 @@
+'use client'
+
+import { createClient } from '@/utils/supabase/client'
 import React from 'react'
 
 type Props = {
     user_data: {
-        email: string|null
+        email: string | null
     }
 }
 
 const Header = ({ user_data: { email } }: Props) => {
+
+    const signOut = async () => {
+        console.log('ログアウト処理をします');
+        const supabase = createClient()
+        const { data: { user } } = await supabase.auth.getUser()
+        console.log('ｋろえがユーザーです', user);
+        const { error } = await supabase.auth.signOut()
+    }
     return (
-        <div className=' h-15 flex  justify-between text-right bg-white pt-6 rounded-2xl '>
-            <h1 className="text-3xl ml-5 font-bold ">献立アプリ</h1>
-            <div className='mr-5'>こんにちは{email}</div>
+        <div className="h-16 flex justify-between items-center bg-white px-5 rounded-2xl ">
+            <h1 className="text-3xl font-bold">献立アプリ</h1>
+            <div className="flex flex-col items-end ">
+                <form action={() => signOut()}>
+                    <button type="submit" className="text-blue-600 hover:underline">
+                        ログアウト
+                    </button>
+                </form>
+                <span className="text-sm text-gray-700">こんにちは、{email}</span>
+            </div>
         </div>
+
     )
 }
 
