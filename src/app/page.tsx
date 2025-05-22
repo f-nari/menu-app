@@ -4,6 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { log } from "util";
 
 export type RecipeType = {
   id: string
@@ -185,6 +186,21 @@ export default function Home() {
     })
   }
 
+  const newSingleIngredient = () => {
+    const update = [...singleIngredient,{
+      id:count,
+      ingredientName:'',
+      ingredientQuantity:0,
+      ingredientUnit:'',
+    }]
+
+    console.log('listの中身　チェック',update);
+    
+    setSingleIngredient(update)
+    setCount(count => count +=1 )
+
+  }
+
 
 
 
@@ -258,11 +274,11 @@ export default function Home() {
         */}
         <div className="flex justify-around" >
           {singleIngredient.map((ingredent) => (
-            <div key={count}>
+            <div key={ingredent.id}>
               <input type="text" placeholder="マヨネーズ１本" className="border h-5" onChange={(e) => addSingleIngredient(e, ingredent.id)} />
-              <button >追加</button>
             </div>
           ))}
+          <button onClick={()=>newSingleIngredient()}>追加</button>
 
           <button className='w-20 h-10 rounded-sm bg-amber-100 font-bold text-amber-400 hover:text-black mb-5' onClick={() => getIngredientsHandler()} >材料確定</button>
         </div>
