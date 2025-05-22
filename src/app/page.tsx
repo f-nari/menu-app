@@ -5,33 +5,35 @@ import React, { useEffect, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { log } from "util";
+import RecipeCards from "@/components/Recipes/RecipeCards";
+import { IngredientsType, MenuItemsType, RecipeType } from "@/Types/types";
 
-export type RecipeType = {
-  id: string
-  created_at: string,
-  name: string,
-  memo: string,
-  signedUrl: string
-  ingredientsDataList: [{
-    ingredientName: string, quantity: number, unit: string
-  }]
-}
+// export type RecipeType = {
+//   id: string
+//   created_at: string,
+//   name: string,
+//   memo: string,
+//   signedUrl: string
+//   ingredientsDataList: [{
+//     ingredientName: string, quantity: number, unit: string
+//   }]
+// }
 
-export type MenuItemsType = {
-  date: Date,
-  meal: {
-    breakfast: string,
-    lunch: string,
-    dinner: string
-  }
-}
+// export type MenuItemsType = {
+//   date: Date,
+//   meal: {
+//     breakfast: string,
+//     lunch: string,
+//     dinner: string
+//   }
+// }
 
-type IngredientsType = {
-  id?: number
-  ingredientName: string,
-  ingredientQuantity: number,
-  ingredientUnit: string
-}
+//export type IngredientsType = {
+//   id?: number
+//   ingredientName: string,
+//   ingredientQuantity: number,
+//   ingredientUnit: string
+// }
 
 export default function Home() {
 
@@ -168,8 +170,8 @@ export default function Home() {
       newList.push(value)
     }
     //singleIngredientをnewListに追加したい。
-    const list = [...newList,...singleIngredient]
-    
+    const list = [...newList, ...singleIngredient]
+
     setSumIngredientsList(list)
   }
 
@@ -179,7 +181,7 @@ export default function Home() {
   const addSingleIngredient = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
     singleIngredient.forEach((s) => {
       if (s.id === id) {
-        const singleIngredientData =[...singleIngredient]
+        const singleIngredientData = [...singleIngredient]
         singleIngredientData[id].ingredientName = e.target.value
         setSingleIngredient(singleIngredientData)
       }
@@ -187,17 +189,17 @@ export default function Home() {
   }
 
   const newSingleIngredient = () => {
-    const update = [...singleIngredient,{
-      id:count,
-      ingredientName:'',
-      ingredientQuantity:0,
-      ingredientUnit:'',
+    const update = [...singleIngredient, {
+      id: count,
+      ingredientName: '',
+      ingredientQuantity: 0,
+      ingredientUnit: '',
     }]
 
-    console.log('listの中身　チェック',update);
-    
+    console.log('listの中身　チェック', update);
+
     setSingleIngredient(update)
-    setCount(count => count +=1 )
+    setCount(count => count += 1)
 
   }
 
@@ -238,7 +240,8 @@ export default function Home() {
                   <option value="/" selected hidden>ーーー</option>
                   {recipeLists.map((recipeList) => (
                     <>
-                      <option key={recipeList.id} value={recipeList.id}>{recipeList.name}</option>
+                      <option value="" selected hidden>ーーー</option>
+                      <option value={recipeList.id}>{recipeList.name}</option>
                     </>
                   ))}
                 </select>
@@ -278,7 +281,7 @@ export default function Home() {
               <input type="text" placeholder="マヨネーズ１本" className="border h-5" onChange={(e) => addSingleIngredient(e, ingredent.id)} />
             </div>
           ))}
-          <button onClick={()=>newSingleIngredient()}>追加</button>
+          <button onClick={() => newSingleIngredient()}>追加</button>
 
           <button className='w-20 h-10 rounded-sm bg-amber-100 font-bold text-amber-400 hover:text-black mb-5' onClick={() => getIngredientsHandler()} >材料確定</button>
         </div>
@@ -297,8 +300,8 @@ export default function Home() {
 
         {/* レシピゾーン */}
         <h2 className='text-2xl mb-4'>レシピ一覧</h2>
-        <div className="w-full grid grid-cols-5 gap-4">
-          {/* カード */}
+        <RecipeCards recipeLists={recipeLists} />
+        {/* <div className="w-full grid grid-cols-5 gap-4">
           {recipeLists.map((recipeData) => (
             <div className=" w-50 h-60 shadow-md rounded-2xl mr-5" key={recipeData.id}>
               <div className="w-full  h-40 rounded-t-lg">
@@ -315,7 +318,7 @@ export default function Home() {
               <Link href={`/recipe/${recipeData.id}`}>詳細へ</Link>
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
 
     </div>
