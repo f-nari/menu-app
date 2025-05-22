@@ -2,39 +2,9 @@
 
 import { createClient } from "@/utils/supabase/client";
 import React, { useEffect, useState } from 'react'
-// import Link from 'next/link'
-// import Image from 'next/image'
-// import { log } from "util";
 import RecipeCards from "@/components/Recipes/RecipeCards";
 import { IngredientsType, MenuItemsType, RecipeType } from "@/Types/types";
 import SumIngredients from "@/components/SumIngredients/SumIngredients";
-
-// export type RecipeType = {
-//   id: string
-//   created_at: string,
-//   name: string,
-//   memo: string,
-//   signedUrl: string
-//   ingredientsDataList: [{
-//     ingredientName: string, quantity: number, unit: string
-//   }]
-// }
-
-// export type MenuItemsType = {
-//   date: Date,
-//   meal: {
-//     breakfast: string,
-//     lunch: string,
-//     dinner: string
-//   }
-// }
-
-//export type IngredientsType = {
-//   id?: number
-//   ingredientName: string,
-//   ingredientQuantity: number,
-//   ingredientUnit: string
-// }
 
 export default function Home() {
 
@@ -134,9 +104,6 @@ export default function Home() {
     })
 
     const ingredients = ingredientsList.map((ingredient) => {
-      // [{…}, {…}]
-      // const strArray = ingredient.length
-      //2を取得
       const returnData: IngredientsType[] = []
       for (let i = 0; i < ingredient.length; i++) {
         const addData = { 'ingredientName': ingredient[i].title, 'ingredientQuantity': ingredient[i].quantity, 'ingredientUnit': ingredient[i].unit }
@@ -163,21 +130,15 @@ export default function Home() {
       return sumIngredints
     });
 
-    // console.log('合計金額出るはず', sumIngredints);
-
     const newList: IngredientsType[] = [...sumIngredientsList]
 
     for (const [index, value] of sumIngredints) {
       newList.push(value)
     }
-    //singleIngredientをnewListに追加したい。
     const list = [...newList, ...singleIngredient]
 
     setSumIngredientsList(list)
   }
-
-  //以下は、シングルの入力欄が変更されたら、動く関数なので、シングルのデータが、まとめられるように、作る。最終的なゴールは、
-  //setSumIngredientsListにこのシングルをぶつけること。onclickしたときにつながるように作る、
 
   const addSingleIngredient = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
     singleIngredient.forEach((s) => {
@@ -203,10 +164,6 @@ export default function Home() {
     setCount(count => count += 1)
 
   }
-
-
-
-
 
   const signOut = async () => {
     console.log('ログアウト処理をします');
@@ -288,7 +245,7 @@ export default function Home() {
         </div>
 
         {/* 材料表示箇所 */}
-        <SumIngredients sumIngredientsList = {sumIngredientsList} />
+        <SumIngredients sumIngredientsList={sumIngredientsList} />
 
         {/* レシピゾーン */}
         <h2 className='text-2xl mb-4'>レシピ一覧</h2>
