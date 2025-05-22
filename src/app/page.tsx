@@ -166,78 +166,151 @@ export default function Home() {
   }
 
   return (
-    <div className="w-full flex justify-center h-full">
-      <div className="w-11/12 flex flex-col  text-center mt-6 ">
-        {/* タイトルゾーン */}
-        <div className=" flex justify-center flex-col ">
-          <h1 className="text-3xl ">献立作成</h1>
+    // <div className="w-full flex justify-center h-full">
+    //   <div className="w-11/12 flex flex-col  text-center mt-6 ">
+    //     {/* タイトルゾーン */}
+    //     <div className=" flex justify-center flex-col ">
+    //       <h1 className="text-3xl ">献立作成</h1>
+    //     </div>
+
+    //     {/* ここから献立作成 */}
+    //     <div className="h-60 flex  text-center ">
+    //       {menuLists.map((menuList, index) => (
+    //         <div className="w-50" key={index}>
+    //           <input type="date" value={menuList.date.toISOString().split('T')[0]} onChange={(e) => changeHandler(e, 'date', index)} />
+    //           <div className="flex mt-3">
+    //             <label htmlFor="">朝</label>
+    //             <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'breakfast', index)}>
+    //               <option value="/" selected hidden>ーーー</option>
+    //               {recipeLists.map((recipeList) => (
+    //                 <>
+    //                   <option value="" selected hidden>ーーー</option>
+    //                   <option value={recipeList.id}>{recipeList.name}</option>
+    //                 </>
+    //               ))}
+    //             </select>
+    //           </div>
+    //           <div className="flex mt-2">
+    //             <label htmlFor="">昼</label>
+    //             <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'lunch', index)}>
+    //               {recipeLists.map((recipeList) => (
+    //                 <>
+    //                   <option value="" selected hidden>ーーー</option>
+    //                   <option value={recipeList.id}>{recipeList.name}</option>
+    //                 </>
+    //               ))}
+    //             </select>
+    //           </div>
+    //           <div className="flex mt-2">
+    //             <label htmlFor="">夜</label>
+    //             <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'dinner', index)}>
+    //               {recipeLists.map((recipeList) => (
+    //                 <>
+    //                   <option value="" selected hidden>ーーー</option>
+    //                   <option value={recipeList.id}>{recipeList.name}</option>
+    //                 </>
+    //               ))}
+    //             </select>
+    //           </div>
+    //         </div>
+    //       ))}
+    //       <button onClick={() => addNewMenuHandler()}>追加</button>
+    //     </div>
+
+    //     {/* 材料集計ボタン と　材料シングル追加ボタン");*/}
+    //     <div className="flex justify-around" >
+    //       {singleIngredient.map((ingredent) => (
+    //         <div key={ingredent.id}>
+    //           <input type="text" placeholder="マヨネーズ１本" className="border h-5" onChange={(e) => addSingleIngredient(e, ingredent.id)} />
+    //         </div>
+    //       ))}
+    //       <button onClick={() => newSingleIngredient()}>追加</button>
+
+    //       <button className='w-20 h-10 rounded-sm bg-amber-100 font-bold text-amber-400 hover:text-black mb-5' onClick={() => getIngredientsHandler()} >材料確定</button>
+    //     </div>
+
+    //     {/* 材料表示箇所 */}
+    //     <SumIngredients sumIngredientsList={sumIngredientsList} />
+
+    //     {/* レシピゾーン */}
+    //     <h2 className='text-2xl mb-4'>レシピ一覧</h2>
+    //     <RecipeCards recipeLists={recipeLists} />
+
+    //   </div>
+
+    // </div>
+    <div className="w-full flex justify-center">
+      <div className="w-11/12 flex flex-col text-center mt-6">
+        {/* タイトル */}
+        <div className="mb-6">
+          <h1 className="text-3xl font-bold">献立作成</h1>
         </div>
 
-        {/* ここから献立作成 */}
-        <div className="h-60 flex  text-center ">
+        {/* 献立作成ゾーン */}
+        <div className="flex flex-wrap gap-4 justify-center">
           {menuLists.map((menuList, index) => (
-            <div className="w-50" key={index}>
-              <input type="date" value={menuList.date.toISOString().split('T')[0]} onChange={(e) => changeHandler(e, 'date', index)} />
-              <div className="flex mt-3">
-                <label htmlFor="">朝</label>
-                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'breakfast', index)}>
-                  <option value="/" selected hidden>ーーー</option>
-                  {recipeLists.map((recipeList) => (
-                    <>
-                      <option value="" selected hidden>ーーー</option>
-                      <option value={recipeList.id}>{recipeList.name}</option>
-                    </>
-                  ))}
-                </select>
-              </div>
-              <div className="flex mt-2">
-                <label htmlFor="">昼</label>
-                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'lunch', index)}>
-                  {recipeLists.map((recipeList) => (
-                    <>
-                      <option value="" selected hidden>ーーー</option>
-                      <option value={recipeList.id}>{recipeList.name}</option>
-                    </>
-                  ))}
-                </select>
-              </div>
-              <div className="flex mt-2">
-                <label htmlFor="">夜</label>
-                <select name="" id="" className="ml-4 border-2 w-50 h-12" onChange={(e) => changeHandler(e, 'dinner', index)}>
-                  {recipeLists.map((recipeList) => (
-                    <>
-                      <option value="" selected hidden>ーーー</option>
-                      <option value={recipeList.id}>{recipeList.name}</option>
-                    </>
-                  ))}
-                </select>
-              </div>
+            <div className="border rounded-lg p-4 w-72 bg-gray-50 shadow" key={index}>
+              <input
+                type="date"
+                value={menuList.date.toISOString().split('T')[0]}
+                onChange={(e) => changeHandler(e, 'date', index)}
+                className="w-full mb-3 border px-2 py-1"
+              />
+              {['breakfast', 'lunch', 'dinner'].map((meal, i) => (
+                <div className="flex items-center mt-2" key={i}>
+                  <label className="w-10">{meal === 'breakfast' ? '朝' : meal === 'lunch' ? '昼' : '夜'}</label>
+                  <select
+                    className="ml-2 border w-full h-10 px-2"
+                    onChange={(e) => changeHandler(e, meal, index)}
+                    defaultValue=""
+                  >
+                    <option value="" disabled hidden>ーーー</option>
+                    {recipeLists.map((recipeList) => (
+                      <option value={recipeList.id} key={recipeList.id}>{recipeList.name}</option>
+                    ))}
+                  </select>
+                </div>
+              ))}
             </div>
           ))}
-          <button onClick={() => addNewMenuHandler()}>追加</button>
+          <button
+            onClick={addNewMenuHandler}
+            className="h-12 px-4 rounded bg-green-200 hover:bg-green-300 text-sm mt-4"
+          >
+            献立を追加
+          </button>
         </div>
 
-        {/* 材料集計ボタン と　材料シングル追加ボタン");*/}
-        <div className="flex justify-around" >
+        {/* 材料追加 */}
+        <div className="mt-10 flex flex-wrap gap-2 justify-center">
           {singleIngredient.map((ingredent) => (
-            <div key={ingredent.id}>
-              <input type="text" placeholder="マヨネーズ１本" className="border h-5" onChange={(e) => addSingleIngredient(e, ingredent.id)} />
-            </div>
+            <input
+              key={ingredent.id}
+              type="text"
+              placeholder="マヨネーズ１本"
+              className="border h-10 px-2 rounded w-64"
+              onChange={(e) => addSingleIngredient(e, ingredent.id)}
+            />
           ))}
-          <button onClick={() => newSingleIngredient()}>追加</button>
-
-          <button className='w-20 h-10 rounded-sm bg-amber-100 font-bold text-amber-400 hover:text-black mb-5' onClick={() => getIngredientsHandler()} >材料確定</button>
+          <button onClick={newSingleIngredient} className="px-4 h-10 bg-blue-100 rounded hover:bg-blue-200">追加</button>
+          <button
+            className="w-32 h-10 bg-amber-100 text-amber-400 font-bold rounded hover:text-black"
+            onClick={getIngredientsHandler}
+          >
+            材料確定
+          </button>
         </div>
 
-        {/* 材料表示箇所 */}
-        <SumIngredients sumIngredientsList={sumIngredientsList} />
+        {/* 材料表示 */}
+        <div className="mt-6">
+          <SumIngredients sumIngredientsList={sumIngredientsList} />
+        </div>
 
         {/* レシピゾーン */}
-        <h2 className='text-2xl mb-4'>レシピ一覧</h2>
+        <h2 className="text-2xl mt-10 mb-4 font-semibold">レシピ一覧</h2>
         <RecipeCards recipeLists={recipeLists} />
-
       </div>
-
     </div>
+
   );
 }
