@@ -1,10 +1,11 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { recipe_save } from '../actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/navigation'
+import { UserContext } from '@/context/UserContext'
 
 export type Ingredients = {
   id?: number
@@ -20,6 +21,7 @@ const Recipe_Creation = () => {
   const [recipename, setRecipeName] = useState('')
   const [recipeImageFile, setRecipeImageFile] = useState<File | undefined>(undefined)
   const router = useRouter()
+  const userEmail = useContext(UserContext)
 
   const changeEvent = (e: React.ChangeEvent<HTMLInputElement>, genre: 'title' | 'quantity' | 'unit', id: number) => {
     const data = [...ingredientsstate]
@@ -79,7 +81,7 @@ const Recipe_Creation = () => {
             />
             <input
               type="text"
-              placeholder="廣川郁也"
+              placeholder={userEmail?.email}
               className="bg-[#f8f6f1] p-2 rounded-sm"
             />
 
