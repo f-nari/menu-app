@@ -43,10 +43,10 @@ const Recipe_Creation = () => {
     setIngredientstate(idDeleteIngredientsList)
   }
 
-  const recipeSaveClick = async ()=>{
+  const recipeSaveClick = async () => {
     const res = await recipe_save({ ingredientsstate, memo, recipename, recipeImageFile })
 
-    if(res === 'ok'){
+    if (res === 'ok') {
       router.push('/')
     }
 
@@ -54,44 +54,97 @@ const Recipe_Creation = () => {
   }
 
   return (
-    <div className='flex justify-center  h-screen text-[#4a4a4a]'>
-      {/* 詳細ゾーン */}
-      <div className='w-11/12 flex flex-col  h-full '>
+    <div className="flex justify-center min-h-screen text-[#4a4a4a]  py-6">
+      <div className="w-11/12 flex flex-col space-y-6  overflow-auto ">
         {/* 上ゾーン */}
-        <div className='flex mt-6' >
-          <div>
-            {/* <Image src={} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image> */}
-            <input type="file" className='h-80 bg-[#f8f6f1]' onChange={(e) => setRecipeImageFile(e.target.files?.[0])} />
+        <div className="flex gap-6">
+          {/* 画像アップロード */}
+          <div className="w-1/2">
+            <div className="h-80 bg-[#f8f6f1] rounded-md flex items-center justify-center">
+              <input
+                type="file"
+                onChange={(e) => setRecipeImageFile(e.target.files?.[0])}
+                className="text-center"
+              />
+            </div>
           </div>
-          {/*説明ゾーン */}
-          <div className='flex flex-col ml-3 '>
-            <input type='text' className='text-3xl bg-[#f8f6f1] rounded-sm' onChange={(e) => setRecipeName(e.target.value)} placeholder='ハンバーグ' />
-            <input type="text" placeholder='廣川郁也' />
-            <p className='text-2xl font-bold mt-5 mb-3'>材料</p>
-            {ingredientsstate.map((ingredient) => (
-              <div className='flex' key={ingredient.id}>
-                <label htmlFor="" className='mr-4'>材料名</label>
-                <input type="text" placeholder='ひき肉' className='bg-[#f8f6f1] rounded-sm' onChange={(e) => (changeEvent(e, 'title', ingredient.id!))} />
-                <label htmlFor="" className='mr-4 ml-4' >量</label>
-                <input type="text" placeholder='300' className='bg-[#f8f6f1] rounded-sm w-20' onChange={(e) => (changeEvent(e, 'quantity', ingredient.id!))} />
-                <label htmlFor="" className='mr-4 ml-4'>単位</label>
-                <input type="text" placeholder='g' className='bg-[#f8f6f1] rounded-sm w-20' onChange={(e) => (changeEvent(e, 'unit', ingredient.id!))} />
-                <FontAwesomeIcon icon={faTrash} onClick={() => deleteClickHandler(ingredient.id!)} />
-              </div>
 
-            ))}
-            <button onClick={() => addClickHandler()}>材料追加</button>
+          {/* レシピ入力 */}
+          <div className="w-1/2 flex flex-col space-y-4">
+            <input
+              type="text"
+              placeholder="ハンバーグ"
+              className="text-3xl bg-[#f8f6f1] p-2 rounded-sm"
+              onChange={(e) => setRecipeName(e.target.value)}
+            />
+            <input
+              type="text"
+              placeholder="廣川郁也"
+              className="bg-[#f8f6f1] p-2 rounded-sm"
+            />
+
+            <p className="text-2xl font-bold mt-2">材料</p>
+            <div className="space-y-2">
+              {ingredientsstate.map((ingredient) => (
+                <div className="flex items-center gap-2" key={ingredient.id}>
+                  <label className="w-16 text-right">材料名</label>
+                  <input
+                    type="text"
+                    placeholder="ひき肉"
+                    className="bg-[#f8f6f1] p-1 rounded-sm flex-1"
+                    onChange={(e) => changeEvent(e, 'title', ingredient.id!)}
+                  />
+                  <label className="w-8 text-right">量</label>
+                  <input
+                    type="text"
+                    placeholder="300"
+                    className="bg-[#f8f6f1] p-1 rounded-sm w-20"
+                    onChange={(e) => changeEvent(e, 'quantity', ingredient.id!)}
+                  />
+                  <label className="w-10 text-right">単位</label>
+                  <input
+                    type="text"
+                    placeholder="g"
+                    className="bg-[#f8f6f1] p-1 rounded-sm w-20"
+                    onChange={(e) => changeEvent(e, 'unit', ingredient.id!)}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className="text-red-500 cursor-pointer"
+                    onClick={() => deleteClickHandler(ingredient.id!)}
+                  />
+                </div>
+              ))}
+            </div>
+            <button onClick={addClickHandler} className="mt-2 px-3 py-1 bg-blue-100 rounded hover:bg-blue-200">
+              材料追加
+            </button>
           </div>
         </div>
-        {/*下ゾーン memozorn*/}
-        <div className='flex flex-col grow mt-5 '>
-          <h1 className='h-6'>memo</h1>
-          <input type="text" className='w-full  grow rounded-sm bg-[#f8f6f1] mb-2' onChange={(e) => setMemo(e.target.value)} placeholder='コツやポイント' />
-        </div>
-        <button className='border' type='submit' onClick={() => recipeSaveClick()} >レシピ保存</button>
 
+        {/* メモゾーン */}
+        <div className="flex flex-col">
+          <h1 className="text-xl font-semibold mb-2">メモ</h1>
+          <textarea
+            placeholder="コツやポイント"
+            className="w-full h-40 bg-[#f8f6f1] p-3 rounded-sm resize-none "
+            onChange={(e) => setMemo(e.target.value)}
+          />
+        </div>
+
+        {/* 保存ボタン */}
+        <div className="text-right">
+          <button
+            type="submit"
+            onClick={recipeSaveClick}
+            className="px-6 py-2 bg-green-400 text-white rounded hover:bg-green-500"
+          >
+            レシピ保存
+          </button>
+        </div>
       </div>
     </div>
+
   )
 }
 

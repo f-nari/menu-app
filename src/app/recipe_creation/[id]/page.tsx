@@ -17,7 +17,7 @@ export type Ingredients = {
 
 export type PostRecipeDateil = {
     recipeName: string,
-    recipeImageFile: File|null,
+    recipeImageFile: File | null,
     recipeMemo: string,
     ingredent?: Ingredients[]
 }
@@ -33,7 +33,7 @@ const Recipe_Creation = () => {
         recipeName: '',
         recipeImageFile: null,
         recipeMemo: '',
-        ingredent:[],
+        ingredent: [],
     }])
     const getRecipeById = usePathname().replace('/recipe_creation/', '')
     const router = useRouter()
@@ -107,21 +107,21 @@ const Recipe_Creation = () => {
             updataValue = e.target.value
         }
 
-        setPostRecipeDateil(prev =>{
+        setPostRecipeDateil(prev => {
             const newArray = [...prev]
             newArray[0] = {
                 ...newArray[0],
                 [type === 'name' ?
-                            'recipeName'
-                            : type === 'memo' ?
-                                'recipeMemo'
-                                : 'recipeImageFile'
-                        ]: updataValue
-                }
+                    'recipeName'
+                    : type === 'memo' ?
+                        'recipeMemo'
+                        : 'recipeImageFile'
+                ]: updataValue
+            }
             return newArray
         }
-    
-    )
+
+        )
     }
 
 
@@ -131,7 +131,7 @@ const Recipe_Creation = () => {
             ingredients: ingredientsstate,
             recipeDetail: postRecipeDateil
         }
-        const response =  await fetch('/api/recipeUpdateApi', {
+        const response = await fetch('/api/recipeUpdateApi', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
             //必要なのは、getRecipeById、ingredientsstate,postRecipeDateilだな
@@ -140,13 +140,13 @@ const Recipe_Creation = () => {
 
         const result = await response.json()
 
-        if(result.success) {
+        if (result.success) {
             router.push('/')
-        }else {
+        } else {
             console.log('エラーが発生');
-            
+
         }
-    
+
 
     }
 
@@ -159,7 +159,7 @@ const Recipe_Creation = () => {
                 <div className='flex mt-6' >
                     <div>
                         {/* <Image src={} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image> */}
-                        <input type="file"  className='h-80 bg-[#f8f6f1]' onChange={(e) => changeRecipeNameImageFileMemo(e, 'imageFile')} />
+                        <input type="file" className='h-80 bg-[#f8f6f1]' onChange={(e) => changeRecipeNameImageFileMemo(e, 'imageFile')} />
                     </div>
                     {/*説明ゾーン */}
                     <div className='flex flex-col ml-3 '>
