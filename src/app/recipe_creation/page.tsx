@@ -1,58 +1,48 @@
 'use client'
 
 import React, { useContext, useState } from 'react'
-import { recipe_save } from '../actions'
+import { saveRecipe } from '../actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { useRouter } from 'next/navigation'
 import { UserContext } from '@/context/UserContext'
+import { Ingredients } from '@/Types/types'
 
-export type Ingredients = {
-  id?: number
-  title?: string;
-  quantity?: number;
-  unit?: string
-}
 
-const Recipe_Creation = () => {
-  const [ingredientsstate, setIngredientstate] = useState<Ingredients[]>([{ id: 1, title: '', quantity: 0, unit: '' }])
-  const [memo, setMemo] = useState('')
-  const [idCounter, setIdCounter] = useState(2)
-  const [recipename, setRecipeName] = useState('')
+const RecipeCreation = () => {
+  const [ingredients, setIngredients] = useState<Ingredients[]>([{ id: 1, title: '', quantity: 0, unit: '' }])
+  const [recipeMemo, setRecipeMemo] = useState('')
+  const [recipeName, setRecipeName] = useState('')
   const [recipeImageFile, setRecipeImageFile] = useState<File | undefined>(undefined)
+  const [ingredientsArrayId, setIngredientsArrayId] = useState(2)
   const router = useRouter()
   const userEmail = useContext(UserContext)
 
-  const changeEvent = (e: React.ChangeEvent<HTMLInputElement>, genre: 'title' | 'quantity' | 'unit', id: number) => {
-    const data = [...ingredientsstate]
+  const onIngredientChanged = (e: React.ChangeEvent<HTMLInputElement>, genre: 'title' | 'quantity' | 'unit', id: number) => {
     //title,unitならstringのため、そのままで良いが、quantityだった場合、numberである必要があるため、eを変換しなければならない
-    const changeData = genre === 'quantity' ? Number(e.target.value) : e.target.value
-    const newData = data.map(data =>
-      data.id === id ? { ...data, [genre]: changeData } : data
+    const changeValue = genre === 'quantity' ? Number(e.target.value) : e.target.value
+    const updataIngredients = ingredients.map(ingredient =>
+      ingredient.id === id ? { ...ingredient, [genre]: changeValue } : ingredient
     )
-    setIngredientstate(newData)
+    setIngredients(updataIngredients)
   }
 
-  const addClickHandler = () => {
-    const update = [...ingredientsstate, { id: idCounter, title: '', quantity: 0, unit: '' }]
-    setIdCounter(idCounter => idCounter += 1)
-    setIngredientstate(update)
+  const onEmptyIngredientAddButtunClicked = () => {
+    const updataIngredients = [...ingredients, { id: ingredientsArrayId, title: '', quantity: 0, unit: '' }]
+    setIngredientsArrayId(ingredientsArrayId => ingredientsArrayId += 1)
+    setIngredients(updataIngredients)
   }
 
-  const deleteClickHandler = (id: number) => {
-    const ingredientsList = [...ingredientsstate]
-    const idDeleteIngredientsList = ingredientsList.filter(item => item.id !== id)
-    setIngredientstate(idDeleteIngredientsList)
+  const onIngredientDeleteButtonClicked = (id: number) => {
+    const updateIngredients = ingredients.filter(ingredient => ingredient.id !== id)
+    setIngredients(updateIngredients)
   }
 
-  const recipeSaveClick = async () => {
-    const res = await recipe_save({ ingredientsstate, memo, recipename, recipeImageFile })
-
+  const onRecipeSaveButtonClicked = async () => {
+    const res = await saveRecipe({ ingredients, recipeMemo, recipeName, recipeImageFile })
     if (res === 'ok') {
       router.push('/')
     }
-
-
   }
 
   return (
@@ -87,38 +77,38 @@ const Recipe_Creation = () => {
 
             <p className="text-2xl font-bold mt-2">材料</p>
             <div className="space-y-2">
-              {ingredientsstate.map((ingredient) => (
+              {ingredients.map((ingredient) => (
                 <div className="flex items-center gap-2" key={ingredient.id}>
                   <label className="w-16 text-right">材料名</label>
                   <input
                     type="text"
                     placeholder="ひき肉"
                     className="bg-[#f8f6f1] p-1 rounded-sm flex-1"
-                    onChange={(e) => changeEvent(e, 'title', ingredient.id!)}
+                    onChange={(e) => onIngredientChanged(e, 'title', ingredient.id!)}
                   />
                   <label className="w-8 text-right">量</label>
                   <input
                     type="text"
                     placeholder="300"
                     className="bg-[#f8f6f1] p-1 rounded-sm w-20"
-                    onChange={(e) => changeEvent(e, 'quantity', ingredient.id!)}
+                    onChange={(e) => onIngredientChanged(e, 'quantity', ingredient.id!)}
                   />
                   <label className="w-10 text-right">単位</label>
                   <input
                     type="text"
                     placeholder="g"
                     className="bg-[#f8f6f1] p-1 rounded-sm w-20"
-                    onChange={(e) => changeEvent(e, 'unit', ingredient.id!)}
+                    onChange={(e) => onIngredientChanged(e, 'unit', ingredient.id!)}
                   />
                   <FontAwesomeIcon
                     icon={faTrash}
                     className="text-red-500 cursor-pointer"
-                    onClick={() => deleteClickHandler(ingredient.id!)}
+                    onClick={() => onIngredientDeleteButtonClicked(ingredient.id!)}
                   />
                 </div>
               ))}
             </div>
-            <button onClick={addClickHandler} className="mt-2 px-3 py-1 bg-blue-100 rounded hover:bg-blue-200">
+            <button onClick={onEmptyIngredientAddButtunClicked} className="mt-2 px-3 py-1 bg-blue-100 rounded hover:bg-blue-200">
               材料追加
             </button>
           </div>
@@ -130,7 +120,7 @@ const Recipe_Creation = () => {
           <textarea
             placeholder="コツやポイント"
             className="w-full h-40 bg-[#f8f6f1] p-3 rounded-sm resize-none "
-            onChange={(e) => setMemo(e.target.value)}
+            onChange={(e) => setRecipeMemo(e.target.value)}
           />
         </div>
 
@@ -138,7 +128,7 @@ const Recipe_Creation = () => {
         <div className="text-right">
           <button
             type="submit"
-            onClick={recipeSaveClick}
+            onClick={onRecipeSaveButtonClicked}
             className="px-6 py-2 bg-green-400 text-white rounded hover:bg-green-500"
           >
             レシピ保存
@@ -150,4 +140,4 @@ const Recipe_Creation = () => {
   )
 }
 
-export default Recipe_Creation
+export default RecipeCreation

@@ -24,3 +24,10 @@ export type IngredientsType = {
   ingredientQuantity: number,
   ingredientUnit: string
 }
+
+export type Ingredients = {
+  id?: number
+  title?: string;
+  quantity?: number;
+  unit?: string
+}

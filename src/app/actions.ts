@@ -1,19 +1,19 @@
 'use server'
 
+import { Ingredients } from "@/Types/types"
 import { createClient } from "@/utils/supabase/server"
-import { Ingredients } from "./recipe_creation/page"
 
 type RecipeProps = {
-    ingredientsstate: Ingredients[],
-    memo:string,
-    recipename:string
+    ingredients: Ingredients[],
+    recipeMemo:string,
+    recipeName:string
     recipeImageFile:File|undefined
 }
 
 // レシピデータを登録するアクション
-export const recipe_save = async({ingredientsstate,memo,recipename,recipeImageFile}:RecipeProps) => {
+export const saveRecipe = async({ingredients,recipeMemo,recipeName,recipeImageFile}:RecipeProps) => {
     const ingredient_insert:Ingredients[] =[]
-    for(const ingredient of ingredientsstate){
+    for(const ingredient of ingredients){
         if('' != ingredient.title) {
             ingredient_insert.push({
                 title: ingredient.title,
@@ -22,9 +22,6 @@ export const recipe_save = async({ingredientsstate,memo,recipename,recipeImageFi
             })
         }
     }
-
-    console.log('材料どんなものが登録された？',ingredient_insert);
-    
     
     const supabase = await createClient()
 
@@ -41,8 +38,8 @@ export const recipe_save = async({ingredientsstate,memo,recipename,recipeImageFi
     const { data } = supabase.storage.from('recipeimages').getPublicUrl(fileName)
     const imageUrl = data.publicUrl
 
-    //recipesテーブルにname,memo,画像のURLを保存
-    const {data:recipeNameId,error: recipeError} = await supabase.from('recipes').insert({name:recipename,memo:memo,image_url:imageUrl}).select('*')    
+    //recipesテーブルにname,recipeMemo,画像のURLを保存
+    const {data:recipeNameId,error: recipeError} = await supabase.from('recipes').insert({name:recipeName,memo:recipeMemo,image_url:imageUrl}).select('*')    
     const recipe_id = recipeNameId?.[0]?.id ?? null
 
     //ingredientテーブルに材料とrecipe_idを保存
