@@ -2,18 +2,18 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React from 'react'
 
-export const RecipeCards = ({ recipeLists }) => {
-    console.log('RecipeCardsに渡されたrecipeListsです', recipeLists);
+export const RecipeCards = ({ recipes }) => {
+    console.log('RecipeCardsに渡されたrecipeListsです', recipes);
 
     return (
         <div>
             <div className="w-full grid grid-cols-5 gap-4">
-                {recipeLists.map((recipeData) => (
-                    <div className="w-60 h-60 shadow-md rounded-2xl overflow-hidden bg-white" key={recipeData.id}>
+                {recipes.map((recipe) => (
+                    <div className="w-60 h-60 shadow-md rounded-2xl overflow-hidden bg-white" key={recipe.id}>
                         <div className="w-full h-40 relative">
-                            {recipeData.signedUrl ? (
+                            {recipe.signedUrl ? (
                                 <Image
-                                    src={recipeData.signedUrl}
+                                    src={recipe.signedUrl}
                                     alt=""
                                     fill
                                     className="object-cover rounded-t-lg"
@@ -25,8 +25,8 @@ export const RecipeCards = ({ recipeLists }) => {
                             )}
                         </div>
                         <div className="px-3 py-2">
-                            <p className="font-bold truncate">{recipeData.name}</p>
-                            <Link href={`/recipe/${recipeData.id}`} className="text-blue-500 hover:underline text-sm">
+                            <p className="font-bold truncate">{recipe.name}</p>
+                            <Link href={`/recipe/${recipe.id}`} className="text-blue-500 hover:underline text-sm">
                                 詳細へ
                             </Link>
                         </div>

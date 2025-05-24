@@ -1,13 +1,13 @@
 import React from 'react'
 
-const SumIngredients = ({ sumIngredientsList }) => {
+const TotalIngredients = ({ totalIngredients }) => {
     return (
         <div className="w-full mt-4 p-4 bg-gray-100 rounded-lg shadow">
-            {sumIngredientsList.length > 0 ? (
+            {totalIngredients.length > 0 ? (
                 <ul className="list-disc pl-6 space-y-1 text-left text-gray-700">
-                    {sumIngredientsList.map((s, index) => (
+                    {totalIngredients.map((t, index) => (
                         <li key={index}>
-                            {s.ingredientName}：{s.ingredientQuantity}{s.ingredientUnit}
+                            {t.ingredientName}：{t.ingredientQuantity}{t.ingredientUnit}
                         </li>
                     ))}
                 </ul>
@@ -19,4 +19,4 @@ const SumIngredients = ({ sumIngredientsList }) => {
     )
 }
 
-export default SumIngredients
+export default TotalIngredients

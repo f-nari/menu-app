@@ -1,15 +1,14 @@
 'use client'
 
-import { createClient } from "@/utils/supabase/client";
 import React, { useEffect, useState } from 'react'
 import RecipeCards from "@/components/Recipes/RecipeCards";
 import { IngredientsType, MenuItemsType, RecipeType } from "@/Types/types";
-import SumIngredients from "@/components/SumIngredients/SumIngredients";
+import TotalIngredients from '@/components/TotalIngredients/TotalIngredients';
 
 export default function Home() {
 
-  const [recipeLists, setRecipeLists] = useState<RecipeType[]>([])
-  const [menuLists, setMenuLists] = useState<MenuItemsType[]>([{
+  const [recipes, setRecipes] = useState<RecipeType[]>([])
+  const [menuSchedule, setMenuSchedule] = useState<MenuItemsType[]>([{
     date: new Date,
     meal: {
       breakfast: '',
@@ -17,26 +16,24 @@ export default function Home() {
       dinner: '',
     }
   }])
-  const [sumIngredientsList, setSumIngredientsList] = useState<IngredientsType[]>([])
+  const [totalIngredients, setTotalIngredients] = useState<IngredientsType[]>([])
   const [singleIngredient, setSingleIngredient] = useState<IngredientsType[]>([{ id: 0, ingredientName: '', ingredientQuantity: 0, ingredientUnit: '' }])
-  const [count, setCount] = useState(1)
+  const [singleIngredientArrayId, setSingleIngredientArrayId] = useState(1)
 
   useEffect(() => {
     const fetchRecipes = async () => {
       const res = await fetch('/api/allgetrecipes')
       const data = await res.json()
-      setRecipeLists(data)
+      setRecipes(data)
     }
     fetchRecipes()
   }, [])
 
-  const changeHandler = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>, mealTime: string, propsindex: number) => {
-
-    const changeMenuList = menuLists.map((menuList, index) => {
+  const onMenuScheduleChanged = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>, mealTime: string, propsindex: number) => {
+    const changeMenuList = menuSchedule.map((menuList, index) => {
       if (index === propsindex) {
         const newMeal = { ...menuList.meal }
         let newDate = menuList.date
-
         switch (mealTime) {
           case 'date':
             newDate = new Date(e.target.value)
@@ -61,11 +58,11 @@ export default function Home() {
       return menuList
     })
 
-    setMenuLists(changeMenuList)
+    setMenuSchedule(changeMenuList)
   }
 
-  const addNewMenuHandler = () => {
-    const update = [...menuLists, {
+  const onEmptyMenuAddButtonClicke = () => {
+    const update = [...menuSchedule, {
       date: new Date,
       meal: {
         breakfast: '',
@@ -73,12 +70,12 @@ export default function Home() {
         dinner: '',
       }
     }]
-    setMenuLists(update)
+    setMenuSchedule(update)
   }
 
   const getIngredientsHandler = async () => {
 
-    const recipeNumbers = menuLists.map((menuList) => {
+    const recipeNumbers = menuSchedule.map((menuList) => {
       return menuList.meal
     })
 
@@ -130,17 +127,17 @@ export default function Home() {
       return sumIngredints
     });
 
-    const newList: IngredientsType[] = [...sumIngredientsList]
+    const newList: IngredientsType[] = [...totalIngredients]
 
     for (const [index, value] of sumIngredints) {
       newList.push(value)
     }
     const list = [...newList, ...singleIngredient]
 
-    setSumIngredientsList(list)
+    setTotalIngredients(list)
   }
 
-  const addSingleIngredient = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
+  const onSingleIngredientChanged = (e: React.ChangeEvent<HTMLInputElement>, id: number) => {
     singleIngredient.forEach((s) => {
       if (s.id === id) {
         const singleIngredientData = [...singleIngredient]
@@ -150,18 +147,16 @@ export default function Home() {
     })
   }
 
-  const newSingleIngredient = () => {
+  const onAddNewSingleIngredientButtonClicked = () => {
     const update = [...singleIngredient, {
-      id: count,
+      id: singleIngredientArrayId,
       ingredientName: '',
       ingredientQuantity: 0,
       ingredientUnit: '',
     }]
 
-    console.log('listの中身　チェック', update);
-
     setSingleIngredient(update)
-    setCount(count => count += 1)
+    setSingleIngredientArrayId(singleIngredientArrayId => singleIngredientArrayId += 1)
 
   }
 
@@ -175,12 +170,12 @@ export default function Home() {
 
         {/* 献立作成ゾーン */}
         <div className="flex flex-wrap gap-4 justify-center">
-          {menuLists.map((menuList, index) => (
+          {menuSchedule.map((menuList, index) => (
             <div className="border rounded-lg p-4 w-72 bg-gray-50 shadow" key={index}>
               <input
                 type="date"
                 value={menuList.date.toISOString().split('T')[0]}
-                onChange={(e) => changeHandler(e, 'date', index)}
+                onChange={(e) => onMenuScheduleChanged(e, 'date', index)}
                 className="w-full mb-3 border px-2 py-1"
               />
               {['breakfast', 'lunch', 'dinner'].map((meal, i) => (
@@ -188,11 +183,11 @@ export default function Home() {
                   <label className="w-10">{meal === 'breakfast' ? '朝' : meal === 'lunch' ? '昼' : '夜'}</label>
                   <select
                     className="ml-2 border w-full h-10 px-2"
-                    onChange={(e) => changeHandler(e, meal, index)}
+                    onChange={(e) => onMenuScheduleChanged(e, meal, index)}
                     defaultValue=""
                   >
                     <option value="" disabled hidden>ーーー</option>
-                    {recipeLists.map((recipeList) => (
+                    {recipes.map((recipeList) => (
                       <option value={recipeList.id} key={recipeList.id}>{recipeList.name}</option>
                     ))}
                   </select>
@@ -201,7 +196,7 @@ export default function Home() {
             </div>
           ))}
           <button
-            onClick={addNewMenuHandler}
+            onClick={onEmptyMenuAddButtonClicke}
             className="h-12 px-4 rounded bg-green-200 hover:bg-green-300 text-sm mt-4"
           >
             献立を追加
@@ -216,10 +211,10 @@ export default function Home() {
               type="text"
               placeholder="マヨネーズ１本"
               className="border h-10 px-2 rounded w-64"
-              onChange={(e) => addSingleIngredient(e, ingredent.id)}
+              onChange={(e) => onSingleIngredientChanged(e, ingredent.id)}
             />
           ))}
-          <button onClick={newSingleIngredient} className="px-4 h-10 bg-blue-100 rounded hover:bg-blue-200">追加</button>
+          <button onClick={onAddNewSingleIngredientButtonClicked} className="px-4 h-10 bg-blue-100 rounded hover:bg-blue-200">追加</button>
           <button
             className="w-32 h-10 bg-amber-100 text-amber-400 font-bold rounded hover:text-black"
             onClick={getIngredientsHandler}
@@ -230,12 +225,12 @@ export default function Home() {
 
         {/* 材料表示 */}
         <div className="mt-6">
-          <SumIngredients sumIngredientsList={sumIngredientsList} />
+          <TotalIngredients totalIngredients={totalIngredients} />
         </div>
 
         {/* レシピゾーン */}
         <h2 className="text-2xl mt-10 mb-4 font-semibold">レシピ一覧</h2>
-        <RecipeCards recipeLists={recipeLists} />
+        <RecipeCards recipes={recipes} />
       </div>
     </div>
 
