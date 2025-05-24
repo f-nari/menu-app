@@ -1,15 +1,19 @@
 'use client'
 
+import { UserContext } from '@/context/UserContext'
 import { createClient } from '@/utils/supabase/client'
-import React from 'react'
+import React, { useContext } from 'react'
 
-type Props = {
-    user_data: {
-        email: string | null
-    }
-}
+// type Props = {
+//     user_data: {
+//         email: string | null
+//     }
+// }
 
-const Header = ({ user_data: { email } }: Props) => {
+// const Header = ({ user_data: { email } }: Props) => {
+const Header = () => {
+    const userEmail = useContext(UserContext);
+
 
     const signOut = async () => {
         console.log('ログアウト処理をします');
@@ -27,7 +31,8 @@ const Header = ({ user_data: { email } }: Props) => {
                         ログアウト
                     </button>
                 </form>
-                <span className="text-sm text-gray-700">こんにちは、{email}</span>
+                {/* <span className="text-sm text-gray-700">こんにちは、{email}</span> */}
+                <span className="text-sm text-gray-700">こんにちは、{userEmail?.email ?? 'ゲストさん' }</span>
             </div>
         </div>
 

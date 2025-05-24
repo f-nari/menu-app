@@ -3,9 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "@/components/Sidebar/Sidebar";
 
-import { createClient } from "@/utils/supabase/server";
 import Header from "@/components/Header/header";
-import { User, UserMetadata } from "@supabase/supabase-js";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -25,33 +23,39 @@ export const metadata: Metadata = {
 import { config } from '@fortawesome/fontawesome-svg-core'
 
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import { UserProvider } from "@/context/UserContext";
 
 config.autoAddCss = false
 
 
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
 
-  const supabase = await createClient()
-  const { data, error } = await supabase.auth.getUser()
-  const user_metadata = data.user?.user_metadata as UserMetadata
-  const user_data : {email:string|null} = {
-    email:user_metadata?.email
-  }
+  //ここで、userdataを取得するような、関数をセッティングする→それが、context→UserContextに入っている
+  // const supabase = await createClient()
+  // const { data, error } = await supabase.auth.getUser()
+  // const user_metadata = data.user?.user_metadata as UserMetadata
+  // const user_data : {email:string|null} = {
+  //   email:user_metadata?.email
+  // }
+
 
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex w-screen`}>
-        <Sidebar></Sidebar>
-        <div className="grow bg-white m-2 rounded-2xl h-screen flex flex-col ">
-          <Header user_data = {user_data}></Header>
-          {children}
-        </div>
+        <UserProvider>
+          <Sidebar></Sidebar>
+          <div className="grow bg-white m-2 rounded-2xl h-screen flex flex-col ">
+            {/* <Header user_data={user_data}></Header> */}
+            <Header></Header>
+            {children}
+          </div>
+        </UserProvider>
       </body>
     </html>
   );
