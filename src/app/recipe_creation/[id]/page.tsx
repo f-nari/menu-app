@@ -1,26 +1,11 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-// import { recipe_save } from '../../actions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { usePathname, useRouter } from 'next/navigation'
-import { recipe_save } from '@/app/actions'
-// import { RecipeType } from '@/app/page'
+import { Ingredients, PostRecipeDateil } from '@/Types/types'
 
-export type Ingredients = {
-    id?: number
-    title?: string;
-    quantity?: number;
-    unit?: string
-}
-
-export type PostRecipeDateil = {
-    recipeName: string,
-    recipeImageFile: File | null,
-    recipeMemo: string,
-    ingredent?: Ingredients[]
-}
 
 const Recipe_Creation = () => {
     const [ingredientsstate, setIngredientstate] = useState<Ingredients[]>([{ id: 0, title: '', quantity: 0, unit: '' }])
@@ -53,7 +38,6 @@ const Recipe_Creation = () => {
                 currentId += 1
             })
 
-            // console.log('詳細です', data);
 
             const fetchRecipeDetailWithRecipeNameAndImageFileAndRecipeMemo: PostRecipeDateil[] = [{
                 recipeName: data.name,
@@ -73,7 +57,6 @@ const Recipe_Creation = () => {
     }
         , [getRecipeById])
 
-    //   console.log('材料一覧です',ingredientsstate);
 
 
     const changeIngredienteEvent = (e: React.ChangeEvent<HTMLInputElement>, genre: 'title' | 'quantity' | 'unit', id: number) => {
