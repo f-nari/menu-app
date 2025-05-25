@@ -31,3 +31,18 @@ export type Ingredients = {
   quantity?: number;
   unit?: string
 }
+
+
+export type PostRecipeDateil = {
+  recipeName: string,
+  recipeImageFile: File | null,
+  recipeMemo: string,
+  ingredent?: Ingredients[]
+}
+
+export type RecipeProps = {
+  ingredients: Ingredients[],
+  recipeMemo:string,
+  recipeName:string
+  recipeImageFile:File|undefined
+}
