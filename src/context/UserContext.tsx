@@ -5,15 +5,15 @@ import { UserMetadata } from "@supabase/supabase-js"
 import { createContext, useEffect, useState } from "react";
 
 type UserContextType = {
-    email:string
+    email: string
 } | null
 
-export const UserContext= createContext<UserContextType>(null);
+export const UserContext = createContext<UserContextType>(null);
 
 export const UserProvider = ({ children }: { children: React.ReactNode }) => {
-    const [userEmail,setUserEmail] = useState<UserContextType>(null)
+    const [userEmail, setUserEmail] = useState<UserContextType>(null)
     useEffect(() => {
-        const getUser =async () => {
+        const getUser = async () => {
             const supabase = await createClient()
             const { data, error } = await supabase.auth.getUser()
             const user_metadata = data.user?.user_metadata as UserMetadata

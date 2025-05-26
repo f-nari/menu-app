@@ -4,9 +4,10 @@ export type RecipeType = {
   name: string,
   memo: string,
   signedUrl: string
-  ingredientsDataList: [{
-    ingredientName: string, quantity: number, unit: string
-  }]
+  // ingredients: [{
+  //   title: string, quantity: number, unit: string
+  // }]
+  ingredients:Ingredients[]
 }
 
 export type MenuItemsType = {
@@ -18,12 +19,12 @@ export type MenuItemsType = {
   }
 }
 
-export type IngredientsType = {
-  id?: number
-  ingredientName: string,
-  ingredientQuantity: number,
-  ingredientUnit: string
-}
+// export type IngredientsType = {
+//   id?: number
+//   ingredientName: string,
+//   ingredientQuantity: number,
+//   ingredientUnit: string
+// }
 
 export type Ingredients = {
   id?: number

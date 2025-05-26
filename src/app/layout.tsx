@@ -35,23 +35,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
 
-  //ここで、userdataを取得するような、関数をセッティングする→それが、context→UserContextに入っている
-  // const supabase = await createClient()
-  // const { data, error } = await supabase.auth.getUser()
-  // const user_metadata = data.user?.user_metadata as UserMetadata
-  // const user_data : {email:string|null} = {
-  //   email:user_metadata?.email
-  // }
-
-
   return (
     <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex w-screen`}>
         <UserProvider>
           <Sidebar></Sidebar>
-          <div className="grow bg-white m-2 rounded-2xl h-screen flex flex-col ">
-            {/* <Header user_data={user_data}></Header> */}
+          <div className="grow bg-white m-2 rounded-2xl h-screen flex flex-col">
             <Header></Header>
             {children}
           </div>

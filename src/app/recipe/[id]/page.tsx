@@ -21,8 +21,6 @@ const Recipe = () => {
     fetchRecipeDetail()
   }, [getRecipeById])
 
-  console.log(detailRecipe, "recipeDatailです");
-
   const deleteRecipeClick = async () => {
     const response = await fetch('/api/deleterecipe', {
       method: 'DELETE',
@@ -59,12 +57,12 @@ const Recipe = () => {
                     <th>単位</th>
                   </tr>
                 </thead>
-                {detailRecipe?.ingredientsDataList.map((ingredients, index) => (
+                {detailRecipe?.ingredients.map((ingredient, index) => (
                   <tbody key={index}>
                     <tr>
-                      <td>{ingredients.ingredientName}</td>
-                      <td>{ingredients.quantity}</td>
-                      <td>{ingredients.unit}</td>
+                      <td>{ingredient.title}</td>
+                      <td>{ingredient.quantity}</td>
+                      <td>{ingredient.unit}</td>
                     </tr>
                   </tbody>
                 ))}
