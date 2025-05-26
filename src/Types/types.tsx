@@ -38,7 +38,7 @@ export type PostRecipeDateil = {
   recipeName: string,
   recipeImageFile: File | null,
   recipeMemo: string,
-  ingredent?: Ingredients[]
+  ingredents: Ingredients[]
 }
 
 export type RecipeProps = {

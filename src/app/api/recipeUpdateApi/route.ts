@@ -7,7 +7,7 @@ export async function POST(req:Request){
     const {data} = await req.json()
     // console.log("apiに渡されたデータです",data);
 
-    console.log(data.recipeDetail[0].recipeMemo);
+    // console.log(data.recipeDetail[0].recipeMemo);
     
     const { error:updateError } = await supabase
         .from('recipes')
