@@ -10,7 +10,9 @@ import { Ingredients } from '@/Types/types'
 
 
 const RecipeCreation = () => {
-  const [ingredients, setIngredients] = useState<Ingredients[]>([{ id: 1, title: '', quantity: 0, unit: '' }])
+  const [ingredients, setIngredients] = useState<Ingredients[]>([{
+    id: 1, title: '', quantity: 0, unit: ''
+  }])
   const [recipeMemo, setRecipeMemo] = useState('')
   const [recipeName, setRecipeName] = useState('')
   const [recipeImageFile, setRecipeImageFile] = useState<File | undefined>(undefined)

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react'
 import RecipeCards from "@/components/Recipes/RecipeCards";
-import { IngredientsType, MenuItemsType, RecipeType } from "@/Types/types";
+import { Ingredients, MenuItemsType, RecipeType } from "@/Types/types";
 import TotalIngredients from '@/components/TotalIngredients/TotalIngredients';
 
 export default function Home() {
@@ -16,8 +16,10 @@ export default function Home() {
       dinner: '',
     }
   }])
-  const [totalIngredients, setTotalIngredients] = useState<IngredientsType[]>([])
-  const [singleIngredient, setSingleIngredient] = useState<IngredientsType[]>([{ id: 0, ingredientName: '', ingredientQuantity: 0, ingredientUnit: '' }])
+  const [totalIngredients, setTotalIngredients] = useState<Ingredients[]>([])
+  const [singleIngredient, setSingleIngredient] = useState<Ingredients[]>([{
+    id: 0, title: '', quantity: 0, unit: ''
+  }])
   const [singleIngredientArrayId, setSingleIngredientArrayId] = useState(1)
 
   useEffect(() => {
@@ -101,33 +103,34 @@ export default function Home() {
     })
 
     const ingredients = ingredientsList.map((ingredient) => {
-      const returnData: IngredientsType[] = []
+      const returnData: Ingredients[] = []
       for (let i = 0; i < ingredient.length; i++) {
-        const addData = { 'ingredientName': ingredient[i].title, 'ingredientQuantity': ingredient[i].quantity, 'ingredientUnit': ingredient[i].unit }
+        const addData = { 'title': ingredient[i].title, 'quantity': ingredient[i].quantity, 'unit': ingredient[i].unit }
         returnData.push(addData)
       }
       return returnData
 
     }).flat()
 
-    const sumIngredints = new Map<string, IngredientsType>
+    const sumIngredints = new Map<string, Ingredients>
 
     ingredients.forEach(i => {
       const key = `${i.ingredientName}_${i.IngredientUnit}`
       if (!sumIngredints.has(key)) {
         sumIngredints.set(key, {
-          ingredientName: i.ingredientName,
-          ingredientQuantity: i.ingredientQuantity,
-          ingredientUnit: i.IngredientUnit
+          title: i.ingredientName,
+          quantity: i.ingredientQuantity,
+          unit: i.IngredientUnit
         })
       } else {
-        sumIngredints.get(key)!.ingredientQuantity += i.ingredientQuantity
+        sumIngredints.get(key)!.quantity += i.ingredientQuantity
       }
+
 
       return sumIngredints
     });
 
-    const newList: IngredientsType[] = [...totalIngredients]
+    const newList: Ingredients[] = [...totalIngredients]
 
     for (const [index, value] of sumIngredints) {
       newList.push(value)
@@ -141,7 +144,7 @@ export default function Home() {
     singleIngredient.forEach((s) => {
       if (s.id === id) {
         const singleIngredientData = [...singleIngredient]
-        singleIngredientData[id].ingredientName = e.target.value
+        singleIngredientData[id].title = e.target.value
         setSingleIngredient(singleIngredientData)
       }
     })

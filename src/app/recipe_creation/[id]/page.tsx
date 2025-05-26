@@ -8,13 +8,11 @@ import { Ingredients, PostRecipeDateil } from '@/Types/types'
 
 
 const Recipe_Creation = () => {
-    const [ingredientsstate, setIngredientstate] = useState<Ingredients[]>([{ id: 0, title: '', quantity: 0, unit: '' }])
-    // const [memo, setMemo] = useState('')
-    const [idCounter, setIdCounter] = useState(1)
-    // const [recipename, setRecipeName] = useState('')
-    // const [recipeImageFile, setRecipeImageFile] = useState<File | undefined>(undefined)
-    // const [getRecipeDetail, setGetRecipeDetail] = useState<RecipeType>()
-    const [postRecipeDateil, setPostRecipeDateil] = useState<PostRecipeDateil[]>([{
+    const [ingredients, setIngredients] = useState<Ingredients[]>([{
+        id: 0, title: '', quantity: 0, unit: ''
+    }])
+    const [ingredintsArrayId, setIngredientsArrayId] = useState(1)
+    const [saveRecipeData, setSaveRecipeData] = useState<PostRecipeDateil[]>([{
         recipeName: '',
         recipeImageFile: null,
         recipeMemo: '',
@@ -25,17 +23,16 @@ const Recipe_Creation = () => {
 
 
     useEffect(() => {
-        const fetchRecipeDetail = async () => {
+        const fetchRecipeDeta = async () => {
             const res = await fetch(`/api/getidrecipes?id=${getRecipeById}`)
             const data = await res.json()
-            // setGetRecipeDetail(data)
             const newIngredient: Ingredients[] = []
-            let currentId = idCounter;
-            data.ingredientsDataList?.forEach(i => {
+            let currentIngredientArrayId = ingredintsArrayId;
+            data.ingredients.forEach(i => {
                 newIngredient.push({
-                    id: currentId, title: i.ingredientName, quantity: i.quantity, unit: i.unit,
+                    id: currentIngredientArrayId, title: i.title, quantity: i.quantity, unit: i.unit,
                 })
-                currentId += 1
+                currentIngredientArrayId += 1
             })
 
 
@@ -47,38 +44,38 @@ const Recipe_Creation = () => {
 
             console.log(fetchRecipeDetailWithRecipeNameAndImageFileAndRecipeMemo);
 
-            setPostRecipeDateil(fetchRecipeDetailWithRecipeNameAndImageFileAndRecipeMemo)
+            setSaveRecipeData(fetchRecipeDetailWithRecipeNameAndImageFileAndRecipeMemo)
 
-            setIngredientstate(newIngredient)
-            setIdCounter(currentId)
+            setIngredients(newIngredient)
+            setIngredientsArrayId(currentIngredientArrayId)
 
         }
-        fetchRecipeDetail()
+        fetchRecipeDeta()
     }
         , [getRecipeById])
 
 
 
     const changeIngredienteEvent = (e: React.ChangeEvent<HTMLInputElement>, genre: 'title' | 'quantity' | 'unit', id: number) => {
-        const data = [...ingredientsstate]
+        const data = [...ingredients]
         //title,unitならstringのため、そのままで良いが、quantityだった場合、numberである必要があるため、eを変換しなければならない
         const changeData = genre === 'quantity' ? Number(e.target.value) : e.target.value
         const newData = data.map(data =>
             data.id === id ? { ...data, [genre]: changeData } : data
         )
-        setIngredientstate(newData)
+        setIngredients(newData)
     }
 
     const addIngredienteClickHandler = () => {
-        const update = [...ingredientsstate, { id: idCounter, title: '', quantity: 0, unit: '' }]
-        setIdCounter(idCounter => idCounter += 1)
-        setIngredientstate(update)
+        const update = [...ingredients, { id: ingredintsArrayId, title: '', quantity: 0, unit: '' }]
+        setIngredientsArrayId(ingredintsArrayId => ingredintsArrayId += 1)
+        setIngredients(update)
     }
 
     const deleteIngredienteClickHandler = (id: number) => {
-        const ingredientsList = [...ingredientsstate]
+        const ingredientsList = [...ingredients]
         const idDeleteIngredientsList = ingredientsList.filter(item => item.id !== id)
-        setIngredientstate(idDeleteIngredientsList)
+        setIngredients(idDeleteIngredientsList)
     }
 
     const changeRecipeNameImageFileMemo = (e: React.ChangeEvent<HTMLInputElement>, type: 'name' | 'imageFile' | 'memo') => {
@@ -90,7 +87,7 @@ const Recipe_Creation = () => {
             updataValue = e.target.value
         }
 
-        setPostRecipeDateil(prev => {
+        setSaveRecipeData(prev => {
             const newArray = [...prev]
             newArray[0] = {
                 ...newArray[0],
@@ -111,8 +108,8 @@ const Recipe_Creation = () => {
     const recipeUpdate = async () => {
         const recipeIdAndIngredientAndRecipeDetail = {
             recipeId: getRecipeById,
-            ingredients: ingredientsstate,
-            recipeDetail: postRecipeDateil
+            ingredients: ingredients,
+            recipeDetail: saveRecipeData
         }
         const response = await fetch('/api/recipeUpdateApi', {
             method: 'POST',
@@ -147,10 +144,10 @@ const Recipe_Creation = () => {
                     {/*説明ゾーン */}
                     <div className='flex flex-col ml-3 '>
                         {/* <input type='text' value={recipeDetail?.name} className='text-3xl bg-[#f8f6f1] rounded-sm' onChange={(e) => setRecipeName(e.target.value)} placeholder='ハンバーグ' /> */}
-                        <input type='text' defaultValue={postRecipeDateil[0].recipeName} className='text-3xl bg-[#f8f6f1] rounded-sm' onChange={(e) => changeRecipeNameImageFileMemo(e, 'name')} placeholder='ハンバーグ' />
+                        <input type='text' defaultValue={saveRecipeData[0].recipeName} className='text-3xl bg-[#f8f6f1] rounded-sm' onChange={(e) => changeRecipeNameImageFileMemo(e, 'name')} placeholder='ハンバーグ' />
                         <input type="text" placeholder='廣川郁也' />
                         <p className='text-2xl font-bold mt-5 mb-3'>材料</p>
-                        {ingredientsstate.map((ingredient,) => (
+                        {ingredients.map((ingredient,) => (
                             <div className='flex' key={ingredient.id}>
                                 <label htmlFor="" className='mr-4'>材料名</label>
                                 <input type="text" value={ingredient.title} placeholder='ひき肉' className='bg-[#f8f6f1] rounded-sm' onChange={(e) => (changeIngredienteEvent(e, 'title', ingredient.id!))} />
@@ -168,7 +165,7 @@ const Recipe_Creation = () => {
                 {/*下ゾーン memozorn*/}
                 <div className='flex flex-col grow mt-5 '>
                     <h1 className='h-6'>memo</h1>
-                    <input type="text" defaultValue={postRecipeDateil[0].recipeMemo} className='w-full  grow rounded-sm bg-[#f8f6f1] mb-2' onChange={(e) => changeRecipeNameImageFileMemo(e, 'memo')} placeholder='コツやポイント' />
+                    <input type="text" defaultValue={saveRecipeData[0].recipeMemo} className='w-full  grow rounded-sm bg-[#f8f6f1] mb-2' onChange={(e) => changeRecipeNameImageFileMemo(e, 'memo')} placeholder='コツやポイント' />
                 </div>
                 <button className='border' type='submit' onClick={() => recipeUpdate()} >レシピ保存</button>
 
