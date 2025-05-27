@@ -132,7 +132,6 @@ const Recipe_Creation = () => {
 
     return (
         <div className='flex justify-center  h-screen text-[#4a4a4a]'>
-            <div>編集画面です</div>
             {/* 詳細ゾーン */}
             <div className='w-11/12 flex flex-col  h-full '>
                 {/* 上ゾーン */}
@@ -143,7 +142,6 @@ const Recipe_Creation = () => {
                     {/*説明ゾーン */}
                     <div className='flex flex-col ml-3 '>
                         <input type='text' defaultValue={recipe.recipeName} className='text-3xl bg-[#f8f6f1] rounded-sm' onChange={(e) => onRecipeNameImageFileMemoChanged(e, 'name')} placeholder='ハンバーグ' />
-                        <input type="text" placeholder='廣川郁也' />
                         <p className='text-2xl font-bold mt-5 mb-3'>材料</p>
                         {recipe.ingredients.map((ingredient) => (
                             <div className='flex' key={ingredient.id}>

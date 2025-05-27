@@ -46,7 +46,6 @@ const Recipe = () => {
           {/*説明ゾーン */}
           <div className='flex flex-col ml-3 '>
             <h1 className='text-3xl'>{recipeData?.recipeName}</h1>
-            <p>作成者 廣川郁也</p>
             <p>材料</p>
             <div  >
               <table className="table-auto">
