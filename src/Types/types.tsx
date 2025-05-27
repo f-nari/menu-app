@@ -19,9 +19,9 @@ export type PostRecipeDateil = {
 
 export type Ingredients = {
   id: number
-  title?: string;
-  quantity?: number;
-  unit?: string
+  title: string;
+  quantity: number;
+  unit: string
 }
 
 export type MenuItemsType = {

@@ -2,7 +2,7 @@ import { createClient } from "@/utils/supabase/server";
 import { NextResponse } from "next/server";
 
 export async function POST (req:Request) {
-    // ['55', '55']これを受け取る
+    
     const supabase = await createClient()
     const {ids} = await req.json()
     
