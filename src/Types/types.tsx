@@ -6,7 +6,7 @@ export type RecipeType = {
   recipeMemo: string,
   recipeSignedurl: string
   recipeImageurl:File|null,
-  recipeiIngredients:Ingredients[]
+  recipeIngredients:Ingredients[]
 }
 
 //投稿フォームからレシピを送信する用
