@@ -15,7 +15,7 @@ const RecipeCreation = () => {
   }])
   const [recipeMemo, setRecipeMemo] = useState('')
   const [recipeName, setRecipeName] = useState('')
-  const [recipeImageFile, setRecipeImageFile] = useState<File | undefined>(undefined)
+  const [recipeImageFile, setRecipeImageFile] = useState<File | null>(null)
   const [ingredientsArrayId, setIngredientsArrayId] = useState(2)
   const router = useRouter()
   const userEmail = useContext(UserContext)
@@ -57,7 +57,10 @@ const RecipeCreation = () => {
             <div className="h-80 bg-[#f8f6f1] rounded-md flex items-center justify-center">
               <input
                 type="file"
-                onChange={(e) => setRecipeImageFile(e.target.files?.[0])}
+                onChange={(e) => {
+                  const file = e.target.files?.[0] ?? null;
+                  setRecipeImageFile(file)
+                }}
                 className="text-center"
               />
             </div>

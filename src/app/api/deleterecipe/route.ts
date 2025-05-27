@@ -14,8 +14,6 @@ export async function DELETE(req:Request){
             .delete()
             .eq('recipe_id', recipeId)
 
-    console.log(recipesDeleteResponse,ingredientsDeleteResponse);
-
     return new Response(JSON.stringify({ success: true }), {
         status: 200,
         headers: { 'Content-Type': 'application/json' },
