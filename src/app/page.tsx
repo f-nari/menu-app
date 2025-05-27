@@ -77,17 +77,15 @@ export default function Home() {
 
   const getIngredientsHandler = async () => {
 
-    const recipeNumbers = menuSchedule.map((menuList) => {
-      
-      
+    const menuRecipeNumberObjectArray = menuSchedule.map((menuList) => {
       return menuList.meal
     })
 
-    const testnumber = recipeNumbers.map((recipeNumber) => {
+    const manuRecipeNumbersArray = menuRecipeNumberObjectArray.map((recipeNumber) => {
       return [recipeNumber.breakfast, recipeNumber.lunch, recipeNumber.dinner]
     })
 
-    const testnumber2 = testnumber.flat().filter(Boolean)
+    const flatMenuRecipeNumbers = manuRecipeNumbersArray.flat().filter(Boolean)
 
     const res = await fetch(`/api/getingredients`, {
       method: 'POST',
@@ -95,16 +93,17 @@ export default function Home() {
       headers: { 'Content-Type': 'application/json' },
       //bodyは実際に送るデータの中身のこと。以下は、JacaScriptのJsonの関数のstringifyを使って、オブジェクトをJson形式に変えるもの。{ids:配列}という形で送る。
       //受け取る側は、  const { ids } = await req.json() 結果→ ids は ['55', '43', '12']で受け取れる
-      body: JSON.stringify({ ids: testnumber2 })
+      body: JSON.stringify({ ids: flatMenuRecipeNumbers })
     })
 
     const resIngredientsList = await res.json()
-
-    const ingredientsList = resIngredientsList.map((res) => {
+    
+    //APIのレスポンスの型定義をあとで行う
+    const ingredientsList:Ingredients[][] = resIngredientsList.map((res) => {
       return res.data
-    })
+    })    
 
-    const ingredients = ingredientsList.map((ingredient) => {
+    const ingredients:Ingredients[] = ingredientsList.map((ingredient) => {
       const returnData: Ingredients[] = []
       for (let i = 0; i < ingredient.length; i++) {
         const addData = { 'id':i, 'title': ingredient[i].title, 'quantity': ingredient[i].quantity, 'unit': ingredient[i].unit }
@@ -113,35 +112,32 @@ export default function Home() {
       return returnData
 
     }).flat()
-
+    
     const sumIngredints = new Map<string, Ingredients>
 
     ingredients.forEach((i,index:number) => {
-      const key = `${i.ingredientName}_${i.IngredientUnit}`
+      const key = `${i.title}_${i.unit}`
       if (!sumIngredints.has(key)) {
         sumIngredints.set(key, {
           id:index,
-          title: i.ingredientName,
-          quantity: i.ingredientQuantity,
-          unit: i.IngredientUnit
+          title: i.title,
+          quantity: i.quantity,
+          unit: i.unit
         })
       } else {
-        sumIngredints.get(key)!.quantity += i.ingredientQuantity
+        sumIngredints.get(key)!.quantity += i.quantity
       }
 
 
       return sumIngredints
     });
 
-    const newList: Ingredients[] = [...totalIngredients]
+    const newIngredientsList: Ingredients[] = [...totalIngredients]
 
-    for (const [index, value] of sumIngredints) {
-      newList.push(value)
+    for (const [, value] of sumIngredints) {
+      newIngredientsList.push(value)
     }
-    const list = [...newList, ...singleIngredient]
-    console.log('レシピ名が出てこないのでそのチェック',recipes);
-    
-
+    const list = [...newIngredientsList, ...singleIngredient]
     setTotalIngredients(list)
   }
 
@@ -156,11 +152,11 @@ export default function Home() {
   }
 
   const onAddNewSingleIngredientButtonClicked = () => {
-    const update = [...singleIngredient, {
+    const update:Ingredients[] = [...singleIngredient, {
       id: singleIngredientArrayId,
-      ingredientName: '',
-      ingredientQuantity: 0,
-      ingredientUnit: '',
+      title:'',
+      quantity:0,
+      unit:'',
     }]
 
     setSingleIngredient(update)
