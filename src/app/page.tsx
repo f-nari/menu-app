@@ -78,6 +78,8 @@ export default function Home() {
   const getIngredientsHandler = async () => {
 
     const recipeNumbers = menuSchedule.map((menuList) => {
+      
+      
       return menuList.meal
     })
 
@@ -137,6 +139,8 @@ export default function Home() {
       newList.push(value)
     }
     const list = [...newList, ...singleIngredient]
+    console.log('レシピ名が出てこないのでそのチェック',recipes);
+    
 
     setTotalIngredients(list)
   }
@@ -191,8 +195,8 @@ export default function Home() {
                     defaultValue=""
                   >
                     <option value="" disabled hidden>ーーー</option>
-                    {recipes.map((recipeList) => (
-                      <option value={recipeList.id} key={recipeList.id}>{recipeList.recipeName}</option>
+                    {recipes.map((recipe) => (
+                      <option value={recipe.id} key={recipe.id}>{recipe.recipeName}</option>
                     ))}
                   </select>
                 </div>
