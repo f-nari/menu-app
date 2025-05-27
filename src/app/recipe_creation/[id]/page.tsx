@@ -22,11 +22,11 @@ const Recipe_Creation = () => {
     useEffect(() => {
         const fetchRecipeDeta = async () => {
             const res = await fetch(`/api/getidrecipes?id=${getRecipeById}`)
-            const data:RecipeType = await res.json()
+            const data = await res.json()
             
             const newIngredients: Ingredients[] = []
             let currentIngredientArrayId = ingredintsArrayId;
-            data.recipeiIngredients.forEach(i => {
+            data.recipeIngredients.forEach(i => {
                 newIngredients.push({
                     id: currentIngredientArrayId, title: i.title, quantity: i.quantity, unit: i.unit,
                 })
@@ -34,9 +34,9 @@ const Recipe_Creation = () => {
             })
 
             const recipe: PostRecipeDateil = {
-                recipeName: data.recipeName,
-                recipeImageFile: data.recipeImageurl,
-                recipeMemo: data.recipeMemo,
+                recipeName: data.name,
+                recipeImageFile: data.image_url,
+                recipeMemo: data.memo,
                 ingredients: newIngredients
             }
 
@@ -137,7 +137,7 @@ const Recipe_Creation = () => {
                 {/* 上ゾーン */}
                 <div className='flex mt-6' >
                     <div>
-                        <input type="file" className='h-80 bg-[#f8f6f1]' onChange={(e) => onRecipeNameImageFileMemoChanged(e, 'imageFile')} />
+                        <input type="file" defaultValue={recipe.recipeImageFile ?? recipe.recipeImageFile} className='h-80 bg-[#f8f6f1]' onChange={(e) => onRecipeNameImageFileMemoChanged(e, 'imageFile')} />
                     </div>
                     {/*説明ゾーン */}
                     <div className='flex flex-col ml-3 '>
