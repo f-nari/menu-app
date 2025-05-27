@@ -105,7 +105,7 @@ export default function Home() {
     const ingredients = ingredientsList.map((ingredient) => {
       const returnData: Ingredients[] = []
       for (let i = 0; i < ingredient.length; i++) {
-        const addData = { 'title': ingredient[i].title, 'quantity': ingredient[i].quantity, 'unit': ingredient[i].unit }
+        const addData = { 'id':i, 'title': ingredient[i].title, 'quantity': ingredient[i].quantity, 'unit': ingredient[i].unit }
         returnData.push(addData)
       }
       return returnData
@@ -114,10 +114,11 @@ export default function Home() {
 
     const sumIngredints = new Map<string, Ingredients>
 
-    ingredients.forEach(i => {
+    ingredients.forEach((i,index:number) => {
       const key = `${i.ingredientName}_${i.IngredientUnit}`
       if (!sumIngredints.has(key)) {
         sumIngredints.set(key, {
+          id:index,
           title: i.ingredientName,
           quantity: i.ingredientQuantity,
           unit: i.IngredientUnit
@@ -191,7 +192,7 @@ export default function Home() {
                   >
                     <option value="" disabled hidden>ーーー</option>
                     {recipes.map((recipeList) => (
-                      <option value={recipeList.id} key={recipeList.id}>{recipeList.name}</option>
+                      <option value={recipeList.id} key={recipeList.id}>{recipeList.recipeName}</option>
                     ))}
                   </select>
                 </div>
