@@ -8,7 +8,7 @@ import React, { useEffect, useState } from 'react'
 
 
 const Recipe = () => {
-  const [detailRecipe, setDetailRecipe] = useState<RecipeType>()
+  const [recipeData, setRecipeData] = useState<RecipeType>()
   const getRecipeById = usePathname().replace('/recipe/', '')
   const router = useRouter()
 
@@ -16,12 +16,12 @@ const Recipe = () => {
     const fetchRecipeDetail = async () => {
       const res = await fetch(`/api/getidrecipes?id=${getRecipeById}`)
       const data = await res.json()
-      setDetailRecipe(data)
+      setRecipeData(data)
     }
     fetchRecipeDetail()
   }, [getRecipeById])
 
-  const deleteRecipeClick = async () => {
+  const onReicpeDeleteButtonClicked = async () => {
     const response = await fetch('/api/deleterecipe', {
       method: 'DELETE',
       headers: { 'content-type': 'application/json' },
@@ -41,11 +41,11 @@ const Recipe = () => {
         {/* 上ゾーン */}
         <div className='flex mt-6' >
           <div>
-            {detailRecipe ? <Image src={detailRecipe.signedUrl} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image> : null}
+            {recipeData ? <Image src={recipeData.recipeSignedurl} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image> : null}
           </div>
           {/*説明ゾーン */}
           <div className='flex flex-col ml-3 '>
-            <h1 className='text-3xl'>{detailRecipe?.name}</h1>
+            <h1 className='text-3xl'>{recipeData?.recipeName}</h1>
             <p>作成者 廣川郁也</p>
             <p>材料</p>
             <div  >
@@ -57,7 +57,7 @@ const Recipe = () => {
                     <th>単位</th>
                   </tr>
                 </thead>
-                {detailRecipe?.ingredients.map((ingredient, index) => (
+                {recipeData?.recipeiIngredients.map((ingredient, index) => (
                   <tbody key={index}>
                     <tr>
                       <td>{ingredient.title}</td>
@@ -74,12 +74,12 @@ const Recipe = () => {
         <div className='flex flex-col grow mt-5 '>
           <h1 className='h-6'>メモ</h1>
           <div className='w-full border grow rounded-2xl mb-2 '>
-            {detailRecipe?.memo}
+            {recipeData?.recipeMemo}
           </div>
         </div>
         <div className='flex justify-center'>
           <Link href={`/recipe_creation/${getRecipeById}`} className=' w-20 h-10 rounded-sm bg-amber-100 font-bold text-amber-400 hover:text-black mb-5 mr-5'>編集する</Link>
-          <button onClick={() => deleteRecipeClick()} className=' w-20 h-10 rounded-sm bg-red-500 font-bold text-amber-400 hover:text-black mb-5'>削除する</button>
+          <button onClick={() => onReicpeDeleteButtonClicked()} className=' w-20 h-10 rounded-sm bg-red-500 font-bold text-amber-400 hover:text-black mb-5'>削除する</button>
         </div>
       </div>
     </div>

@@ -63,7 +63,7 @@ export default function Home() {
     setMenuSchedule(changeMenuList)
   }
 
-  const onEmptyMenuAddButtonClicke = () => {
+  const onEmptyMenuAddButtonClicked = () => {
     const update = [...menuSchedule, {
       date: new Date,
       meal: {
@@ -199,7 +199,7 @@ export default function Home() {
             </div>
           ))}
           <button
-            onClick={onEmptyMenuAddButtonClicke}
+            onClick={onEmptyMenuAddButtonClicked}
             className="h-12 px-4 rounded bg-green-200 hover:bg-green-300 text-sm mt-4"
           >
             献立を追加

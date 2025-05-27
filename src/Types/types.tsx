@@ -1,13 +1,27 @@
+//supabaseからデータを取得する用
 export type RecipeType = {
   id: string
   created_at: string,
-  name: string,
-  memo: string,
-  signedUrl: string
-  // ingredients: [{
-  //   title: string, quantity: number, unit: string
-  // }]
-  ingredients:Ingredients[]
+  recipeName: string,
+  recipeMemo: string,
+  recipeSignedurl: string
+  recipeImageurl:File|null,
+  recipeiIngredients:Ingredients[]
+}
+
+//投稿フォームからレシピを送信する用
+export type PostRecipeDateil = {
+  recipeName: string,
+  recipeImageFile: File | null,
+  recipeMemo: string,
+  ingredients: Ingredients[]
+}
+
+export type Ingredients = {
+  id?: number
+  title?: string;
+  quantity?: number;
+  unit?: string
 }
 
 export type MenuItemsType = {
@@ -17,33 +31,4 @@ export type MenuItemsType = {
     lunch: string,
     dinner: string
   }
-}
-
-// export type IngredientsType = {
-//   id?: number
-//   ingredientName: string,
-//   ingredientQuantity: number,
-//   ingredientUnit: string
-// }
-
-export type Ingredients = {
-  id?: number
-  title?: string;
-  quantity?: number;
-  unit?: string
-}
-
-
-export type PostRecipeDateil = {
-  recipeName: string,
-  recipeImageFile: File | null,
-  recipeMemo: string,
-  ingredents: Ingredients[]
-}
-
-export type RecipeProps = {
-  ingredients: Ingredients[],
-  recipeMemo:string,
-  recipeName:string
-  recipeImageFile:File|undefined
 }

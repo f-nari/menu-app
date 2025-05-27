@@ -1,10 +1,10 @@
 'use server'
 
-import { Ingredients, RecipeProps } from "@/Types/types"
+import { Ingredients, PostRecipeDateil,  } from "@/Types/types"
 import { createClient } from "@/utils/supabase/server"
 
 // レシピデータを登録するアクション
-export const saveRecipe = async({ingredients,recipeMemo,recipeName,recipeImageFile}:RecipeProps) => {
+export const saveRecipe = async({ingredients,recipeMemo,recipeName,recipeImageFile}:PostRecipeDateil) => {
     const registerIngredient:Ingredients[] =[]
     for(const ingredient of ingredients){
         if('' != ingredient.title) {
