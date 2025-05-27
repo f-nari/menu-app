@@ -35,53 +35,72 @@ const Recipe = () => {
   }
 
   return (
-    <div className='flex justify-center  h-screen text-[#4a4a4a]'>
-      {/* 詳細ゾーン */}
-      <div className='w-11/12 flex flex-col  h-full '>
-        {/* 上ゾーン */}
-        <div className='flex mt-6' >
-          <div>
-            {recipeData ? <Image src={recipeData.recipeSignedurl} height={500} width={500} alt='' className='rounded-2xl shadow-xl'></Image> : null}
-          </div>
-          {/*説明ゾーン */}
-          <div className='flex flex-col ml-3 '>
-            <h1 className='text-3xl'>{recipeData?.recipeName}</h1>
-            <p>材料</p>
-            <div  >
-              <table className="table-auto">
-                <thead>
-                  <tr>
-                    <th>食材名</th>
-                    <th>量</th>
-                    <th>単位</th>
-                  </tr>
-                </thead>
+    <div className="flex justify-center h-screen text-[#4a4a4a] bg-gray-50 px-4 py-6">
+      <div className="w-full max-w-6xl flex flex-col h-full space-y-6">
+
+        {/* 上ゾーン（画像と説明） */}
+        <div className="flex space-x-6">
+          {/* 画像ゾーン */}
+          {recipeData?.recipeSignedurl && (
+            <Image
+              src={recipeData.recipeSignedurl}
+              width={500}
+              height={500}
+              alt="レシピ画像"
+              className="rounded-2xl shadow-xl object-cover"
+            />
+          )}
+
+          {/* 説明ゾーン */}
+          <div className="flex flex-col justify-start space-y-4">
+            <h1 className="text-3xl font-bold">{recipeData?.recipeName}</h1>
+            <h2 className="text-lg font-semibold">材料</h2>
+            <table className="table-auto border-collapse border border-gray-300 text-sm">
+              <thead className="bg-gray-100">
+                <tr>
+                  <th className="border px-4 py-2">食材名</th>
+                  <th className="border px-4 py-2">量</th>
+                  <th className="border px-4 py-2">単位</th>
+                </tr>
+              </thead>
+              <tbody>
                 {recipeData?.recipeIngredients.map((ingredient, index) => (
-                  <tbody key={index}>
-                    <tr>
-                      <td>{ingredient.title}</td>
-                      <td>{ingredient.quantity}</td>
-                      <td>{ingredient.unit}</td>
-                    </tr>
-                  </tbody>
+                  <tr key={index}>
+                    <td className="border px-4 py-2">{ingredient.title}</td>
+                    <td className="border px-4 py-2">{ingredient.quantity}</td>
+                    <td className="border px-4 py-2">{ingredient.unit}</td>
+                  </tr>
                 ))}
-              </table>
-            </div>
+              </tbody>
+            </table>
           </div>
         </div>
-        {/*下ゾーン memozorn*/}
-        <div className='flex flex-col grow mt-5 '>
-          <h1 className='h-6'>メモ</h1>
-          <div className='w-full border grow rounded-2xl mb-2 '>
-            {recipeData?.recipeMemo}
+
+        {/* メモゾーン */}
+        <div className="flex flex-col grow">
+          <h2 className="text-xl font-semibold mb-2">メモ</h2>
+          <div className="w-full border border-gray-300 bg-white rounded-2xl p-4 min-h-[100px]">
+            {recipeData?.recipeMemo || 'メモがありません'}
           </div>
         </div>
-        <div className='flex justify-center'>
-          <Link href={`/recipe_creation/${getRecipeById}`} className=' w-20 h-10 rounded-sm bg-amber-100 font-bold text-amber-400 hover:text-black mb-5 mr-5'>編集する</Link>
-          <button onClick={() => onReicpeDeleteButtonClicked()} className=' w-20 h-10 rounded-sm bg-red-500 font-bold text-amber-400 hover:text-black mb-5'>削除する</button>
+
+        {/* 操作ボタン */}
+        <div className="flex justify-center space-x-4">
+          <Link href={`/recipe_creation/${getRecipeById}`}>
+            <button className="w-28 h-10 rounded bg-amber-100 font-bold text-amber-500 hover:text-black shadow">
+              編集する
+            </button>
+          </Link>
+          <button
+            onClick={onReicpeDeleteButtonClicked}
+            className="w-28 h-10 rounded bg-red-500 font-bold text-white hover:bg-red-600 shadow"
+          >
+            削除する
+          </button>
         </div>
       </div>
     </div>
+
   )
 }
 
