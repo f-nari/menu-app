@@ -15,7 +15,7 @@ export async function GET()  {
     const signedUrlResults = await Promise.all(
         recipeDatas.map(async(recipe_data)=>(
             supabase.storage.from('recipeimages').createSignedUrl(recipe_data.image_url.replace('https://mihayudoygfiuzekgjfo.supabase.co/storage/v1/object/public/recipeimages/','')
-            , 60)
+            , 60 * 60 * 24)
         ))
     )
 
