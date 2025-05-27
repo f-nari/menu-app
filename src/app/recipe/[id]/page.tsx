@@ -56,7 +56,7 @@ const Recipe = () => {
                     <th>単位</th>
                   </tr>
                 </thead>
-                {recipeData?.recipeiIngredients.map((ingredient, index) => (
+                {recipeData?.recipeIngredients.map((ingredient, index) => (
                   <tbody key={index}>
                     <tr>
                       <td>{ingredient.title}</td>
