@@ -25,9 +25,9 @@ export async function GET()  {
     const recipeDatasWithiSignedUrl = recipeDatasWithiSignedUrlResults.map((recipeData)=>({
         id:String(recipeData.id),
         created_at : recipeData.created_at,
-        name:recipeData.name,
-        memo:recipeData.memo,
-        signedUrl: recipeData.signedUrl
+        recipeName:recipeData.name,
+        recipeMemo:recipeData.memo,
+        recipeSignedurl: recipeData.signedUrl
     }))
 
     return NextResponse.json(recipeDatasWithiSignedUrl)
