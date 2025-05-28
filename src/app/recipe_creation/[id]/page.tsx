@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { usePathname, useRouter } from 'next/navigation'
-import { Ingredients, PostRecipeDateil, RecipeType } from '@/Types/types'
+import { Ingredients, PostRecipeDateil, } from '@/Types/types'
 
 const Recipe_Creation = () => {
     const [recipe, setRecipe] = useState<PostRecipeDateil>({
@@ -90,18 +90,20 @@ const Recipe_Creation = () => {
 
     const onRecipeNameImageFileMemoChanged = (e: React.ChangeEvent<HTMLInputElement>, type: 'name' | 'imageFile' | 'memo') => {
         if (type) {
-            const updataValue = type === 'imageFile' ? e.target.files?.[0] : e.target.value
             switch (type) {
                 case 'name':
-                    const changeRecipeNameData = { ...recipe, 'recipeName': updataValue as string }
+                    const name = e.target.value
+                    const changeRecipeNameData = { ...recipe, 'recipeName': name }
                     setRecipe(changeRecipeNameData)
                     break
                 case 'imageFile':
-                    const changeRecipeImageFileData = { ...recipe, recipeImagefile: updataValue as File }
+                    const file = e.target.files?.[0]
+                    const changeRecipeImageFileData = { ...recipe, recipeImagefile: file }
                     setRecipe(changeRecipeImageFileData)
                     break
                 case 'memo':
-                    const changeRecipeMemoData = { ...recipe, recipeMemo: updataValue as string }
+                    const memo = e.target.value
+                    const changeRecipeMemoData = { ...recipe, recipeMemo: memo }
                     setRecipe(changeRecipeMemoData)
                     break
             }
@@ -137,7 +139,7 @@ const Recipe_Creation = () => {
                 {/* 上ゾーン */}
                 <div className='flex mt-6' >
                     <div>
-                        <input type="file" defaultValue={recipe.recipeImageFile ?? recipe.recipeImageFile} className='h-80 bg-[#f8f6f1]' onChange={(e) => onRecipeNameImageFileMemoChanged(e, 'imageFile')} />
+                        <input type="file" className='h-80 bg-[#f8f6f1]' onChange={(e) => onRecipeNameImageFileMemoChanged(e, 'imageFile')} />
                     </div>
                     {/*説明ゾーン */}
                     <div className='flex flex-col ml-3 '>

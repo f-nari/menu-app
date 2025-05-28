@@ -35,9 +35,6 @@ export async function  GET(request:Request)  {
         {title:resIngredient.title,quantity:resIngredient.quantity,unit:resIngredient.unit}
     ))
 
-    console.log('getidrecipesで取得したものです',ingredients);
-    
-
     const resSignedUrl = await supabase.storage.from('recipeimages').createSignedUrl(recipeData.image_url.replace('https://mihayudoygfiuzekgjfo.supabase.co/storage/v1/object/public/recipeimages/',''), 60 * 60 * 24)
     const signedUrl = resSignedUrl['data']?.signedUrl
     const recipeDatasWithiSignedUrl =  {...recipeData,signedUrl,recipeIngredients:ingredients}
