@@ -1,4 +1,14 @@
 //supabaseからデータを取得する用
+// export type RecipeType = {
+//   id: string
+//   created_at: string,
+//   recipeName: string,
+//   recipeMemo: string,
+//   recipeSignedurl: string
+//   recipeImageurl:File|null,
+//   recipeIngredients:Ingredients[]
+// }
+
 export type RecipeType = {
   id: string
   created_at: string,

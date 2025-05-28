@@ -97,29 +97,29 @@ export default function Home() {
     })
 
     const resIngredientsList = await res.json()
-    
-    //APIのレスポンスの型定義をあとで行う
-    const ingredientsList:Ingredients[][] = resIngredientsList.map((res) => {
-      return res.data
-    })    
 
-    const ingredients:Ingredients[] = ingredientsList.map((ingredient) => {
+    //APIのレスポンスの型定義をあとで行う
+    const ingredientsList: Ingredients[][] = resIngredientsList.map((res) => {
+      return res.data
+    })
+
+    const ingredients: Ingredients[] = ingredientsList.map((ingredient) => {
       const returnData: Ingredients[] = []
       for (let i = 0; i < ingredient.length; i++) {
-        const addData = { 'id':i, 'title': ingredient[i].title, 'quantity': ingredient[i].quantity, 'unit': ingredient[i].unit }
+        const addData = { 'id': i, 'title': ingredient[i].title, 'quantity': ingredient[i].quantity, 'unit': ingredient[i].unit }
         returnData.push(addData)
       }
       return returnData
 
     }).flat()
-    
+
     const sumIngredints = new Map<string, Ingredients>
 
-    ingredients.forEach((i,index:number) => {
+    ingredients.forEach((i, index: number) => {
       const key = `${i.title}_${i.unit}`
       if (!sumIngredints.has(key)) {
         sumIngredints.set(key, {
-          id:index,
+          id: index,
           title: i.title,
           quantity: i.quantity,
           unit: i.unit
@@ -152,11 +152,11 @@ export default function Home() {
   }
 
   const onAddNewSingleIngredientButtonClicked = () => {
-    const update:Ingredients[] = [...singleIngredient, {
+    const update: Ingredients[] = [...singleIngredient, {
       id: singleIngredientArrayId,
-      title:'',
-      quantity:0,
-      unit:'',
+      title: '',
+      quantity: 0,
+      unit: '',
     }]
 
     setSingleIngredient(update)
