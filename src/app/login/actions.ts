@@ -44,3 +44,10 @@ export async function signup(formData: FormData) {
   revalidatePath('/', 'layout')
   redirect('/')
 }
+
+export async function  guestLogin(){
+  const supabase = await createClient()
+  const { data, error } = await supabase.auth.signInAnonymously({
+  })
+  redirect('/')
+}
