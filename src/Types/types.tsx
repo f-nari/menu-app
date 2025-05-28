@@ -12,10 +12,10 @@
 export type RecipeType = {
   id: string
   created_at: string,
-  recipeName: string,
-  recipeMemo: string,
-  recipeSignedurl: string
-  recipeImageurl:File|null,
+  name: string,
+  memo: string,
+  signedUrl: string
+  image_url:File|null,
   recipeIngredients:Ingredients[]
 }
 

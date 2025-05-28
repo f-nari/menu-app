@@ -16,9 +16,9 @@ export const RecipeCards = ({ recipes }: Props) => {
                     {recipes.map((recipe) => (
                         <div className="w-50 h-60 shadow-md rounded-2xl overflow-hidden bg-white" key={recipe.id}>
                             <div className="w-full h-40 relative">
-                                {recipe.recipeSignedurl ? (
+                                {recipe.signedUrl ? (
                                     <Image
-                                        src={recipe.recipeSignedurl}
+                                        src={recipe.signedUrl}
                                         alt=""
                                         sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 300px"
                                         fill
@@ -31,7 +31,7 @@ export const RecipeCards = ({ recipes }: Props) => {
                                 )}
                             </div>
                             <div className="px-4 py-3">
-                                <p className="font-bold truncate">{recipe.recipeName}</p>
+                                <p className="font-bold truncate">{recipe.name}</p>
                                 <Link href={`/recipe/${recipe.id}`} className="text-blue-500 hover:underline text-sm">
                                     詳細へ
                                 </Link>

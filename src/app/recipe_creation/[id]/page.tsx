@@ -23,7 +23,6 @@ const Recipe_Creation = () => {
         const fetchRecipeDeta = async () => {
             const res = await fetch(`/api/getidrecipes?id=${getRecipeById}`)
             const data = await res.json()
-            
             const newIngredients: Ingredients[] = []
             let currentIngredientArrayId = ingredintsArrayId;
             data.recipeIngredients.forEach(i => {
