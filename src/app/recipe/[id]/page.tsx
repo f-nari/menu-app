@@ -41,9 +41,9 @@ const Recipe = () => {
         {/* 上ゾーン（画像と説明） */}
         <div className="flex space-x-6">
           {/* 画像ゾーン */}
-          {recipeData?.recipeSignedurl && (
+          {recipeData?.signedUrl && (
             <Image
-              src={recipeData.recipeSignedurl}
+              src={recipeData.signedUrl}
               width={500}
               height={500}
               alt="レシピ画像"
@@ -53,7 +53,7 @@ const Recipe = () => {
 
           {/* 説明ゾーン */}
           <div className="flex flex-col justify-start space-y-4">
-            <h1 className="text-3xl font-bold">{recipeData?.recipeName}</h1>
+            <h1 className="text-3xl font-bold">{recipeData?.name}</h1>
             <h2 className="text-lg font-semibold">材料</h2>
             <table className="table-auto border-collapse border border-gray-300 text-sm">
               <thead className="bg-gray-100">
@@ -80,7 +80,7 @@ const Recipe = () => {
         <div className="flex flex-col grow">
           <h2 className="text-xl font-semibold mb-2">メモ</h2>
           <div className="w-full border border-gray-300 bg-white rounded-2xl p-4 min-h-[100px]">
-            {recipeData?.recipeMemo || 'メモがありません'}
+            {recipeData?.memo || 'メモがありません'}
           </div>
         </div>
 
