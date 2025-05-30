@@ -41,9 +41,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex w-screen`}>
         <UserProvider>
           <Sidebar></Sidebar>
-          <div className="grow bg-white m-2 rounded-2xl h-screen flex flex-col">
+          <div className="grow bg-white m-2 rounded-2xl h-screen flex flex-col overflow-hidden">
             <Header></Header>
-            {children}
+            <main className="grow overflow-x-auto overflow-y-auto">
+              {children}
+            </main>
           </div>
         </UserProvider>
       </body>

@@ -19,12 +19,9 @@ export default function Home() {
 
   return (
     <div className="w-full flex justify-center overflow-auto">
-      <div className="w-11/12 flex flex-col text-center mt-6">
-        {/* タイトル */}
-        <div className="mb-6">
-          <h1 className="text-3xl font-bold">献立作成</h1>
-        </div>
-        <MenuSchedule recipesProps={recipes}></MenuSchedule>
+      <div className="w-11/12 flex flex-col text-center mt-6 ">
+        <h1 className="text-3xl font-bold mt-5 mb-3">献立作成</h1>
+        <MenuSchedule recipesProps={recipes}/>
         <h2 className="text-2xl mt-10 mb-4 font-semibold">レシピ一覧</h2>
         <RecipeCards recipes={recipes} />
       </div>
