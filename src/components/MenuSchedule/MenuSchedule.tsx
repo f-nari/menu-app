@@ -62,10 +62,10 @@ export const MenuSchedule = ({ recipesProps }: Props) => {
     }
 
     return (
-        <div>
-            <div className="flex flex-wrap gap-4 justify-center">
+        <div className='overflow-x-auto w-full'>
+            <div className="flex gap-4 min-w-max  ">
                 {menuSchedule.map((menuList, index) => (
-                    <div className="border rounded-lg p-4 w-72 bg-gray-50 shadow" key={index}>
+                    <div className="border rounded-lg p-4 w-72 bg-gray-50 shadow  shrink-0 " key={index}>
                         <input
                             type="date"
                             value={menuList.date.toISOString().split('T')[0]}
@@ -91,7 +91,7 @@ export const MenuSchedule = ({ recipesProps }: Props) => {
                 ))}
                 <button
                     onClick={onEmptyMenuAddButtonClicked}
-                    className="h-12 px-4 rounded bg-green-200 hover:bg-green-300 text-sm mt-4"
+                    className="h-12 px-4 rounded bg-green-200 hover:bg-green-300 text-sm mt-20"
                 >
                     献立を追加
                 </button>
