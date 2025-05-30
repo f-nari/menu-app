@@ -17,8 +17,6 @@ export const MenuSchedule = ({ recipesProps }: Props) => {
         }
     }])
 
-
-
     const onMenuScheduleChanged = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>, mealTime: string, propsindex: number) => {
         const changeMenuList = menuSchedule.map((menuList, index) => {
             if (index === propsindex) {

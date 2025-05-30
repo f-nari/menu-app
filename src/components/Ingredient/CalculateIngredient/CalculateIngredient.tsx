@@ -75,17 +75,16 @@ export const CalculateIngredient = ({ menuSchedule, singleIngredient }: Props) =
         setTotalIngredients(list)
     }
     return (
-        <div>
-            <button
-                className="w-32 h-10 bg-amber-100 text-amber-400 font-bold rounded hover:text-black"
-                onClick={calculateIngredientTotal}
-            >
-                材料確定
-            </button>
-            {/* <div className="mt-6"> */}
-                <IngredientsTotal totalIngredients={totalIngredients} />
-            {/* </div> */}
-
+        <div className='mt-5'>
+            <div>
+                <button
+                    className="w-32 h-10 bg-amber-100 text-amber-400 font-bold rounded hover:text-black"
+                    onClick={calculateIngredientTotal}
+                >
+                    材料計算
+                </button>
+            </div>
+            {totalIngredients.length > 0 ? <IngredientsTotal totalIngredients={totalIngredients} /> : <></>}
         </div>
     )
 }
