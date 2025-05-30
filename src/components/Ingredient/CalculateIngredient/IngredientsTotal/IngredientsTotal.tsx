@@ -5,7 +5,7 @@ type Props = {
     totalIngredients:Ingredients[]
 }
 
-const TotalIngredients = ({totalIngredients}:Props) => {
+export const IngredientsTotal = ({totalIngredients}:Props) => {
     return (
         <div className="w-full mt-4 p-4 bg-gray-100 rounded-lg shadow">
             {totalIngredients.length > 0 ? (
@@ -24,4 +24,4 @@ const TotalIngredients = ({totalIngredients}:Props) => {
     )
 }
 
-export default TotalIngredients
+export default IngredientsTotal
