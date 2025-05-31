@@ -4,10 +4,12 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
 
     const supabase = await createClient()
-    let ids
+    let recipeIds
 
     try {
-        ids = await req.json()
+        recipeIds = await req.json()
+        recipeIds = recipeIds.ids
+        
     } catch (error) {
         console.error('jsonエラー', error);
         return NextResponse.json({ error: error }, {
@@ -19,7 +21,7 @@ export async function POST(req: Request) {
 
     try {
         signedUrlResults = await Promise.all(
-            ids.map(async (i: string) => {
+            recipeIds.map(async (i: string) => {
                 const { data, error } = await supabase.from('ingredients').select('*').eq('recipe_id', `${i}`)
                 if (error) {
                     console.error(`recipeid:${i}の取得失敗`, error.message);
