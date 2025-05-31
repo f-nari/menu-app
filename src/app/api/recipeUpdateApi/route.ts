@@ -2,12 +2,25 @@
 
 import { createClient } from "@/utils/supabase/server"
 import { NextResponse } from "next/server"
+//dataの中身。型定義しなきゃ
+// {
+//   recipeId: '80',
+//   recipe: {
+//     recipeName: '焼き肉',
+//     recipeImageFile: 'https://mihayudoygfiuzekgjfo.supabase.co/storage/v1/object/public/recipeimages/1747644845986_IMG_0782.JPG',
+//     recipeMemo: 'よく焼く。たまに生でも良い',
+//     ingredients: [ [Object], [Object], [Object] ]
+//   }
+// }
 
 export async function POST(req: Request) {
   const supabase = await createClient()
   let data
   try {
     data = await req.json()
+    data = data.data
+    console.log('data見てみる。多分、{}が原因。これでいいんちゃう？',data);
+    
   } catch (error) {
     console.log('jsonエラー', error);
     return NextResponse.json({ error: 'jsonエラー' }, {
@@ -18,8 +31,8 @@ export async function POST(req: Request) {
   const { error: updateError } = await supabase
     .from('recipes')
     .update({
-      'name': data.recipeData.recipeName,
-      'memo': data.recipeData.recipeMemo,
+      'name': data.recipe.recipeName,
+      'memo': data.recipe.recipeMemo,
     })
     .eq('id', data.recipeId)
 
@@ -43,7 +56,7 @@ export async function POST(req: Request) {
     })
   }
 
-  const ingredients = data.recipeData.ingredients.map((ingredient) => ({
+  const ingredients = data.recipe.ingredients.map((ingredient) => ({
     'recipe_id': data.recipeId, 'title': ingredient.title, 'quantity': ingredient.quantity, 'unit': ingredient.unit
   }
   ))
