@@ -16,11 +16,12 @@ export const CalculateIngredient = ({ menuSchedule, singleIngredient }: Props) =
             return menuList.meal
         })
 
-        const manuRecipeNumbersArray = menuRecipeNumberObjectArray.map((recipeNumber) => {
+        const menuRecipeNumbersArray = menuRecipeNumberObjectArray.map((recipeNumber) => {
             return [recipeNumber.breakfast, recipeNumber.lunch, recipeNumber.dinner]
         })
 
-        const flatMenuRecipeNumbers = manuRecipeNumbersArray.flat().filter(Boolean)
+        const flatMenuRecipeNumbers = menuRecipeNumbersArray.flat().filter(Boolean)
+        // ['86', '80', '89', '88']
 
         const res = await fetch(`/api/getingredients`, {
             method: 'POST',
