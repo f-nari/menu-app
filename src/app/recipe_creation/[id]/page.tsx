@@ -106,7 +106,9 @@ const Recipe_Creation = () => {
                     break
                 case 'memo':
                     const memo = e.target.value
+                    console.log('memoの内容。空白ですか？',memo);
                     const changeRecipeMemoData = { ...recipe, recipeMemo: memo }
+                    console.log('これ上書きされてる？？',changeRecipeMemoData);
                     setRecipe(changeRecipeMemoData)
                     break
             }
@@ -139,7 +141,7 @@ const Recipe_Creation = () => {
         <div className="flex justify-center min-h-screen py-6 text-[#4a4a4a] bg-gray-50">
             <div className="w-11/12 flex flex-col space-y-6">
                 <div className="flex gap-6">
-                    <UpdateImageFile 
+                    <UpdateImageFile
                     onRecipeNameImageFileMemoChanged = {onRecipeNameImageFileMemoChanged}
                     />
                     <div className="w-1/2 flex flex-col space-y-4">
