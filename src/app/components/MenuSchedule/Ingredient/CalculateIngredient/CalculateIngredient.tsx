@@ -1,4 +1,4 @@
-import { IngredientsTotal } from '@/components/Ingredient/CalculateIngredient/IngredientsTotal/IngredientsTotal'
+import { IngredientsTotal } from '@/app/components/MenuSchedule/Ingredient/CalculateIngredient/IngredientsTotal/IngredientsTotal'
 import { Ingredients, MenuItemsType } from '@/Types/types'
 import React, { useState } from 'react'
 

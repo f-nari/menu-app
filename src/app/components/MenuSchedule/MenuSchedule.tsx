@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import Ingredient from '../Ingredient/Ingredient'
+import Ingredient from './Ingredient/Ingredient'
 import { MenuItemsType, RecipeType } from '@/Types/types'
 
 type Props = {
