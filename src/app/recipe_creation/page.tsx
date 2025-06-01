@@ -2,7 +2,7 @@
 
 import React from 'react'
 
-import RecipeCreationComponents from '@/app/components/RecipeCreationComponents/RecipeCreation'
+import RecipeCreationComponents from '@/app/components/RecipeCreation/RecipeCreation'
 
 
 const RecipeCreation = () => {
