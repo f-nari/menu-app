@@ -6,6 +6,8 @@ export async function DELETE(req: Request) {
         let recipeId
         try {
                 recipeId = await req.json()
+                recipeId = recipeId.recipeId
+                
         } catch (error) {
                 console.error('Json変換時にエラー', error)
                 return NextResponse.json({ error: 'recipeIdの取得時にエラー発生' }, {
