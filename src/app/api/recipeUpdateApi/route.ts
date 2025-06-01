@@ -26,7 +26,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'jsonエラー' }, {
       status: 400
     })
-  }
+  }  
 
   const { error: updateError } = await supabase
     .from('recipes')
@@ -34,7 +34,8 @@ export async function POST(req: Request) {
       'name': data.recipe.recipeName,
       'memo': data.recipe.recipeMemo,
     })
-    .eq('id', data.recipeId)
+    .eq('id',Number(data.recipeId))
+    
 
   if (updateError) {
     console.error('recipesにアップデート時にエラー', updateError.message)
@@ -67,8 +68,6 @@ export async function POST(req: Request) {
 
   if (insertError) {
     console.error(insertError.message)
-
-
     return NextResponse.json({ error: 'データの登録に失敗' }, {
       status: 500
     })
