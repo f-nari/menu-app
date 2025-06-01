@@ -10,7 +10,7 @@ type Props = {
 export const RecipeImage = ({ signedUrl }: Props) => {
     return (
         <>
-            {signedUrl && (
+            {signedUrl ? (
                 <Image
                     src={signedUrl}
                     width={500}
@@ -18,6 +18,10 @@ export const RecipeImage = ({ signedUrl }: Props) => {
                     alt="レシピ画像"
                     className="rounded-2xl shadow-xl object-cover"
                 />
+            ) : (
+                <div className='w-96 h-96 rounded-2xl shadow-xl object-cover '>
+                    画像がありません
+                </div>
             )}
         </>
     )
