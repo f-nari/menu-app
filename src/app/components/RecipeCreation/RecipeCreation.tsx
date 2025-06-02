@@ -60,14 +60,25 @@ export const RecipeCreationComponents = () => {
                         className="bg-[#f8f6f1] p-2 rounded-sm"
                     />
                     <p className="text-2xl font-bold mt-2">材料</p>
-                    <RecipeCreationIngredients ingredients={ingredients} onIngredientChanged={onIngredientChanged} onIngredientDeleteButtonClicked={onIngredientDeleteButtonClicked} />
+                    <RecipeCreationIngredients
+                        ingredients={ingredients}
+                        onIngredientChanged={onIngredientChanged}
+                        onIngredientDeleteButtonClicked={onIngredientDeleteButtonClicked}
+                    />
                     <button onClick={onEmptyIngredientAddButtunClicked} className="mt-2 px-3 py-1 bg-blue-100 rounded hover:bg-blue-200">
                         材料追加
                     </button>
                 </div>
             </div>
-            <RecipeCrationMemo setRecipeMemo={setRecipeMemo} />
-            <RecipeCreationSave ingredients={ingredients} recipeMemo={recipeMemo} recipeName={recipeName} recipeImageFile={recipeImageFile} />
+            <RecipeCrationMemo
+                setRecipeMemo={setRecipeMemo}
+            />
+            <RecipeCreationSave
+                ingredients={ingredients}
+                recipeMemo={recipeMemo}
+                recipeName={recipeName}
+                recipeImageFile={recipeImageFile}
+            />
         </div>
     )
 }
