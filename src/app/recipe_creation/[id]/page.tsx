@@ -8,6 +8,7 @@ import UpdateMemo from '@/app/components/RecipeUpdate/UpdateMemo'
 import UpdateIngredients from '@/app/components/RecipeUpdate/UpdateIngredients'
 import UpdateName from '@/app/components/RecipeUpdate/UpdateName'
 import UpdateImageFile from '@/app/components/RecipeUpdate/UpdateImageFile'
+import { uploaaRecipeImage } from '@/app/actions/uploadImages'
 
 
 const Recipe_Creation = () => {
@@ -100,15 +101,14 @@ const Recipe_Creation = () => {
                     setRecipe(changeRecipeNameData)
                     break
                 case 'imageFile':
-                    const file = e.target.files?.[0]
-                    const changeRecipeImageFileData = { ...recipe, recipeImagefile: file }
+                    const file = e.target.files?.[0] ? e.target.files?.[0] : null
+                    const changeRecipeImageFileData = { ...recipe, recipeImageFile: file }
+                    console.log('ここにはでてる？', changeRecipeImageFileData);
                     setRecipe(changeRecipeImageFileData)
                     break
                 case 'memo':
                     const memo = e.target.value
-                    console.log('memoの内容。空白ですか？',memo);
                     const changeRecipeMemoData = { ...recipe, recipeMemo: memo }
-                    console.log('これ上書きされてる？？',changeRecipeMemoData);
                     setRecipe(changeRecipeMemoData)
                     break
             }
@@ -117,10 +117,18 @@ const Recipe_Creation = () => {
 
 
     const onRecipeUpdateButtonClicked = async () => {
+        let newdata
+        if (recipe.recipeImageFile) {
+            const data = await uploaaRecipeImage(recipe.recipeImageFile)
+            newdata =  {...recipe,recipeImageFile:data}
+        }
+
         const recipeDataWithRecipeId = {
             recipeId: getRecipeById,
-            recipe: recipe
+            recipe:newdata
         }
+        // console.log('apiに送るデータ',recipeDataWithRecipeId);
+
         const response = await fetch('/api/recipeUpdateApi', {
             method: 'POST',
             headers: { 'content-type': 'application/json' },
@@ -142,7 +150,7 @@ const Recipe_Creation = () => {
             <div className="w-11/12 flex flex-col space-y-6">
                 <div className="flex gap-6">
                     <UpdateImageFile
-                    onRecipeNameImageFileMemoChanged = {onRecipeNameImageFileMemoChanged}
+                        onRecipeNameImageFileMemoChanged={onRecipeNameImageFileMemoChanged}
                     />
                     <div className="w-1/2 flex flex-col space-y-4">
                         <UpdateName

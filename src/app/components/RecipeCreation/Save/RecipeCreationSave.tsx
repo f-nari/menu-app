@@ -1,5 +1,5 @@
 'use client'
-import { saveRecipe } from '@/app/actions'
+import { saveRecipe } from '@/app/actions/recipeInsert'
 import { Ingredients } from '@/Types/types'
 import { useRouter } from 'next/navigation'
 import React from 'react'
@@ -12,7 +12,7 @@ type Props = {
 }
 
 export const RecipeCreationSave = ({ ingredients, recipeMemo, recipeName, recipeImageFile }: Props) => {
-    const router = useRouter ()
+    const router = useRouter()
 
     const onRecipeSaveButtonClicked = async () => {
         const res = await saveRecipe({ ingredients, recipeMemo, recipeName, recipeImageFile })

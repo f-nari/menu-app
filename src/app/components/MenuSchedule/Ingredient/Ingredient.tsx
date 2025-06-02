@@ -48,7 +48,7 @@ export const Ingredient = ({ menuSchedule }: Props) => {
                         type="text"
                         placeholder="マヨネーズ１本"
                         className="border h-10 px-2 rounded w-64"
-                        onChange={(e) => onSingleIngredientChanged(e, ingredent.id)}
+                        onChange={(e) => onSingleIngredientChanged(e, ingredent.id as number)}
                     />
                 ))}
                 <button onClick={onEmptySingleIngredientAddButtonClicked} className="px-4 h-10 bg-blue-100 rounded hover:bg-blue-200">単品材料追加</button>

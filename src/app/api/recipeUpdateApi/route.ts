@@ -33,6 +33,7 @@ export async function POST(req: Request) {
     .update({
       'name': data.recipe.recipeName,
       'memo': data.recipe.recipeMemo,
+      'image_url':data.recipe.recipeImageFile
     })
     .eq('id',Number(data.recipeId))
     
