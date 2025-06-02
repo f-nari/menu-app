@@ -20,7 +20,12 @@ export async function GET() {
     try {
         signedUrlResults = await Promise.all(
             recipesGetData.map(async (recipe_data) => {
-                const imagePath = recipe_data.image_url.replace('https://mihayudoygfiuzekgjfo.supabase.co/storage/v1/object/public/recipeimages/', '')
+                let imagePath
+                if (recipe_data.image_url) {
+                    imagePath = recipe_data.image_url.replace('https://mihayudoygfiuzekgjfo.supabase.co/storage/v1/object/public/recipeimages/', '')
+                }else{
+                    imagePath = null
+                }
                 const { data, error } = await supabase.storage.
                     from('recipeimages')
                     .createSignedUrl(imagePath, 60 * 60 * 24)

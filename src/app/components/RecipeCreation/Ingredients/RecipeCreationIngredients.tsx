@@ -25,7 +25,7 @@ export const RecipeCreationIngredients = ({ingredients,onIngredientChanged,onIng
                     />
                     <label className="w-8 text-right">量</label>
                     <input
-                        type="text"
+                        type='number'
                         placeholder="300"
                         className="bg-[#f8f6f1] p-1 rounded-sm w-20"
                         onChange={(e) => onIngredientChanged(e, 'quantity', ingredient.id!)}
