@@ -1,5 +1,6 @@
 'use server'
 
+import { Ingredients } from "@/Types/types"
 import { createClient } from "@/utils/supabase/server"
 import { NextResponse } from "next/server"
 //dataの中身。型定義しなきゃ
@@ -13,30 +14,51 @@ import { NextResponse } from "next/server"
 //   }
 // }
 
+// recipeId: '106',
+// recipe: {
+//   recipeName: '画像保存テスと',
+//   recipeImageFile: 'https://mihayudoygfiuzekgjfo.supabase.co/storage/v1/object/public/recipeimages/1748825065671_undefined',
+//   recipeMemo: 'あｇｆだだふぁｄがが',
+//   ingredients: [ [Object], [Object] ]
+// }
+// }
+
+type FetchRecipeType = {
+  recipeId: string,
+  recipe: {
+    recipeName: string
+    recipeImageFile: string,
+    recipeMemo: string,
+    ingredients: Ingredients[]
+  }
+}
+
+
 export async function POST(req: Request) {
   const supabase = await createClient()
-  let data
+  let resData
+  let data:FetchRecipeType
   try {
-    data = await req.json()
-    data = data.data
-    console.log('data見てみる。多分、{}が原因。これでいいんちゃう？',data);
-    
+    resData = await req.json()
+    data = resData.data
+    console.log('data見てみる。多分、{}が原因。これでいいんちゃう？', data);
+
   } catch (error) {
     console.log('jsonエラー', error);
     return NextResponse.json({ error: 'jsonエラー' }, {
       status: 400
     })
-  }  
+  }
 
   const { error: updateError } = await supabase
     .from('recipes')
     .update({
       'name': data.recipe.recipeName,
       'memo': data.recipe.recipeMemo,
-      'image_url':data.recipe.recipeImageFile
+      'image_url': data.recipe.recipeImageFile
     })
-    .eq('id',Number(data.recipeId))
-    
+    .eq('id', Number(data.recipeId))
+
 
   if (updateError) {
     console.error('recipesにアップデート時にエラー', updateError.message)
