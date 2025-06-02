@@ -26,7 +26,7 @@ export const UpdateIngredients = ({ingredients,onIngredienteChanged,onDeleteIngr
                     />
                     <label className="w-8 text-right">量</label>
                     <input
-                        type="text"
+                        type="number"
                         value={ingredient.quantity}
                         placeholder="300"
                         className="bg-[#f8f6f1] p-1 rounded-sm w-20"
