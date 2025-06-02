@@ -15,7 +15,7 @@ export const UserProvider = ({ children }: { children: React.ReactNode }) => {
     useEffect(() => {
         const getUser = async () => {
             const supabase = await createClient()
-            const { data, error } = await supabase.auth.getUser()
+            const { data, _error } = await supabase.auth.getUser()
             const user_metadata = data.user?.user_metadata as UserMetadata
             const user_data = {
                 email: user_metadata?.email
