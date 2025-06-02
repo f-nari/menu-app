@@ -2,7 +2,7 @@
 
 ## サービスのURL
 
-(menu-app-ecru-eight.vercel.app)
+[こちら](menu-app-ecru-eight.vercel.app)
 
 ## ✨ アプリ概要
 
