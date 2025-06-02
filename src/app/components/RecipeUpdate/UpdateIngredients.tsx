@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 type Props = {
-    ingredients:{id: number, title: string, quantity: number, unit: string}[],
+    ingredients:{id?: number|undefined, title: string, quantity: number, unit: string}[],
     onIngredienteChanged:(e: React.ChangeEvent<HTMLInputElement>, genre: 'title' | 'quantity' | 'unit', id: number) => void,
     onDeleteIngredientButtonClicked:(id: number) => void
 

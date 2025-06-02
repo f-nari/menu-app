@@ -10,6 +10,19 @@ import UpdateName from '@/app/components/RecipeUpdate/UpdateName'
 import UpdateImageFile from '@/app/components/RecipeUpdate/UpdateImageFile'
 import { uploaaRecipeImage } from '@/app/actions/uploadImages'
 
+type FetchIdRecipe = {
+    created_at: string,
+    genre: null
+    id: number
+    image_url: File
+    memo: string
+    name: string
+    recipeIngredients: Ingredients[]
+    signedUrl: string
+    updated_at: string
+    user_id: string
+}
+
 
 const Recipe_Creation = () => {
     const [recipe, setRecipe] = useState<PostRecipeDateil>({
@@ -27,7 +40,8 @@ const Recipe_Creation = () => {
     useEffect(() => {
         const fetchRecipeDeta = async () => {
             const res = await fetch(`/api/getidrecipes?id=${getRecipeById}`)
-            const data = await res.json()
+            const data:FetchIdRecipe = await res.json()
+
             const newIngredients: Ingredients[] = []
             let currentIngredientArrayId = ingredintsArrayId;
             data.recipeIngredients.forEach(i => {
@@ -120,12 +134,12 @@ const Recipe_Creation = () => {
         let newdata
         if (recipe.recipeImageFile) {
             const data = await uploaaRecipeImage(recipe.recipeImageFile)
-            newdata =  {...recipe,recipeImageFile:data}
+            newdata = { ...recipe, recipeImageFile: data }
         }
 
         const recipeDataWithRecipeId = {
             recipeId: getRecipeById,
-            recipe:newdata
+            recipe: newdata
         }
         // console.log('apiに送るデータ',recipeDataWithRecipeId);
 
