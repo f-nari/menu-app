@@ -1,6 +1,6 @@
 # 🍱 献立アプリ（Next.js × Supabase × TypeScript）
 
-## サービスのURL
+## サービスのURL(スマートフォンには対応しておりません)
 
 https://menu-app-git-main-f-naris-projects.vercel.app
 
@@ -14,7 +14,7 @@ https://menu-app-git-main-f-naris-projects.vercel.app
 
 このアプリは、数日分の献立を決めると必要な材料を自動集計し、効率的な買い物リストを作成してくれる Web アプリです。  
 Next.js（TypeScript） + Supabase（DB・認証）を活用して作成しています。
----
+
 
 ## 🖥️ 使用技術
 フロントエンド
@@ -81,6 +81,13 @@ Next.js（TypeScript） + Supabase（DB・認証）を活用して作成して�
 | update_at  | timestamp | 更新日時             |
 
 ---
+
+
+
+---
+## 今後の展望
+
+
 
 ---
 
