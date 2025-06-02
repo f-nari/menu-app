@@ -6,6 +6,20 @@ type Props = {
     menuSchedule: MenuItemsType[],
     singleIngredient: Ingredients[]
 }
+//これが[]になるから
+type FetchIngredients = {
+    recipe_id: string,
+    //dataも配列になってる？
+    data: [{
+        created_at: Date,
+        id: number,
+        quantity: number,
+        recipe_id: number,
+        title: string,
+        unit: string,
+        updated_at: Date
+    }]
+}
 
 export const CalculateIngredient = ({ menuSchedule, singleIngredient }: Props) => {
     const [totalIngredients, setTotalIngredients] = useState<Ingredients[]>([])
@@ -32,7 +46,7 @@ export const CalculateIngredient = ({ menuSchedule, singleIngredient }: Props) =
             body: JSON.stringify({ ids: flatMenuRecipeNumbers })
         })
 
-        const resIngredientsList = await res.json()
+        const resIngredientsList:FetchIngredients[] = await res.json()
 
         //APIのレスポンスの型定義をあとで行う
         const ingredientsList: Ingredients[][] = resIngredientsList.map((res) => {
