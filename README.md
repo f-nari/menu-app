@@ -1,5 +1,9 @@
 # 🍱 献立アプリ（Next.js × Supabase × TypeScript）
 
+## サービスのURL
+
+menu-app-ecru-eight.vercel.app
+
 ## ✨ アプリ概要
 
 このアプリは、数日分の献立を決めると必要な材料を自動集計し、効率的な買い物リストを作成してくれる Web アプリです。  
