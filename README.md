@@ -2,7 +2,7 @@
 
 ## サービスのURL
 
-[こちら](menu-app-ecru-eight.vercel.app)
+https://menu-app-git-main-f-naris-projects.vercel.app
 
 ## ✨ アプリ概要
 
