@@ -47,7 +47,7 @@ export async function signup(formData: FormData) {
 
 export async function  guestLogin(){
   const supabase = await createClient()
-  const { _data, _error } = await supabase.auth.signInAnonymously({
+  await supabase.auth.signInAnonymously({
   })
   redirect('/')
 }
