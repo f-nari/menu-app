@@ -20,7 +20,7 @@ const Header = () => {
         const supabase = createClient()
         const { data: { user } } = await supabase.auth.getUser()
         console.log('ｋろえがユーザーです', user);
-        const { error } = await supabase.auth.signOut()
+        const { _error } = await supabase.auth.signOut()
     }
     return (
         <div className="h-16 flex justify-between items-center bg-white px-5 rounded-2xl ">
