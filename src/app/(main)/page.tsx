@@ -1,20 +1,19 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import RecipeCards from "@/app/components/RecipeCards/RecipeCards";
-import { RecipeType } from "@/Types/types";
 import MenuSchedule from '@/app/components/MenuSchedule/MenuSchedule';
+import useSWR from 'swr'
 
 export default function Home() {
-  const [recipes, setRecipes] = useState<RecipeType[]>([])
-  useEffect(() => {
-    const fetchRecipes = async () => {
-      const res = await fetch('/api/allgetrecipes')
-      const data = await res.json()
-      setRecipes(data)
-    }
-    fetchRecipes()
-  }, [])
+
+  const fetcher = (url:string) => fetch(url).then(res => res.json())
+
+  const { data: recipes, error, isLoading } = useSWR('/api/allgetrecipes', fetcher)
+
+  if (isLoading) return <p>読み込み中...</p>
+  if (error) return <p>エラーが発生しました</p>
+  if (!recipes) return <p>データがありません</p>
 
   return (
     <div className="w-full flex justify-center overflow-auto">
