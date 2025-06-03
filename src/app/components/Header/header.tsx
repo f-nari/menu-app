@@ -2,25 +2,23 @@
 
 import { UserContext } from '@/context/UserContext'
 import { createClient } from '@/utils/supabase/client'
+import { useRouter } from 'next/navigation'
 import React, { useContext } from 'react'
 
-// type Props = {
-//     user_data: {
-//         email: string | null
-//     }
-// }
-
-// const Header = ({ user_data: { email } }: Props) => {
 const Header = () => {
     const userEmail = useContext(UserContext);
-
-
+    const router = useRouter()
     const signOut = async () => {
         console.log('ログアウト処理をします');
         const supabase = createClient()
         const { data: { user } } = await supabase.auth.getUser()
         console.log('ｋろえがユーザーです', user);
-        await supabase.auth.signOut()
+        const {error } = await supabase.auth.signOut()
+        if(error){
+            console.log('ログアウトの際にエラーが発生しました。',error.message);
+        }
+        router.push('/login')
+
     }
     return (
         <div className="h-16 flex justify-between items-center bg-white px-5 rounded-2xl ">
@@ -31,7 +29,6 @@ const Header = () => {
                         ログアウト
                     </button>
                 </form>
-                {/* <span className="text-sm text-gray-700">こんにちは、{email}</span> */}
                 <span className="text-sm text-gray-700">こんにちは、{userEmail?.email ?? 'ゲストさん' }</span>
             </div>
         </div>

@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react'
 import RecipeCards from "@/app/components/RecipeCards/RecipeCards";
 import { RecipeType } from "@/Types/types";
-// import TotalIngredients from '@/components/TotalIngredients/TotalIngredients';
 import MenuSchedule from '@/app/components/MenuSchedule/MenuSchedule';
 
 export default function Home() {
