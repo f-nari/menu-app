@@ -89,10 +89,15 @@ Next.js（TypeScript） + Supabase（DB・認証）を活用して作成して�
 ---
 
 
-
 ---
 ## 今後の展望
 
+
+
+---
+
+## ER図
+https://github.com/f-nari/menu-app/issues/198#issuecomment-2935658627
 
 
 ---
