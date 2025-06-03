@@ -9,6 +9,7 @@ import UpdateIngredients from '@/app/components/RecipeUpdate/UpdateIngredients'
 import UpdateName from '@/app/components/RecipeUpdate/UpdateName'
 import UpdateImageFile from '@/app/components/RecipeUpdate/UpdateImageFile'
 import { uploaaRecipeImage } from '@/app/actions/uploadImages'
+import useSWR from 'swr'
 
 type FetchIdRecipe = {
     created_at: string,
@@ -37,34 +38,40 @@ const Recipe_Creation = () => {
     const getRecipeById = usePathname().replace('/recipe_creation/', '')
     const router = useRouter()
 
+    const fetcher = (url: string) => fetch(url).then(res => res.json())
+
+    const { data } = useSWR<FetchIdRecipe>(`/api/getidrecipes?id=${getRecipeById}`, fetcher)
+
     useEffect(() => {
         const fetchRecipeDeta = async () => {
-            const res = await fetch(`/api/getidrecipes?id=${getRecipeById}`)
-            const data:FetchIdRecipe = await res.json()
-
             const newIngredients: Ingredients[] = []
             let currentIngredientArrayId = ingredintsArrayId;
-            data.recipeIngredients.forEach(i => {
-                newIngredients.push({
-                    id: currentIngredientArrayId, title: i.title, quantity: i.quantity, unit: i.unit,
+
+            if (data) {
+                data.recipeIngredients.forEach(i => {
+                    newIngredients.push({
+                        id: currentIngredientArrayId, title: i.title, quantity: i.quantity, unit: i.unit,
+                    })
+                    currentIngredientArrayId += 1
                 })
-                currentIngredientArrayId += 1
-            })
 
-            const recipe: PostRecipeDateil = {
-                recipeName: data.name,
-                recipeImageFile: data.image_url,
-                recipeMemo: data.memo,
-                ingredients: newIngredients
+                const recipe: PostRecipeDateil = {
+                    recipeName: data.name,
+                    recipeImageFile: data.image_url,
+                    recipeMemo: data.memo,
+                    ingredients: newIngredients
+                }
+
+                setRecipe(recipe)
+                setIngredientsArrayId(currentIngredientArrayId)
+            }else{
+                return undefined
             }
-
-            setRecipe(recipe)
-            setIngredientsArrayId(currentIngredientArrayId)
 
         }
         fetchRecipeDeta()
     }
-        , [getRecipeById])
+        , [data])
 
     const onIngredienteChanged = (e: React.ChangeEvent<HTMLInputElement>, genre: 'title' | 'quantity' | 'unit', id: number) => {
         const ingredients = recipe.ingredients

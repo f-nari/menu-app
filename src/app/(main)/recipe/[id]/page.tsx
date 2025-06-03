@@ -5,24 +5,21 @@ import RecipeImage from '@/app/components/Recipe/RecipeImage'
 import RecipeIngredients from '@/app/components/Recipe/RecipeIngredients'
 import RecipeMemo from '@/app/components/Recipe/RecipeMemo'
 import RecipeName from '@/app/components/Recipe/RecipeName'
-import { RecipeType } from '@/Types/types'
 import { usePathname, useRouter } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
-
+import React from 'react'
+import useSWR from 'swr'
 
 const Recipe = () => {
-  const [recipeData, setRecipeData] = useState<RecipeType>()
   const getRecipeById = usePathname().replace('/recipe/', '')
   const router = useRouter()
 
-  useEffect(() => {
-    const fetchRecipeDetail = async () => {
-      const res = await fetch(`/api/getidrecipes?id=${getRecipeById}`)
-      const data = await res.json()
-      setRecipeData(data)
-    }
-    fetchRecipeDetail()
-  }, [getRecipeById])
+  const fetcher = (url:string) => fetch(url).then(res => res.json())
+
+  const { data: recipeData, error, isLoading } = useSWR(`/api/getidrecipes?id=${getRecipeById}`, fetcher)
+
+  if (isLoading) return <p>読み込み中...</p>
+  if (error) return <p>エラーが発生しました</p>
+  if (!recipeData) return <p>データがありません</p>
 
   const onReicpeDeleteButtonClicked = async () => {
     const response = await fetch('/api/deleterecipe', {
