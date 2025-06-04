@@ -15,7 +15,10 @@ export const RecipeCreationSave = ({ ingredients, recipeMemo, recipeName, recipe
     const router = useRouter()
 
     const onRecipeSaveButtonClicked = async () => {
+        console.log('これどうなってる？',ingredients,recipeMemo,recipeName,recipeImageFile);
+        
         const res = await saveRecipe({ ingredients, recipeMemo, recipeName, recipeImageFile })
+        
         if (res === 'ok') {
             router.push('/')
         }
