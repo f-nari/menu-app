@@ -1,14 +1,14 @@
-# 🍱 献立アプリ（Next.js × Supabase × TypeScript）
+# 🍱  献立管理アプリ - 食材リスト自動生成（Next.js × Supabase × TypeScript）
 
-## サービスのURL(スマートフォンには対応しておりません)
+## 📎 サービスのURL（現在はPC表示のみ対応しています。スマートフォンは未対応です。）
 
 https://menu-app-git-main-f-naris-projects.vercel.app
 
 ## 👨‍⚕️👩‍⚕️アプリへの思い
 
-私と妻がともに不定休のため、一週間に一度、１週間分の食料を買う必要があるため、献立を決め、必要な材料を買い出している。
+私と妻がともに不定休のため、一度に１週間分の食料を買う必要がある。そのため、献立を決め、必要な材料を洗い出している。
 しかし、あらゆる料理サイトを見て、献立を決め、材料を抽出するのは、手間がかかる。
-そこで、献立を決め、材料を抽出する手間を効率的にできるようにしたいと思いから生まれました。
+その手間を効率化し、より簡単に献立を作成・材料を管理できるようにしたいという思いから、このアプリを開発しました。
 
 ## ✨ アプリ概要
 
@@ -20,6 +20,7 @@ Next.js（TypeScript） + Supabase（DB・認証）を活用して作成して�
 フロントエンド
 - Next.js (TypeScript)
 - TailwindCSS（UIスタイリング）
+- fortawesome(アイコン)
 
 バックエンド
 - Next.js (TypeScript)
@@ -41,11 +42,11 @@ Next.js（TypeScript） + Supabase（DB・認証）を活用して作成して�
 | ③ レシピ追加画面     | レシピ情報と複数の材料を登録できるフォーム。 |
 | ④ レシピ詳細画面     | レシピ名、ジャンル、作成者、材料一覧などの詳細表示。 |
 
-| ① ログイン画面 |② 献立作成+レシピ画面 |
+| ① ログイン画面 |② 献立作成画面 |
 |----|----|
 |![Image](https://github.com/user-attachments/assets/fdc11b5e-b914-4d8f-88d6-e86455028757)|![Image](https://github.com/user-attachments/assets/16f1b67c-fc5c-44cb-9df8-5416ef7d476a) |
 |Supabase Authと連携。ゲストユーザーログイン機能あり。|カレンダー or 選択式で、日付＋時間帯にレシピを紐づけて献立を作成。レシピも一覧で見れるようになっている|献立を作成できたり、レシピの一覧を見ることができる|
-| ③レシピ詳細画面 |④編集画面 |
+| ③レシピ詳細画面 |④レシピ編集画面 |
 |----|----|
 |![Image](https://github.com/user-attachments/assets/355b2f46-d524-4c67-83e4-d005a87d23dc)|![Image](https://github.com/user-attachments/assets/adeb9fe4-b578-4e34-bce6-cb57a0a3cbbb)|
 |レシピの詳細を確認することができ、削除を行ったり、編集画面に移ることができる。 |編集を行うことができる |
@@ -87,7 +88,7 @@ Next.js（TypeScript） + Supabase（DB・認証）を活用して作成して�
 | id         | serial | 材料ID         |
 | recipe_id  | int    | レシピID       |
 | title       | string | 材料名         |
-| quantity   | string or numeric | 数量（例：1, 300） |
+| quantity   | int | 数量（例：1, 300） |
 | unit       | string | 単位（例：個、g、本） |
 | update_at  | timestamp | 更新日時             |
 
@@ -96,22 +97,10 @@ Next.js（TypeScript） + Supabase（DB・認証）を活用して作成して�
 
 ---
 ## 今後の展望
-
-
-
+- スマートフォン向けのレスポンシブ対応
+- レシピのジャンル別・キーワード検索などのフィルター機能
 ---
 
 ## ER図
 https://github.com/f-nari/menu-app/issues/198#issuecomment-2935658627
-
-
----
-
-## 📝 補足メモ
-
-- レシピの材料数は可変のため、別テーブル（ingredients）で正規化
-- 献立情報も、時間帯と日付で構成し、menu_itemsで管理
-- シンプルな構成でまず MVP（最小機能製品）を目指す
-- 将来的な拡張（お気に入り献立の保存、画像添付など）も視野に入れる設計
-
 ---
