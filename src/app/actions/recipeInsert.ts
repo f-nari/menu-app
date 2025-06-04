@@ -13,7 +13,6 @@ export const saveRecipe = async ({ ingredients, recipeMemo, recipeName, recipeIm
                 title: ingredient.title,
                 unit: ingredient.unit,
                 quantity: ingredient.quantity,
-                
             })
         }
     }
@@ -25,23 +24,15 @@ export const saveRecipe = async ({ ingredients, recipeMemo, recipeName, recipeIm
         imageUrl = await uploaaRecipeImage(recipeImageFile)
     }
 
-
-    // let recipeImageFileError = null
-
-    // //画像をstrageに保存
-    // const imageFileName = `${Date.now()}_${recipeImageFile?.name}`
-    // if(recipeImageFile){
-    //     const {error} = await supabase.storage.from('recipeimages').upload(imageFileName,recipeImageFile )
-    //     recipeImageFileError = error
-    // }
-
-    // // 保存した画像のURLを取得
-    // const { data } = supabase.storage.from('recipeimages').getPublicUrl(imageFileName)
-    // const imageUrl = data.publicUrl
+    console.log('これは？',recipeName,recipeMemo,imageUrl);
+    
 
     //recipesテーブルにname,recipeMemo,画像のURLを保存
     const { data: resRecipeId, error: recipeError } = await supabase.from('recipes').insert({ name: recipeName, memo: recipeMemo, image_url: imageUrl }).select('*')
     const recipeId = resRecipeId?.[0]?.id ?? null
+
+    console.log('レシピID映るよね？',recipeId);
+    
 
     //ingredientテーブルに材料とrecipe_idを保存
     const ingredientsWithRecipeId = registerIngredient.map((ingredient) => ({ ...ingredient, recipe_id: recipeId }))
