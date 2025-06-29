@@ -48,6 +48,7 @@ export default function LoginPage() {
         >
           ゲストユーザーログイン
         </button>
+        <p className='text-gray-500'>「ゲストユーザーログイン」で「新規登録」しなくても使用できます</p>
       </div>
     </form>
   );
