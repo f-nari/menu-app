@@ -44,7 +44,7 @@ export default function LoginPage() {
         <button
           type="submit"
           formAction={guestLogin}
-          className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+          className="bg-green-400 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
         >
           ゲストユーザーログイン
         </button>
